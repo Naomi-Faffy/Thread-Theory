@@ -1,38 +1,79 @@
-// Collection Page Specific JavaScript
+// Collection Page Navigation Script
+// DOM Elements
+const navbar = document.getElementById('navbar');
+const hamburger = document.getElementById('hamburger');
+const navMenu = document.getElementById('nav-menu');
+const navLinks = document.querySelectorAll('.nav-link');
 
-// Product interaction handlers
-document.addEventListener('DOMContentLoaded', () => {
-    // Quick view button handlers
-    const quickViewBtns = document.querySelectorAll('.quick-view-btn');
-    quickViewBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const productName = btn.closest('.product-item').querySelector('.product-name').textContent;
-            showNotification(`Quick view for ${productName} - Feature coming soon!`, 'info');
-        });
-    });
+// Navbar scroll effect
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 100) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+});
 
-    // Add to cart button handlers
-    const addToCartBtns = document.querySelectorAll('.add-to-cart-btn');
-    addToCartBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const productName = btn.closest('.product-item').querySelector('.product-name').textContent;
-            showNotification(`${productName} added to cart!`, 'success');
-        });
-    });
+// Mobile menu toggle
+hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    navMenu.classList.toggle('active');
+});
 
-    // Product item click handlers
-    const productItems = document.querySelectorAll('.product-item');
-    productItems.forEach(item => {
-        item.addEventListener('click', () => {
-            const productName = item.querySelector('.product-name').textContent;
-            showNotification(`Opening ${productName} details - Feature coming soon!`, 'info');
-        });
+// Close mobile menu when clicking on a link
+navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
     });
 });
 
-// Enhanced product hover effects
+// Handle navigation links for collection pages
+navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        
+        // If it's a hash link (like #home, #collections), redirect to homepage
+        if (href.startsWith('#')) {
+            e.preventDefault();
+            if (href === '#home') {
+                window.location.href = 'index.html';
+            } else {
+                window.location.href = 'index.html' + href;
+            }
+        }
+        // Otherwise, let the link work normally (for direct page links)
+    });
+});
+
+// Intersection Observer for scroll animations
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, observerOptions);
+
+// Observe elements for scroll animations
+document.addEventListener('DOMContentLoaded', () => {
+    const animateElements = document.querySelectorAll('.collection-title, .collection-description, .product-item');
+    
+    animateElements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+});
+
+// Product item hover effects
 const productItems = document.querySelectorAll('.product-item');
 productItems.forEach(item => {
     item.addEventListener('mouseenter', () => {
@@ -50,122 +91,61 @@ productItems.forEach(item => {
     });
 });
 
-// Smooth scroll for back button
-const backBtn = document.querySelector('.back-btn');
-if (backBtn) {
-    backBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.location.href = 'index.html#collections';
-    });
-}
-
-// Image placeholder interaction
-const imagePlaceholders = document.querySelectorAll('.image-placeholder');
-imagePlaceholders.forEach(placeholder => {
-    placeholder.addEventListener('click', () => {
-        showNotification('Click here to upload your product image!', 'info');
-    });
+// Smooth page load animation
+window.addEventListener('load', () => {
+    document.body.style.opacity = '0';
+    document.body.style.transition = 'opacity 0.5s ease';
+    
+    setTimeout(() => {
+        document.body.style.opacity = '1';
+    }, 100);
 });
 
-// Notification system (reuse from main script if not already loaded)
-function showNotification(message, type = 'info') {
-    // Remove existing notifications
-    const existingNotification = document.querySelector('.notification');
-    if (existingNotification) {
-        existingNotification.remove();
-    }
-    
-    // Create notification element
-    const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
-    notification.textContent = message;
-    
-    // Add styles
-    notification.style.cssText = `
+// Create scroll-to-top button
+const createScrollToTopButton = () => {
+    const button = document.createElement('button');
+    button.innerHTML = '↑';
+    button.className = 'scroll-to-top';
+    button.style.cssText = `
         position: fixed;
-        top: 100px;
-        right: 20px;
-        background: ${type === 'success' ? 'var(--deep-purple)' : type === 'error' ? '#d32f2f' : 'var(--primary-purple)'};
+        bottom: 30px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: var(--primary-black);
         color: white;
-        padding: 15px 25px;
-        border-radius: 25px;
-        font-weight: 500;
-        z-index: 10000;
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-        box-shadow: 0 10px 30px rgba(177, 156, 217, 0.3);
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        z-index: 1000;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
     `;
     
-    document.body.appendChild(notification);
-    
-    // Animate in
-    setTimeout(() => {
-        notification.style.transform = 'translateX(0)';
-    }, 100);
-    
-    // Remove after 3 seconds
-    setTimeout(() => {
-        notification.style.transform = 'translateX(100%)';
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.remove();
-            }
-        }, 300);
-    }, 3000);
-}
-
-// Add loading animation for when images are uploaded
-function addImageUploadEffect() {
-    const imagePlaceholders = document.querySelectorAll('.image-placeholder');
-    
-    imagePlaceholders.forEach(placeholder => {
-        // Add upload hint on hover
-        placeholder.addEventListener('mouseenter', () => {
-            const hintText = placeholder.querySelector('.placeholder-text');
-            if (hintText) {
-                hintText.textContent = 'Click to upload image';
-                hintText.style.color = 'var(--primary-purple)';
-            }
-        });
-        
-        placeholder.addEventListener('mouseleave', () => {
-            const hintText = placeholder.querySelector('.placeholder-text');
-            if (hintText) {
-                hintText.textContent = 'Your image will go here';
-                hintText.style.color = '';
-            }
+    button.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
         });
     });
-}
-
-// Initialize upload effects
-document.addEventListener('DOMContentLoaded', addImageUploadEffect);
-
-// Intersection Observer for scroll animations
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
+    
+    document.body.appendChild(button);
+    
+    // Show/hide button based on scroll position
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            button.style.opacity = '1';
+            button.style.visibility = 'visible';
+        } else {
+            button.style.opacity = '0';
+            button.style.visibility = 'hidden';
         }
     });
-}, observerOptions);
+};
 
-// Observe product items for scroll animations
-document.addEventListener('DOMContentLoaded', () => {
-    const productItems = document.querySelectorAll('.product-item');
-    
-    productItems.forEach((item, index) => {
-        item.style.opacity = '0';
-        item.style.transform = 'translateY(30px)';
-        item.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
-        observer.observe(item);
-    });
-});
+// Initialize scroll-to-top button
+document.addEventListener('DOMContentLoaded', createScrollToTopButton);
