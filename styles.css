@@ -173,13 +173,19 @@ body {
     align-items: center;
 }
 
-.logo-img {
-    height: 50px;
-    width: auto;
+.logo-text {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: var(--deep-purple);
+    margin: 0;
+    letter-spacing: 1px;
     transition: var(--smooth-transition);
+    text-decoration: none;
 }
 
-.logo-img:hover {
+.logo-text:hover {
+    color: var(--primary-purple);
     transform: scale(1.05);
 }
 
@@ -235,7 +241,7 @@ body {
 /* Hero Section */
 .hero {
     height: 100vh;
-    background: url('tttgggg.jpg') center/cover no-repeat,
+    background: url('hq720.jpg') center/cover no-repeat,
                 linear-gradient(135deg, var(--soft-purple) 0%, var(--lavender) 100%);
     display: flex;
     align-items: center;
@@ -292,10 +298,7 @@ body {
     font-family: var(--font-serif);
     font-size: clamp(3rem, 8vw, 6rem);
     font-weight: 300;
-    background: var(--gradient-secondary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--deep-purple);
     margin-bottom: 20px;
     letter-spacing: 2px;
     animation: fadeInUp 1s ease-out;
