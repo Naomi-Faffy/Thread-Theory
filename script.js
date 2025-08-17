@@ -178,7 +178,32 @@ collectionButtons.forEach(button => {
     button.addEventListener('click', (e) => {
         e.stopPropagation();
         const collectionName = button.closest('.collection-overlay').querySelector('h3').textContent;
-        showNotification(`${collectionName} collection coming soon!`, 'info');
+        
+        // Map collection names to their respective pages
+        const collectionPages = {
+            'Jerseys': 'jerseys.html',
+            'Shrugs': 'shrugs.html',
+            'Skirts': 'skirts.html',
+            'Dresses': 'dresses.html',
+            'Tops': 'tops.html',
+            'Shorts': 'shorts.html',
+            'Bags': 'bags.html',
+            'Jumpsuits': 'jumpsuits.html',
+            'Two Piece': 'two-piece.html',
+            'Bottoms': 'bottoms.html',
+            'Hats': 'hats.html',
+            'Accessories': 'accessories.html',
+            'Shoes': 'shoes.html',
+            'Hair': 'hair.html',
+            'Jewellery': 'jewellery.html'
+        };
+        
+        const pageName = collectionPages[collectionName];
+        if (pageName) {
+            window.location.href = pageName;
+        } else {
+            showNotification(`${collectionName} collection page coming soon!`, 'info');
+        }
     });
 });
 
