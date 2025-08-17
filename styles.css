@@ -6,15 +6,16 @@
 }
 
 :root {
-    /* Color Palette */
-    --cream: #F7F5F3;
-    --beige: #E8E2DB;
-    --taupe: #C4B5A0;
-    --soft-gray: #9B9B9B;
-    --muted-gold: #D4AF37;
-    --forest-green: #2F4F2F;
+    /* Color Palette - Based on Thread Theory Logo */
+    --primary-purple: #B19CD9;
+    --deep-purple: #7B68A2;
+    --light-purple: #D4C5E8;
+    --lavender: #E8DDFF;
+    --soft-purple: #F0EBFF;
+    --dark-purple: #5A4B73;
     --white: #FFFFFF;
-    --black: #1A1A1A;
+    --black: #2A2A2A;
+    --light-gray: #F8F6FF;
     
     /* Typography */
     --font-serif: 'Playfair Display', serif;
@@ -37,7 +38,7 @@ body {
     font-family: var(--font-sans);
     line-height: 1.6;
     color: var(--black);
-    background-color: var(--cream);
+    background-color: var(--light-gray);
     overflow-x: hidden;
 }
 
@@ -69,7 +70,7 @@ body {
 .bubble-1 {
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, var(--muted-gold), var(--taupe));
+    background: linear-gradient(135deg, var(--primary-purple), var(--light-purple));
     left: 10%;
     animation-delay: 0s;
     animation-duration: 25s;
@@ -78,7 +79,7 @@ body {
 .bubble-2 {
     width: 120px;
     height: 120px;
-    background: linear-gradient(135deg, var(--forest-green), var(--soft-gray));
+    background: linear-gradient(135deg, var(--deep-purple), var(--primary-purple));
     left: 70%;
     animation-delay: 5s;
     animation-duration: 30s;
@@ -87,7 +88,7 @@ body {
 .bubble-3 {
     width: 60px;
     height: 60px;
-    background: linear-gradient(135deg, var(--beige), var(--taupe));
+    background: linear-gradient(135deg, var(--lavender), var(--light-purple));
     left: 30%;
     animation-delay: 10s;
     animation-duration: 20s;
@@ -96,7 +97,7 @@ body {
 .bubble-4 {
     width: 100px;
     height: 100px;
-    background: linear-gradient(135deg, var(--muted-gold), var(--forest-green));
+    background: linear-gradient(135deg, var(--primary-purple), var(--deep-purple));
     left: 85%;
     animation-delay: 15s;
     animation-duration: 35s;
@@ -105,7 +106,7 @@ body {
 .bubble-5 {
     width: 140px;
     height: 140px;
-    background: linear-gradient(135deg, var(--soft-gray), var(--beige));
+    background: linear-gradient(135deg, var(--soft-purple), var(--lavender));
     left: 50%;
     animation-delay: 8s;
     animation-duration: 28s;
@@ -114,7 +115,7 @@ body {
 .bubble-6 {
     width: 90px;
     height: 90px;
-    background: linear-gradient(135deg, var(--taupe), var(--muted-gold));
+    background: linear-gradient(135deg, var(--light-purple), var(--primary-purple));
     left: 20%;
     animation-delay: 12s;
     animation-duration: 22s;
@@ -142,16 +143,18 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(247, 245, 243, 0.95);
-    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
     z-index: 1000;
     transition: var(--smooth-transition);
     padding: 15px 0;
+    border-bottom: 1px solid rgba(177, 156, 217, 0.2);
 }
 
 .navbar.scrolled {
-    background: rgba(247, 245, 243, 0.98);
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 2px 30px rgba(177, 156, 217, 0.2);
+    border-bottom: 1px solid rgba(177, 156, 217, 0.3);
 }
 
 .nav-container {
@@ -163,12 +166,14 @@ body {
     align-items: center;
 }
 
-.nav-logo h1 {
-    font-family: var(--font-serif);
-    font-size: 1.8rem;
-    font-weight: 400;
-    color: var(--forest-green);
-    letter-spacing: 1px;
+.logo-img {
+    height: 50px;
+    width: auto;
+    transition: var(--smooth-transition);
+}
+
+.logo-img:hover {
+    transform: scale(1.05);
 }
 
 .nav-menu {
@@ -188,7 +193,7 @@ body {
 }
 
 .nav-link:hover {
-    color: var(--forest-green);
+    color: var(--deep-purple);
 }
 
 .nav-link::after {
@@ -198,7 +203,7 @@ body {
     left: 0;
     width: 0;
     height: 2px;
-    background: var(--muted-gold);
+    background: var(--primary-purple);
     transition: var(--smooth-transition);
 }
 
@@ -223,7 +228,7 @@ body {
 /* Hero Section */
 .hero {
     height: 100vh;
-    background: linear-gradient(135deg, var(--cream) 0%, var(--beige) 100%);
+    background: linear-gradient(135deg, var(--soft-purple) 0%, var(--lavender) 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -253,15 +258,16 @@ body {
     font-family: var(--font-serif);
     font-size: clamp(3rem, 8vw, 6rem);
     font-weight: 300;
-    color: var(--forest-green);
+    color: var(--deep-purple);
     margin-bottom: 20px;
     letter-spacing: 2px;
     animation: fadeInUp 1s ease-out;
+    text-shadow: 0 2px 10px rgba(177, 156, 217, 0.3);
 }
 
 .hero-subtitle {
     font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-    color: var(--soft-gray);
+    color: var(--dark-purple);
     margin-bottom: 40px;
     font-weight: 300;
     letter-spacing: 1px;
@@ -271,7 +277,7 @@ body {
 .cta-button {
     display: inline-block;
     padding: 15px 40px;
-    background: var(--forest-green);
+    background: var(--deep-purple);
     color: var(--white);
     text-decoration: none;
     font-weight: 500;
@@ -281,6 +287,7 @@ body {
     animation: fadeInUp 1s ease-out 0.6s both;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 5px 20px rgba(177, 156, 217, 0.4);
 }
 
 .cta-button::before {
@@ -300,7 +307,8 @@ body {
 
 .cta-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(47, 79, 47, 0.3);
+    box-shadow: 0 10px 30px rgba(177, 156, 217, 0.5);
+    background: var(--primary-purple);
 }
 
 .scroll-indicator {
@@ -314,7 +322,7 @@ body {
 .scroll-arrow {
     width: 2px;
     height: 30px;
-    background: var(--soft-gray);
+    background: var(--deep-purple);
     position: relative;
     animation: bounce 2s infinite;
 }
@@ -326,8 +334,8 @@ body {
     left: -3px;
     width: 8px;
     height: 8px;
-    border-right: 2px solid var(--soft-gray);
-    border-bottom: 2px solid var(--soft-gray);
+    border-right: 2px solid var(--deep-purple);
+    border-bottom: 2px solid var(--deep-purple);
     transform: rotate(45deg);
 }
 
@@ -359,10 +367,11 @@ body {
     font-family: var(--font-serif);
     font-size: clamp(2.5rem, 5vw, 3.5rem);
     font-weight: 300;
-    color: var(--forest-green);
+    color: var(--deep-purple);
     text-align: center;
     margin-bottom: 60px;
     letter-spacing: 1px;
+    text-shadow: 0 2px 10px rgba(177, 156, 217, 0.2);
 }
 
 /* About Section */
@@ -385,7 +394,7 @@ body {
 .about-description {
     font-size: 1.1rem;
     line-height: 1.8;
-    color: var(--soft-gray);
+    color: var(--dark-purple);
     margin-bottom: 30px;
     font-weight: 300;
 }
@@ -398,17 +407,30 @@ body {
 
 .stat {
     text-align: center;
+    padding: 20px;
+    border-radius: 15px;
+    background: rgba(177, 156, 217, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(177, 156, 217, 0.2);
+    transition: var(--smooth-transition);
+    box-shadow: 0 5px 15px rgba(177, 156, 217, 0.1);
+}
+
+.stat:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(177, 156, 217, 0.3);
+    background: rgba(177, 156, 217, 0.15);
 }
 
 .stat h3 {
     font-family: var(--font-serif);
     font-size: 1.5rem;
-    color: var(--forest-green);
+    color: var(--deep-purple);
     margin-bottom: 10px;
 }
 
 .stat p {
-    color: var(--soft-gray);
+    color: var(--dark-purple);
     font-size: 0.9rem;
     letter-spacing: 1px;
 }
@@ -420,7 +442,7 @@ body {
 .image-placeholder {
     width: 100%;
     height: 400px;
-    background: linear-gradient(135deg, var(--beige), var(--taupe));
+    background: linear-gradient(135deg, var(--light-purple), var(--primary-purple));
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -431,6 +453,7 @@ body {
     letter-spacing: 1px;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 5px 20px rgba(177, 156, 217, 0.3);
 }
 
 .image-placeholder::before {
@@ -440,7 +463,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(47, 79, 47, 0.3);
+    background: rgba(123, 104, 162, 0.3);
     z-index: 1;
 }
 
@@ -452,7 +475,7 @@ body {
 /* Collections Section */
 .collections {
     padding: var(--section-padding);
-    background: var(--cream);
+    background: var(--soft-purple);
 }
 
 .collections-grid {
@@ -468,11 +491,17 @@ body {
     overflow: hidden;
     transition: var(--smooth-transition);
     cursor: pointer;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(177, 156, 217, 0.3);
+    box-shadow: 0 5px 20px rgba(177, 156, 217, 0.2);
 }
 
 .collection-item:hover {
     transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 20px 40px rgba(177, 156, 217, 0.4);
+    border: 1px solid rgba(177, 156, 217, 0.5);
+    background: rgba(255, 255, 255, 0.15);
 }
 
 .collection-image {
@@ -483,7 +512,7 @@ body {
 
 .collection-image .image-placeholder {
     height: 100%;
-    background: linear-gradient(135deg, var(--taupe), var(--muted-gold));
+    background: linear-gradient(135deg, var(--light-purple), var(--primary-purple));
     transition: var(--smooth-transition);
 }
 
@@ -493,7 +522,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(47, 79, 47, 0.8);
+    background: rgba(123, 104, 162, 0.9);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -503,6 +532,7 @@ body {
     opacity: 0;
     transition: var(--smooth-transition);
     padding: 20px;
+    backdrop-filter: blur(5px);
 }
 
 .collection-item:hover .collection-overlay {
@@ -536,7 +566,8 @@ body {
 
 .collection-btn:hover {
     background: var(--white);
-    color: var(--forest-green);
+    color: var(--deep-purple);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
 }
 
 /* Contact Section */
@@ -555,7 +586,7 @@ body {
 .contact-description {
     font-size: 1.1rem;
     line-height: 1.8;
-    color: var(--soft-gray);
+    color: var(--dark-purple);
     margin-bottom: 40px;
     font-weight: 300;
 }
@@ -569,31 +600,34 @@ body {
 .contact-item h4 {
     font-family: var(--font-serif);
     font-size: 1.2rem;
-    color: var(--forest-green);
+    color: var(--deep-purple);
     margin-bottom: 8px;
 }
 
 .contact-item p {
-    color: var(--soft-gray);
+    color: var(--dark-purple);
     line-height: 1.6;
 }
 
 .newsletter {
-    background: var(--cream);
+    background: rgba(177, 156, 217, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(177, 156, 217, 0.3);
     padding: 40px;
     border-radius: 15px;
     text-align: center;
+    box-shadow: 0 10px 30px rgba(177, 156, 217, 0.2);
 }
 
 .newsletter h3 {
     font-family: var(--font-serif);
     font-size: 1.8rem;
-    color: var(--forest-green);
+    color: var(--deep-purple);
     margin-bottom: 15px;
 }
 
 .newsletter p {
-    color: var(--soft-gray);
+    color: var(--dark-purple);
     margin-bottom: 30px;
     line-height: 1.6;
 }
@@ -608,21 +642,23 @@ body {
 .newsletter-form input {
     flex: 1;
     padding: 15px 20px;
-    border: 2px solid var(--beige);
+    border: 2px solid rgba(177, 156, 217, 0.3);
     border-radius: 25px;
     font-size: 1rem;
-    background: var(--white);
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(5px);
     transition: var(--smooth-transition);
 }
 
 .newsletter-form input:focus {
     outline: none;
-    border-color: var(--forest-green);
+    border-color: var(--primary-purple);
+    box-shadow: 0 0 15px rgba(177, 156, 217, 0.3);
 }
 
 .newsletter-form button {
     padding: 15px 25px;
-    background: var(--forest-green);
+    background: var(--deep-purple);
     color: var(--white);
     border: none;
     border-radius: 25px;
@@ -630,16 +666,18 @@ body {
     cursor: pointer;
     transition: var(--smooth-transition);
     letter-spacing: 0.5px;
+    box-shadow: 0 5px 15px rgba(177, 156, 217, 0.3);
 }
 
 .newsletter-form button:hover {
-    background: var(--muted-gold);
+    background: var(--primary-purple);
     transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(177, 156, 217, 0.4);
 }
 
 /* Footer */
 .footer {
-    background: var(--forest-green);
+    background: var(--deep-purple);
     color: var(--white);
     padding: 60px 0 20px;
 }
@@ -692,7 +730,7 @@ body {
 
 .footer-column a:hover {
     opacity: 1;
-    color: var(--muted-gold);
+    color: var(--primary-purple);
 }
 
 .footer-bottom {
@@ -713,11 +751,13 @@ body {
         left: -100%;
         top: 70px;
         flex-direction: column;
-        background: var(--white);
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(177, 156, 217, 0.3);
         width: 100%;
         text-align: center;
         transition: var(--smooth-transition);
-        box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 10px 27px rgba(177, 156, 217, 0.2);
         padding: 40px 0;
         gap: 20px;
     }
@@ -774,6 +814,52 @@ body {
     .collections-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* Additional Glowing Effects */
+.collection-item::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, var(--primary-purple), var(--light-purple), var(--primary-purple));
+    border-radius: 17px;
+    z-index: -1;
+    opacity: 0;
+    transition: var(--smooth-transition);
+}
+
+.collection-item:hover::before {
+    opacity: 0.7;
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from {
+        box-shadow: 0 0 20px rgba(177, 156, 217, 0.5);
+    }
+    to {
+        box-shadow: 0 0 30px rgba(177, 156, 217, 0.8);
+    }
+}
+
+/* Enhanced button hover effects */
+.cta-button:hover::before {
+    animation: shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Scroll-to-top button hover effect */
+.scroll-to-top:hover {
+    background: var(--primary-purple) !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 8px 25px rgba(177, 156, 217, 0.6) !important;
 }
 
 @media (max-width: 480px) {

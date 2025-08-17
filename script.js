@@ -279,7 +279,7 @@ const createScrollToTopButton = () => {
         width: 50px;
         height: 50px;
         border-radius: 50%;
-        background: var(--forest-green);
+        background: var(--deep-purple);
         color: white;
         border: none;
         font-size: 20px;
@@ -288,7 +288,8 @@ const createScrollToTopButton = () => {
         visibility: hidden;
         transition: all 0.3s ease;
         z-index: 1000;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 5px 15px rgba(177, 156, 217, 0.4);
+        backdrop-filter: blur(10px);
     `;
     
     button.addEventListener('click', scrollToTop);
