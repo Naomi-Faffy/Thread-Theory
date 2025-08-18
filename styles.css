@@ -426,14 +426,15 @@ body {
 }
 
 .about-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .about-text {
-    padding-right: 20px;
+    text-align: center;
 }
 
 .about-description {
@@ -481,42 +482,7 @@ body {
     letter-spacing: 1px;
 }
 
-.about-image {
-    position: relative;
-}
 
-.image-placeholder {
-    width: 100%;
-    height: 400px;
-    background: linear-gradient(135deg, var(--off-white), var(--charcoal));
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--white);
-    font-size: 1.2rem;
-    font-weight: 300;
-    letter-spacing: 1px;
-    position: relative;
-    overflow: hidden;
-    box-shadow: var(--neon-glow);
-}
-
-.image-placeholder::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(123, 104, 162, 0.3);
-    z-index: 1;
-}
-
-.image-placeholder p {
-    position: relative;
-    z-index: 2;
-}
 
 /* Collections Section */
 .collections {
@@ -590,9 +556,8 @@ body {
 .collection-image img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     object-position: center;
-    background: var(--white);
     transition: var(--smooth-transition);
 }
 
