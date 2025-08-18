@@ -177,7 +177,7 @@ const collectionButtons = document.querySelectorAll('.collection-btn');
 collectionButtons.forEach(button => {
     button.addEventListener('click', (e) => {
         e.stopPropagation();
-        const collectionName = button.closest('.collection-overlay').querySelector('h3').textContent;
+        const collectionName = button.closest('.collection-item').querySelector('.collection-title').textContent;
         
         // Map collection names to their respective pages
         const collectionPages = {
