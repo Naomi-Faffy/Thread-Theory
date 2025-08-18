@@ -49,6 +49,46 @@ navLinks.forEach(link => {
 // Cart functionality
 let cart = JSON.parse(localStorage.getItem('threadTheoryCart')) || [];
 
+// Update cart counter
+function updateCartCounter() {
+    const cart = JSON.parse(localStorage.getItem('threadTheoryCart')) || [];
+    const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+    
+    // Find cart link and add counter
+    const cartLink = document.querySelector('a[href="cart.html"]');
+    if (cartLink) {
+        // Remove existing counter
+        const existingCounter = cartLink.querySelector('.cart-counter');
+        if (existingCounter) {
+            existingCounter.remove();
+        }
+        
+        // Add new counter if there are items
+        if (cartCount > 0) {
+            const counter = document.createElement('span');
+            counter.className = 'cart-counter';
+            counter.textContent = cartCount;
+            counter.style.cssText = `
+                position: absolute;
+                top: -8px;
+                right: -8px;
+                background: #dc3545;
+                color: white;
+                border-radius: 50%;
+                width: 20px;
+                height: 20px;
+                font-size: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+            `;
+            cartLink.style.position = 'relative';
+            cartLink.appendChild(counter);
+        }
+    }
+}
+
 function addToCart(productName, productPrice, productImage) {
     // Check if item already exists in cart
     const existingItem = cart.find(item => item.name === productName);
@@ -114,6 +154,9 @@ function showNotification(message) {
 
 // Add event listeners to all "Add to Cart" buttons
 document.addEventListener('DOMContentLoaded', function() {
+    // Update cart counter on page load
+    updateCartCounter();
+    
     const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
     
     addToCartButtons.forEach(button => {
