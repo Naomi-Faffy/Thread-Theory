@@ -121,6 +121,16 @@
     height: 350px;
     overflow: hidden;
     border-radius: 18px 18px 0 0;
+    background: var(--white);
+}
+
+.product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    transition: var(--smooth-transition);
+    background: var(--white);
 }
 
 .product-image .image-placeholder {

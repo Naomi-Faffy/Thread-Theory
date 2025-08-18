@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vote for Your Favorites - Thread Theory</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .vote-section {
+            padding: 120px 0 80px;
+            min-height: 100vh;
+            background: var(--off-white);
+        }
+        
+        .vote-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .vote-form {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 50px 40px;
+            box-shadow: 
+                0 0 20px rgba(0, 0, 0, 0.3),
+                0 0 40px rgba(0, 0, 0, 0.2),
+                0 0 60px rgba(0, 0, 0, 0.1),
+                inset 0 0 20px rgba(0, 0, 0, 0.05);
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            position: relative;
+            transition: var(--smooth-transition);
+        }
+        
+        .vote-form::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(45deg, 
+                rgba(0, 0, 0, 0.4), 
+                rgba(0, 0, 0, 0.2), 
+                rgba(0, 0, 0, 0.4));
+            border-radius: 28px;
+            z-index: -1;
+            opacity: 0.7;
+        }
+        
+        .vote-instructions {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .vote-instructions h2 {
+            color: var(--primary-black);
+            margin-bottom: 15px;
+        }
+        
+        .vote-instructions p {
+            color: var(--charcoal);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .collections-vote-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .collection-vote-item {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            transition: var(--smooth-transition);
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .collection-vote-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border-color: var(--primary-black);
+        }
+        
+        .collection-vote-item.selected {
+            background: rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-black);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .collection-vote-item input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .collection-vote-item .checkmark {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 25px;
+            height: 25px;
+            background: var(--white);
+            border: 2px solid var(--charcoal);
+            border-radius: 50%;
+            transition: var(--smooth-transition);
+        }
+        
+        .collection-vote-item.selected .checkmark {
+            background: var(--primary-black);
+            border-color: var(--primary-black);
+        }
+        
+        .collection-vote-item.selected .checkmark::after {
+            content: '✓';
+            color: var(--white);
+            font-size: 16px;
+            font-weight: bold;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .collection-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-black);
+            margin-bottom: 10px;
+        }
+        
+        .collection-description {
+            color: var(--charcoal);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .vote-counter {
+            text-align: center;
+            margin: 30px 0;
+            font-size: 1.1rem;
+            color: var(--charcoal);
+        }
+        
+        .vote-counter.error {
+            color: #dc3545;
+        }
+        
+        .vote-button {
+            background: var(--primary-black);
+            color: var(--white);
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--smooth-transition);
+            display: block;
+            margin: 0 auto;
+            width: fit-content;
+        }
+        
+        .vote-button:hover {
+            background: var(--charcoal);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .vote-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .results-section {
+            margin-top: 50px;
+            padding-top: 40px;
+            border-top: 2px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .results-title {
+            text-align: center;
+            color: var(--primary-black);
+            margin-bottom: 30px;
+        }
+        
+        .result-item {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .result-name {
+            font-weight: 600;
+            color: var(--primary-black);
+        }
+        
+        .result-bar {
+            flex: 1;
+            height: 20px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin: 0 20px;
+            overflow: hidden;
+        }
+        
+        .result-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-black), var(--charcoal));
+            border-radius: 10px;
+            transition: width 0.8s ease;
+        }
+        
+        .result-percentage {
+            font-weight: 600;
+            color: var(--primary-black);
+            min-width: 50px;
+            text-align: right;
+        }
+        
+        @media (max-width: 768px) {
+            .vote-form {
+                padding: 30px 25px;
+                border-radius: 20px;
+            }
+            
+            .vote-form::before {
+                border-radius: 23px;
+            }
+            
+            .collections-vote-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Background Bubbles -->
+    <div class="floating-bubbles">
+        <div class="bubble bubble-1"></div>
+        <div class="bubble bubble-2"></div>
+        <div class="bubble bubble-3"></div>
+        <div class="bubble bubble-4"></div>
+        <div class="bubble bubble-5"></div>
+        <div class="bubble bubble-6"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html" class="logo-text">Thread Theory</a>
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#collections" class="nav-link">Collections</a>
+                </li>
+                <li class="nav-item">
+                    <a href="about.html" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="vote.html" class="nav-link active">Vote</a>
+                </li>
+                <li class="nav-item">
+                    <a href="cart.html" class="nav-link">My Cart</a>
+                </li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Vote Section -->
+    <section class="vote-section">
+        <div class="vote-container">
+            <div class="vote-form">
+                <div class="vote-instructions">
+                    <h1 class="section-title">Vote for Your Favorites</h1>
+                    <p>Help us understand your preferences! Select your top 6 favorite collections from Thread Theory. Your votes help us create more of what you love.</p>
+                </div>
+                
+                <form id="vote-form">
+                    <div class="collections-vote-grid">
+                        <div class="collection-vote-item" data-collection="jerseys">
+                            <input type="checkbox" name="collection" value="jerseys">
+                            <div class="checkmark"></div>
+                            <div class="collection-name">Jerseys</div>
+                            <div class="collection-description">Comfortable and stylish knit jerseys</div>
+                        </div>
+                        
+                        <div class="collection-vote-item" data-collection="shrugs">
+                            <input type="checkbox" name="collection" value="shrugs">
+                            <div class="checkmark"></div>
+                            <div class="collection-name">Shrugs</div>
+                            <div class="collection-description">Elegant layering pieces</div>
+                        </div>
+                        
+                        <div class="collection-vote-item" data-collection="skirts">
+                            <input type="checkbox" name="collection" value="skirts">
+                            <div class="checkmark"></div>
+                            <div class="collection-name">Skirts</div>
+                            <div class="collection-description">Handcrafted knit and crochet skirts</div>
+                        </div>
+                        
+                        <div class="collection-vote-item" data-collection="dresses">
+                            <input type="checkbox" name="collection" value="dresses">
+                            <div class="checkmark"></div>
+                            <div class="collection-name">Dresses</div>
+                            <div class="collection-description">Beautiful handmade dresses</div>
+                        </div>
+                        
+                        <div class="collection-vote-item" data-collection="tops">
+                            <input type="checkbox" name="collection" value="tops">
+                            <div class="checkmark"></div>
+                            <div class="collection-name">Tops</div>
+                            <div class="collection-description">Stylish knit and crochet tops</div>
+                        </div>
+                        
+                        <div class="collection-vote-item" data-collection="shorts">
+                            <input type="checkbox" name="collection" value="shorts">
+                            <div class="checkmark"></div>
+                            <div class="collection-name">Shorts</div>
+                            <div class="collection-description">Comfortable knit shorts</div>
+                        </div>
+                        
+                        <div class="collection-vote-item" data-collection="bags">
+                            <input type="checkbox" name="collection" value="bags">
+                            <div class="checkmark"></div>
+                            <div class="collection-name">Bags</div>
+                            <div class="collection-description">Handcrafted bags and accessories</div>
+                        </div>
+                        
+                        <div class="collection-vote-item" data-collection="jumpsuits">
+                            <input type="checkbox" name="collection" value="jumpsuits">
+                            <div class="checkmark"></div>
+                            <div class="collection-name">Jumpsuits</div>
+                            <div class="collection-description">Stylish one-piece outfits</div>
+                        </div>
+                        
+                        <div class="collection-vote-item" data-collection="two-piece">
+                            <input type="checkbox" name="collection" value="two-piece">
+                            <div class="checkmark"></div>
+                            <div class="collection-name">Two Piece</div>
+                            <div class="collection-description">Coordinated two-piece sets</div>
+                        </div>
+                        
+                        <div class="collection-vote-item" data-collection="bottoms">
+                            <input type="checkbox" name="collection" value="bottoms">
+                            <div class="checkmark"></div>
+                            <div class="collection-name">Bottoms</div>
+                            <div class="collection-description">Various knit bottom wear</div>
+                        </div>
+                        
+                        <div class="collection-vote-item" data-collection="hats">
+                            <input type="checkbox" name="collection" value="hats">
+                            <div class="checkmark"></div>
+                            <div class="collection-name">Hats</div>
+                            <div class="collection-description">Stylish knit and crochet hats</div>
+                        </div>
+                        
+                        <div class="collection-vote-item" data-collection="accessories">
+                            <input type="checkbox" name="collection" value="accessories">
+                            <div class="checkmark"></div>
+                            <div class="collection-name">Accessories</div>
+                            <div class="collection-description">Various handmade accessories</div>
+                        </div>
+                        
+                        <div class="collection-vote-item" data-collection="shoes">
+                            <input type="checkbox" name="collection" value="shoes">
+                            <div class="checkmark"></div>
+                            <div class="collection-name">Shoes</div>
+                            <div class="collection-description">Handcrafted footwear</div>
+                        </div>
+                        
+                        <div class="collection-vote-item" data-collection="hair">
+                            <input type="checkbox" name="collection" value="hair">
+                            <div class="checkmark"></div>
+                            <div class="collection-name">Hair Accessories</div>
+                            <div class="collection-description">Beautiful hair accessories</div>
+                        </div>
+                        
+                        <div class="collection-vote-item" data-collection="jewellery">
+                            <input type="checkbox" name="collection" value="jewellery">
+                            <div class="checkmark"></div>
+                            <div class="collection-name">Jewellery</div>
+                            <div class="collection-description">Handcrafted jewelry pieces</div>
+                        </div>
+                    </div>
+                    
+                    <div class="vote-counter">
+                        Selected: <span id="selected-count">0</span> / 6
+                    </div>
+                    
+                    <button type="submit" class="vote-button" id="submit-vote">Submit My Vote</button>
+                </form>
+                
+                <div class="results-section" id="results-section" style="display: none;">
+                    <h3 class="results-title">Current Vote Results</h3>
+                    <div id="results-container"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Thread Theory</h3>
+                    <p>Crafting stories through threads, one piece at a time.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#collections">Collections</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="vote.html">Vote</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p>Email: hello@threadtheory.com</p>
+                    <p>Phone: +263786018957</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Thread Theory. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Voting functionality
+        let selectedCollections = [];
+        const maxSelections = 6;
+        
+        // Load existing votes from localStorage
+        let votes = JSON.parse(localStorage.getItem('threadTheoryVotes')) || {
+            jerseys: 0, shrugs: 0, skirts: 0, dresses: 0, tops: 0, shorts: 0,
+            bags: 0, jumpsuits: 0, 'two-piece': 0, bottoms: 0, hats: 0,
+            accessories: 0, shoes: 0, hair: 0, jewellery: 0
+        };
+        
+        // Check if user has already voted
+        const hasVoted = localStorage.getItem('threadTheoryUserVoted') === 'true';
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const voteItems = document.querySelectorAll('.collection-vote-item');
+            const selectedCountElement = document.getElementById('selected-count');
+            const submitButton = document.getElementById('submit-vote');
+            const voteForm = document.getElementById('vote-form');
+            
+            // If user has already voted, show results
+            if (hasVoted) {
+                showResults();
+                voteForm.style.display = 'none';
+            }
+            
+            voteItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    if (hasVoted) return;
+                    
+                    const collection = this.dataset.collection;
+                    const checkbox = this.querySelector('input[type="checkbox"]');
+                    
+                    if (this.classList.contains('selected')) {
+                        // Deselect
+                        this.classList.remove('selected');
+                        checkbox.checked = false;
+                        selectedCollections = selectedCollections.filter(c => c !== collection);
+                    } else {
+                        // Select (if under limit)
+                        if (selectedCollections.length < maxSelections) {
+                            this.classList.add('selected');
+                            checkbox.checked = true;
+                            selectedCollections.push(collection);
+                        }
+                    }
+                    
+                    updateCounter();
+                });
+            });
+            
+            function updateCounter() {
+                selectedCountElement.textContent = selectedCollections.length;
+                const counterElement = document.querySelector('.vote-counter');
+                
+                if (selectedCollections.length > maxSelections) {
+                    counterElement.classList.add('error');
+                    submitButton.disabled = true;
+                } else {
+                    counterElement.classList.remove('error');
+                    submitButton.disabled = selectedCollections.length === 0;
+                }
+            }
+            
+            voteForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (selectedCollections.length === 0 || selectedCollections.length > maxSelections) {
+                    alert('Please select between 1 and 6 collections.');
+                    return;
+                }
+                
+                // Add votes
+                selectedCollections.forEach(collection => {
+                    votes[collection]++;
+                });
+                
+                // Save votes and mark user as voted
+                localStorage.setItem('threadTheoryVotes', JSON.stringify(votes));
+                localStorage.setItem('threadTheoryUserVoted', 'true');
+                
+                // Show results
+                showResults();
+                voteForm.style.display = 'none';
+                
+                alert('Thank you for voting! Your preferences have been recorded.');
+            });
+            
+            function showResults() {
+                const resultsSection = document.getElementById('results-section');
+                const resultsContainer = document.getElementById('results-container');
+                
+                // Calculate total votes
+                const totalVotes = Object.values(votes).reduce((sum, count) => sum + count, 0);
+                
+                // Sort collections by vote count
+                const sortedCollections = Object.entries(votes)
+                    .sort(([,a], [,b]) => b - a)
+                    .map(([collection, count]) => ({
+                        name: collection.charAt(0).toUpperCase() + collection.slice(1).replace('-', ' '),
+                        count: count,
+                        percentage: totalVotes > 0 ? ((count / totalVotes) * 100).toFixed(1) : 0
+                    }));
+                
+                resultsContainer.innerHTML = sortedCollections.map(item => `
+                    <div class="result-item">
+                        <div class="result-name">${item.name}</div>
+                        <div class="result-bar">
+                            <div class="result-fill" style="width: ${item.percentage}%"></div>
+                        </div>
+                        <div class="result-percentage">${item.percentage}%</div>
+                    </div>
+                `).join('');
+                
+                resultsSection.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
