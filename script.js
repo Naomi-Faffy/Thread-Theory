@@ -4,6 +4,49 @@ const hamburger = document.getElementById('hamburger');
 const navMenu = document.getElementById('nav-menu');
 const navLinks = document.querySelectorAll('.nav-link');
 
+// Update cart counter
+function updateCartCounter() {
+    const cart = JSON.parse(localStorage.getItem('threadTheoryCart')) || [];
+    const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+    
+    // Find cart link and add counter
+    const cartLink = document.querySelector('a[href="cart.html"]');
+    if (cartLink) {
+        // Remove existing counter
+        const existingCounter = cartLink.querySelector('.cart-counter');
+        if (existingCounter) {
+            existingCounter.remove();
+        }
+        
+        // Add new counter if there are items
+        if (cartCount > 0) {
+            const counter = document.createElement('span');
+            counter.className = 'cart-counter';
+            counter.textContent = cartCount;
+            counter.style.cssText = `
+                position: absolute;
+                top: -8px;
+                right: -8px;
+                background: #dc3545;
+                color: white;
+                border-radius: 50%;
+                width: 20px;
+                height: 20px;
+                font-size: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+            `;
+            cartLink.style.position = 'relative';
+            cartLink.appendChild(counter);
+        }
+    }
+}
+
+// Update cart counter on page load
+document.addEventListener('DOMContentLoaded', updateCartCounter);
+
 // Navbar scroll effect
 window.addEventListener('scroll', () => {
     if (window.scrollY > 100) {

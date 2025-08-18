@@ -46,6 +46,90 @@ navLinks.forEach(link => {
     });
 });
 
+// Cart functionality
+let cart = JSON.parse(localStorage.getItem('threadTheoryCart')) || [];
+
+function addToCart(productName, productPrice, productImage) {
+    // Check if item already exists in cart
+    const existingItem = cart.find(item => item.name === productName);
+    
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({
+            name: productName,
+            price: productPrice,
+            image: productImage,
+            quantity: 1
+        });
+    }
+    
+    // Save to localStorage
+    localStorage.setItem('threadTheoryCart', JSON.stringify(cart));
+    
+    // Show notification
+    showNotification(`${productName} added to cart!`);
+    
+    // Update cart counter
+    updateCartCounter();
+}
+
+function showNotification(message) {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = 'cart-notification';
+    notification.textContent = message;
+    notification.style.cssText = `
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        background: #25D366;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        z-index: 10000;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        font-weight: 600;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Animate in
+    setTimeout(() => {
+        notification.style.transform = 'translateX(0)';
+    }, 100);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.remove();
+            }
+        }, 300);
+    }, 3000);
+}
+
+// Add event listeners to all "Add to Cart" buttons
+document.addEventListener('DOMContentLoaded', function() {
+    const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+    
+    addToCartButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const productItem = this.closest('.product-item');
+            const productName = productItem.querySelector('.product-name').textContent;
+            const productPrice = productItem.querySelector('.product-price').textContent.replace('$', '');
+            const productImage = productItem.querySelector('.product-img').src;
+            
+            addToCart(productName, productPrice, productImage);
+        });
+    });
+});
+
 // Intersection Observer for scroll animations
 const observerOptions = {
     threshold: 0.1,

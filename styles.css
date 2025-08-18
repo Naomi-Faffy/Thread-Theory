@@ -419,6 +419,12 @@ body {
     text-shadow: var(--neon-glow);
 }
 
+/* Page Section Styles */
+.page-section {
+    padding: 120px 0 80px;
+    min-height: 100vh;
+}
+
 /* About Section */
 .about {
     padding: var(--section-padding);
@@ -590,6 +596,11 @@ body {
 .collection-item:hover .collection-title::after {
     width: 60px;
     background: linear-gradient(90deg, transparent, var(--charcoal), transparent);
+}
+
+/* Ensure collection items have proper spacing */
+.collection-item {
+    margin-bottom: 20px;
 }
 
 .collection-item:hover .collection-image {
