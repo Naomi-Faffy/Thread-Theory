@@ -27,7 +27,7 @@ function updateCartCounter() {
                 position: absolute;
                 top: -8px;
                 right: -8px;
-                background: #dc3545;
+                background: #8b5cf6;
                 color: white;
                 border-radius: 50%;
                 width: 20px;
