@@ -533,14 +533,38 @@
                     return;
                 }
                 
-                // Add votes
-                selectedCollections.forEach(collection => {
-                    votes[collection]++;
-                });
-                
-                // Save votes and mark user as voted
-                localStorage.setItem('threadTheoryVotes', JSON.stringify(votes));
-                localStorage.setItem('threadTheoryUserVoted', 'true');
+                // Check if user is logged in
+                if (window.accountManager && window.accountManager.getCurrentUser()) {
+                    // User is logged in - save vote to their account
+                    const success = window.accountManager.addVote(selectedCollections);
+                    if (success) {
+                        // Add votes to global tally
+                        selectedCollections.forEach(collection => {
+                            votes[collection]++;
+                        });
+                        localStorage.setItem('threadTheoryVotes', JSON.stringify(votes));
+                    }
+                } else {
+                    // User not logged in - use old system but encourage account creation
+                    if (!localStorage.getItem('threadTheoryUserVoted')) {
+                        selectedCollections.forEach(collection => {
+                            votes[collection]++;
+                        });
+                        localStorage.setItem('threadTheoryVotes', JSON.stringify(votes));
+                        localStorage.setItem('threadTheoryUserVoted', 'true');
+                        
+                        // Show account creation suggestion
+                        setTimeout(() => {
+                            if (confirm('Create an account to track your votes and preferences across devices. Would you like to create an account now?')) {
+                                window.location.href = 'account.html';
+                                return;
+                            }
+                        }, 2000);
+                    } else {
+                        alert('You have already voted. Create an account to vote again or change your preferences!');
+                        return;
+                    }
+                }
                 
                 // Show results
                 showResults();

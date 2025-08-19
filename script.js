@@ -6,7 +6,15 @@ const navLinks = document.querySelectorAll('.nav-link');
 
 // Update cart counter
 function updateCartCounter() {
-    const cart = JSON.parse(localStorage.getItem('threadTheoryCart')) || [];
+    let cart = [];
+    
+    // Check if user is logged in and get their cart
+    if (window.accountManager && window.accountManager.getCurrentUser()) {
+        cart = window.accountManager.getCart();
+    } else {
+        cart = JSON.parse(localStorage.getItem('threadTheoryCart')) || [];
+    }
+    
     const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
     
     // Find cart link and add counter
