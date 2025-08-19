@@ -162,6 +162,45 @@ function showNotification(message, type = 'info') {
     }, 3000);
 }
 
+// Collection button handling
+document.addEventListener('DOMContentLoaded', function() {
+    const collectionButtons = document.querySelectorAll('.collection-btn');
+    collectionButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const collectionItem = this.closest('.collection-item');
+            const collectionTitle = collectionItem.querySelector('.collection-title').textContent.toLowerCase();
+            
+            // Map collection names to their respective pages
+            const collectionPages = {
+                'jerseys': 'jerseys.html',
+                'shrugs': 'shrugs.html',
+                'skirts': 'skirts.html',
+                'dresses': 'dresses.html',
+                'tops': 'tops.html',
+                'shorts': 'shorts.html',
+                'bags': 'bags.html',
+                'jumpsuits': 'jumpsuits.html',
+                'two piece': 'two-piece.html',
+                'bottoms': 'bottoms.html',
+                'hats': 'hats.html',
+                'accessories': 'accessories.html',
+                'shoes': 'shoes.html',
+                'hair': 'hair.html',
+                'jewellery': 'jewellery.html',
+                'men': 'men.html',
+                'home': 'home.html',
+                'customization': 'customization.html'
+            };
+            
+            const targetPage = collectionPages[collectionTitle];
+            if (targetPage) {
+                window.location.href = targetPage;
+            }
+        });
+    });
+});
+
 // Intersection Observer for scroll animations
 const observerOptions = {
     threshold: 0.1,

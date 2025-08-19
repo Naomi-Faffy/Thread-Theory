@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Men Collection - Thread Theory</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h1>Thread Theory</h1>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="index.html#collections" class="nav-link">Collections</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="vote.html" class="nav-link">Vote</a>
+                <a href="cart.html" class="nav-link">Cart</a>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Collection Header -->
+    <section class="collection-header">
+        <div class="container">
+            <h1 class="collection-title-main">Men Collection</h1>
+            <p class="collection-description">Handcrafted knitwear and crochet pieces designed for the modern man.</p>
+        </div>
+    </section>
+
+    <!-- Products Grid -->
+    <section class="products">
+        <div class="container">
+            <div class="products-grid" id="products-grid">
+                <!-- Products will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 Thread Theory. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Men collection products
+        const products = [
+            {
+                id: 'men-sweater-1',
+                name: 'Classic Knit Sweater',
+                price: '89.99',
+                image: 'men-sweater-1.jpg',
+                description: 'Comfortable wool blend sweater perfect for any occasion.'
+            },
+            {
+                id: 'men-cardigan-1',
+                name: 'Button-Up Cardigan',
+                price: '95.99',
+                image: 'men-cardigan-1.jpg',
+                description: 'Stylish cardigan with wooden buttons and ribbed details.'
+            },
+            {
+                id: 'men-vest-1',
+                name: 'Knit Vest',
+                price: '65.99',
+                image: 'men-vest-1.jpg',
+                description: 'Versatile knit vest for layering in any season.'
+            },
+            {
+                id: 'men-scarf-1',
+                name: 'Wool Scarf',
+                price: '35.99',
+                image: 'men-scarf-1.jpg',
+                description: 'Warm and stylish wool scarf in classic patterns.'
+            },
+            {
+                id: 'men-beanie-1',
+                name: 'Knit Beanie',
+                price: '25.99',
+                image: 'men-beanie-1.jpg',
+                description: 'Cozy knit beanie available in multiple colors.'
+            },
+            {
+                id: 'men-pullover-1',
+                name: 'Cable Knit Pullover',
+                price: '99.99',
+                image: 'men-pullover-1.jpg',
+                description: 'Traditional cable knit pullover with modern fit.'
+            }
+        ];
+
+        // Load products
+        function loadProducts() {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = products.map(product => `
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}" onerror="this.src='placeholder.jpg'">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">${product.name}</h3>
+                        <p class="product-description">${product.description}</p>
+                        <div class="product-price">$${product.price}</div>
+                        <button class="add-to-cart-btn" onclick="addToCart('${product.id}', '${product.name}', '${product.price}', '${product.image}')">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Add to cart function
+        function addToCart(id, name, price, image) {
+            const cart = JSON.parse(localStorage.getItem('threadTheoryCart')) || [];
+            const existingItem = cart.find(item => item.id === id);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: id,
+                    name: name,
+                    price: price,
+                    image: image,
+                    quantity: 1
+                });
+            }
+            
+            localStorage.setItem('threadTheoryCart', JSON.stringify(cart));
+            updateCartCounter();
+            
+            // Show feedback
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = 'Added!';
+            button.style.background = '#28a745';
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.background = '';
+            }, 1500);
+        }
+
+        // Load products when page loads
+        document.addEventListener('DOMContentLoaded', loadProducts);
+    </script>
+</body>
+</html>

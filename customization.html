@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customization - Thread Theory</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .customization-hero {
+            background: linear-gradient(135deg, var(--off-white) 0%, var(--charcoal) 100%);
+            padding: 100px 0;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .customization-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .customization-hero p {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .creators-section {
+            padding: 80px 0;
+            background: var(--off-white);
+        }
+
+        .creators-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .creator-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: var(--smooth-transition);
+            border: 2px solid transparent;
+        }
+
+        .creator-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            border: 2px solid var(--primary-black);
+        }
+
+        .creator-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, var(--primary-black), var(--charcoal));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--white);
+            font-weight: bold;
+        }
+
+        .creator-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-black);
+            margin-bottom: 10px;
+        }
+
+        .creator-specialty {
+            color: var(--charcoal);
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .creator-description {
+            color: var(--charcoal);
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .creator-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 25px;
+            padding: 15px 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-black);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--charcoal);
+        }
+
+        .contact-creator-btn {
+            background: var(--primary-black);
+            color: var(--white);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--smooth-transition);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .contact-creator-btn:hover {
+            background: var(--charcoal);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .process-section {
+            padding: 80px 0;
+            background: var(--white);
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .process-step {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary-black);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 20px;
+        }
+
+        .step-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-black);
+            margin-bottom: 15px;
+        }
+
+        .step-description {
+            color: var(--charcoal);
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h1>Thread Theory</h1>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="index.html#collections" class="nav-link">Collections</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="vote.html" class="nav-link">Vote</a>
+                <a href="cart.html" class="nav-link">Cart</a>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="customization-hero">
+        <div class="container">
+            <h1>Get a Customized Craft</h1>
+            <p>Work directly with our talented creators to bring your vision to life</p>
+        </div>
+    </section>
+
+    <!-- Creators Section -->
+    <section class="creators-section">
+        <div class="container">
+            <h2 class="section-title">Meet Our Creators</h2>
+            <div class="creators-grid">
+                <div class="creator-card">
+                    <div class="creator-avatar">SM</div>
+                    <h3 class="creator-name">Sarah Mitchell</h3>
+                    <p class="creator-specialty">Knitwear Specialist</p>
+                    <p class="creator-description">Expert in cable knits and intricate patterns. Sarah has been crafting beautiful sweaters and cardigans for over 8 years.</p>
+                    <div class="creator-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">150+</div>
+                            <div class="stat-label">Projects</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">5★</div>
+                            <div class="stat-label">Rating</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">2-3</div>
+                            <div class="stat-label">Weeks</div>
+                        </div>
+                    </div>
+                    <a href="#" class="contact-creator-btn" onclick="contactCreator('Sarah Mitchell', 'Knitwear')">Contact Sarah</a>
+                </div>
+
+                <div class="creator-card">
+                    <div class="creator-avatar">EJ</div>
+                    <h3 class="creator-name">Emma Johnson</h3>
+                    <p class="creator-specialty">Crochet Artist</p>
+                    <p class="creator-description">Master of delicate crochet work and home decor pieces. Emma creates stunning blankets, bags, and decorative items.</p>
+                    <div class="creator-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">200+</div>
+                            <div class="stat-label">Projects</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">5★</div>
+                            <div class="stat-label">Rating</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">1-2</div>
+                            <div class="stat-label">Weeks</div>
+                        </div>
+                    </div>
+                    <a href="#" class="contact-creator-btn" onclick="contactCreator('Emma Johnson', 'Crochet')">Contact Emma</a>
+                </div>
+
+                <div class="creator-card">
+                    <div class="creator-avatar">MR</div>
+                    <h3 class="creator-name">Maria Rodriguez</h3>
+                    <p class="creator-specialty">Accessory Designer</p>
+                    <p class="creator-description">Specializes in bags, hats, and jewelry. Maria combines traditional techniques with modern designs.</p>
+                    <div class="creator-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">120+</div>
+                            <div class="stat-label">Projects</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">5★</div>
+                            <div class="stat-label">Rating</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">1-2</div>
+                            <div class="stat-label">Weeks</div>
+                        </div>
+                    </div>
+                    <a href="#" class="contact-creator-btn" onclick="contactCreator('Maria Rodriguez', 'Accessories')">Contact Maria</a>
+                </div>
+
+                <div class="creator-card">
+                    <div class="creator-avatar">DL</div>
+                    <h3 class="creator-name">David Lee</h3>
+                    <p class="creator-specialty">Men's Wear Expert</p>
+                    <p class="creator-description">Focused on masculine designs and tailored fits. David creates sophisticated pieces for the modern gentleman.</p>
+                    <div class="creator-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">90+</div>
+                            <div class="stat-label">Projects</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">5★</div>
+                            <div class="stat-label">Rating</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">2-4</div>
+                            <div class="stat-label">Weeks</div>
+                        </div>
+                    </div>
+                    <a href="#" class="contact-creator-btn" onclick="contactCreator('David Lee', 'Menswear')">Contact David</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process-section">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Choose Your Creator</h3>
+                    <p class="step-description">Browse our talented creators and select the one whose style matches your vision.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">Share Your Ideas</h3>
+                    <p class="step-description">Discuss your project details, preferences, colors, and any special requirements.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Get a Quote</h3>
+                    <p class="step-description">Receive a detailed quote including timeline, materials, and pricing for your custom piece.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <h3 class="step-title">Creation Begins</h3>
+                    <p class="step-description">Your creator starts crafting your unique piece with regular updates on progress.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 Thread Theory. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        function contactCreator(creatorName, specialty) {
+            const message = `Hello! I'm interested in getting a custom ${specialty.toLowerCase()} piece made by ${creatorName}. Could you please provide more information about the process and pricing? Thank you!`;
+            const whatsappUrl = `https://wa.me/263786018957?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+    </script>
+</body>
+</html>
