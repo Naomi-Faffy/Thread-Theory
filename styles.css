@@ -536,8 +536,8 @@ body {
 
 .collections-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
     margin-top: 30px;
     max-width: 1200px;
     margin-left: auto;
@@ -549,6 +549,17 @@ body {
     flex-direction: column;
     align-items: center;
     transition: var(--smooth-transition);
+}
+
+.collection-image {
+    width: 100%;
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transition: var(--smooth-transition);
+    background: var(--off-white);
 }
 
 .collection-title {
