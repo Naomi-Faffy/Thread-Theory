@@ -3,189 +3,503 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Cart - Thread Theory</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>Shopping Bag - Thread Theory</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        .cart-section {
-            padding: 120px 0 80px;
+        .cart-page {
             min-height: 100vh;
-            background: var(--off-white);
+            background: linear-gradient(135deg, #fdf2f8 0%, #ffffff 50%, #f3e8ff 100%);
+            position: relative;
+            overflow-x: hidden;
         }
-        
+
+        /* Background decorative elements */
+        .cart-background {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .cart-bg-element {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.4;
+        }
+
+        .cart-bg-element:nth-child(1) {
+            top: 80px;
+            right: 40px;
+            width: 128px;
+            height: 128px;
+            background: linear-gradient(135deg, #f87171, #a855f7);
+        }
+
+        .cart-bg-element:nth-child(2) {
+            bottom: 160px;
+            left: 80px;
+            width: 192px;
+            height: 192px;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+        }
+
+        .cart-bg-element:nth-child(3) {
+            top: 50%;
+            right: 33%;
+            width: 160px;
+            height: 160px;
+            background: linear-gradient(135deg, #f59e0b, #f87171);
+        }
+
         .cart-container {
-            max-width: 1000px;
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 48px 16px;
         }
-        
-        .cart-item {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            border: 2px solid rgba(0, 0, 0, 0.1);
+
+        /* Header */
+        .cart-header {
+            text-align: center;
+            margin-bottom: 48px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .back-navigation {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 32px;
+        }
+
+        .back-btn {
             display: flex;
             align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: white;
+            border: 2px solid #f9a8d4;
+            color: #6b7280;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            background: #fdf2f8;
+            border-color: #ec4899;
+            color: #1f2937;
+        }
+
+        .decorative-cart-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .header-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        .sparkles-icon {
+            color: #f59e0b;
+            animation: spin 20s linear infinite;
+        }
+
+        .shopping-bag-icon {
+            color: #fb7185;
+            width: 32px;
+            height: 32px;
+        }
+
+        .heart-icon {
+            color: #a855f7;
+            animation: spin 25s linear infinite reverse;
+        }
+
+        .header-line {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #f9a8d4, transparent);
+            flex: 1;
+            max-width: 96px;
+        }
+
+        .cart-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-family: serif;
+            font-weight: 300;
+            color: #1f2937;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .cart-title-highlight {
+            background: linear-gradient(135deg, #fb7185, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+        }
+
+        .cart-subtitle {
+            font-size: 1.125rem;
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        /* Cart Content */
+        .cart-content {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 32px;
+            max-width: none;
+        }
+
+        .cart-items {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f3f4f6;
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 120px 1fr auto;
             gap: 20px;
+            padding: 24px 0;
+            border-bottom: 1px solid #f3f4f6;
+            transition: all 0.3s ease;
         }
-        
-        .cart-item-image {
-            width: 100px;
-            height: 100px;
-            border-radius: 10px;
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item:hover {
+            background: #fafafa;
+            margin: 0 -16px;
+            padding: 24px 16px;
+            border-radius: 12px;
+        }
+
+        .item-image {
+            width: 120px;
+            height: 120px;
+            background: #f3f4f6;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9ca3af;
+            font-size: 0.9rem;
+            text-align: center;
             overflow: hidden;
-            flex-shrink: 0;
         }
-        
-        .cart-item-image img {
+
+        .item-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        
-        .cart-item-details {
+
+        .item-details {
             flex: 1;
         }
-        
-        .cart-item-name {
-            font-size: 1.2rem;
+
+        .item-name {
+            font-size: 1.125rem;
             font-weight: 600;
-            color: var(--primary-black);
-            margin-bottom: 5px;
+            color: #1f2937;
+            margin-bottom: 8px;
         }
-        
-        .cart-item-price {
+
+        .item-category {
+            color: #8b5cf6;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .item-price {
             font-size: 1.1rem;
-            color: var(--charcoal);
-            margin-bottom: 10px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 8px;
         }
-        
+
+        .item-attributes {
+            display: flex;
+            gap: 16px;
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+
+        .item-creator {
+            font-size: 0.875rem;
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        .custom-note {
+            background: #f0f9ff;
+            color: #0369a1;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            margin-top: 8px;
+            border-left: 3px solid #0ea5e9;
+        }
+
+        .item-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 12px;
+        }
+
         .quantity-controls {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            background: #f9fafb;
+            border-radius: 20px;
+            padding: 8px;
         }
-        
-        .quantity-btn {
-            background: var(--primary-black);
-            color: var(--white);
+
+        .qty-btn {
+            width: 32px;
+            height: 32px;
             border: none;
-            width: 30px;
-            height: 30px;
             border-radius: 50%;
-            cursor: pointer;
+            background: white;
+            color: #6b7280;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: var(--smooth-transition);
-        }
-        
-        .quantity-btn:hover {
-            background: var(--charcoal);
-            transform: scale(1.1);
-        }
-        
-        .quantity-display {
-            font-weight: 600;
-            min-width: 30px;
-            text-align: center;
-        }
-        
-        .remove-btn {
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
             cursor: pointer;
-            transition: var(--smooth-transition);
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
-        
-        .remove-btn:hover {
-            background: #c82333;
-            transform: translateY(-2px);
+
+        .qty-btn:hover {
+            background: #1f2937;
+            color: white;
         }
-        
-        .cart-summary {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 30px;
-            margin-top: 30px;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
-            border: 2px solid rgba(0, 0, 0, 0.1);
+
+        .quantity {
+            font-weight: 600;
+            color: #1f2937;
+            min-width: 24px;
             text-align: center;
         }
-        
-        .cart-total {
+
+        .remove-btn {
+            background: none;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-size: 0.875rem;
+        }
+
+        .remove-btn:hover {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        /* Cart Summary */
+        .cart-summary {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f3f4f6;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .summary-title {
             font-size: 1.5rem;
             font-weight: 600;
-            color: var(--primary-black);
-            margin-bottom: 20px;
+            color: #1f2937;
+            margin-bottom: 24px;
+            text-align: center;
         }
-        
-        .whatsapp-btn {
-            background: #25D366;
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            color: #6b7280;
+        }
+
+        .summary-row.total {
+            border-top: 1px solid #f3f4f6;
+            padding-top: 16px;
+            margin-top: 24px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
             color: white;
             border: none;
-            padding: 15px 30px;
-            border-radius: 50px;
+            padding: 16px 24px;
+            border-radius: 20px;
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: var(--smooth-transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
+            transition: all 0.3s ease;
+            margin-top: 24px;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
         }
-        
-        .whatsapp-btn:hover {
-            background: #128C7E;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
         }
-        
+
+        /* Empty Cart */
         .empty-cart {
             text-align: center;
-            padding: 60px 20px;
+            padding: 80px 20px;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
-        
+
+        .empty-cart-icon {
+            width: 80px;
+            height: 80px;
+            color: #d1d5db;
+            margin: 0 auto 24px;
+        }
+
         .empty-cart h2 {
-            color: var(--charcoal);
-            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: #6b7280;
+            margin-bottom: 16px;
         }
-        
+
         .empty-cart p {
-            color: var(--charcoal);
-            margin-bottom: 30px;
+            color: #9ca3af;
+            margin-bottom: 32px;
         }
-        
-        @media (max-width: 768px) {
-            .cart-item {
-                flex-direction: column;
-                text-align: center;
+
+        .shop-now-btn {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+            text-decoration: none;
+            padding: 16px 32px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .shop-now-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+        }
+
+        /* Loading state */
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px;
+        }
+
+        .loading-spinner {
+            width: 48px;
+            height: 48px;
+            color: #fb7185;
+            animation: spin 1s linear infinite;
+            margin-bottom: 16px;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
             }
-            
-            .cart-item-image {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .cart-content {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .cart-summary {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .cart-container {
+                padding: 24px 16px;
+            }
+
+            .cart-items,
+            .cart-summary {
+                padding: 24px;
+            }
+
+            .cart-item {
+                grid-template-columns: 80px 1fr;
+                gap: 16px;
+            }
+
+            .item-image {
                 width: 80px;
                 height: 80px;
+            }
+
+            .item-actions {
+                grid-column: 1 / -1;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 16px;
             }
         }
     </style>
 </head>
-<body>
-    <!-- Floating Background Bubbles -->
-    <div class="floating-bubbles">
-        <div class="bubble bubble-1"></div>
-        <div class="bubble bubble-2"></div>
-        <div class="bubble bubble-3"></div>
-        <div class="bubble bubble-4"></div>
-        <div class="bubble bubble-5"></div>
-        <div class="bubble bubble-6"></div>
+<body class="cart-page">
+    <!-- Background decorative elements -->
+    <div class="cart-background">
+        <div class="cart-bg-element"></div>
+        <div class="cart-bg-element"></div>
+        <div class="cart-bg-element"></div>
     </div>
 
     <!-- Navigation -->
@@ -211,7 +525,7 @@
                     <a href="vote.html" class="nav-link">Vote</a>
                 </li>
                 <li class="nav-item">
-                    <a href="cart.html" class="nav-link active">My Cart</a>
+                    <a href="cart.html" class="nav-link active">Cart</a>
                 </li>
                 <li class="nav-item">
                     <a href="account.html" class="nav-link">Account</a>
@@ -225,124 +539,279 @@
         </div>
     </nav>
 
-    <!-- Cart Section -->
-    <section class="cart-section">
-        <div class="cart-container">
-            <h1 class="section-title">My Cart</h1>
-            
-            <div id="cart-items">
-                <!-- Cart items will be dynamically inserted here -->
-            </div>
-            
-            <div id="empty-cart" class="empty-cart" style="display: none;">
-                <h2>Your cart is empty</h2>
-                <p>Add some beautiful handcrafted pieces to your cart!</p>
-                <a href="index.html#collections" class="cta-button">Browse Collections</a>
-            </div>
-            
-            <div id="cart-summary" class="cart-summary" style="display: none;">
-                <div class="cart-total">
-                    Total: $<span id="total-amount">0.00</span>
-                </div>
-                <a href="#" id="whatsapp-checkout" class="whatsapp-btn">
-                    Complete Purchase via WhatsApp
+    <div class="cart-container">
+        <!-- Header -->
+        <header class="cart-header">
+            <!-- Back navigation -->
+            <div class="back-navigation">
+                <a href="index.html#collections" class="back-btn">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M15.75 19.5L8.25 12l7.5-7.5"/>
+                    </svg>
+                    Continue Shopping
                 </a>
             </div>
-        </div>
-    </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-bottom">
-                <p>&copy; 2025 Thread Theory. All rights reserved.</p>
+            <div class="decorative-cart-header">
+                <svg class="header-icon sparkles-icon" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z"/>
+                </svg>
+                <div class="header-line"></div>
+                <svg class="shopping-bag-icon" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/>
+                </svg>
+                <div class="header-line"></div>
+                <svg class="header-icon heart-icon" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z"/>
+                </svg>
+            </div>
+
+            <h1 class="cart-title">
+                <span class="cart-title-highlight">Shopping Bag</span>
+            </h1>
+
+            <p class="cart-subtitle" id="cart-subtitle">
+                Review your handpicked crochet treasures before checkout
+            </p>
+        </header>
+
+        <!-- Loading State -->
+        <div class="loading-container" id="loading-container">
+            <svg class="loading-spinner" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <p>Loading your beautiful cart...</p>
+        </div>
+
+        <!-- Cart Content -->
+        <div class="cart-content" id="cart-content" style="display: none;">
+            <div class="cart-items" id="cart-items">
+                <!-- Cart items will be populated by JavaScript -->
+            </div>
+
+            <div class="cart-summary">
+                <h2 class="summary-title">Order Summary</h2>
+                <div class="summary-row">
+                    <span>Subtotal (<span id="items-count">0</span> items)</span>
+                    <span id="subtotal">$0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Shipping</span>
+                    <span>FREE</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total</span>
+                    <span id="total">$0.00</span>
+                </div>
+                <button class="checkout-btn" onclick="proceedToCheckout()">
+                    Proceed to Checkout
+                </button>
+                <p style="text-align: center; margin-top: 16px; font-size: 0.875rem; color: #6b7280;">
+                    Secure checkout via WhatsApp
+                </p>
             </div>
         </div>
-    </footer>
+
+        <!-- Empty Cart -->
+        <div class="empty-cart" id="empty-cart" style="display: none;">
+            <svg class="empty-cart-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+            </svg>
+            <h2>Your shopping bag is empty</h2>
+            <p>Discover our beautiful handcrafted pieces and add them to your bag!</p>
+            <a href="index.html#collections" class="shop-now-btn">Start Shopping</a>
+        </div>
+    </div>
 
     <script src="script.js"></script>
+    <script src="account.js"></script>
     <script>
-        // Cart functionality
-        let cart = JSON.parse(localStorage.getItem('threadTheoryCart')) || [];
-        
-        function displayCart() {
-            const cartItemsContainer = document.getElementById('cart-items');
-            const emptyCart = document.getElementById('empty-cart');
-            const cartSummary = document.getElementById('cart-summary');
-            
-            if (cart.length === 0) {
-                cartItemsContainer.innerHTML = '';
-                emptyCart.style.display = 'block';
-                cartSummary.style.display = 'none';
-                return;
+        let cartItems = [];
+        let isLoading = true;
+
+        // Sample cart items for demonstration
+        const sampleCartItems = [
+            {
+                id: "sample1",
+                name: "Romantic Rose Dress",
+                category: "Dresses",
+                price: 89.99,
+                quantity: 1,
+                size: "M",
+                color: "Dusty Rose",
+                creator: "Isabella Martinez",
+                image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=300&h=300&fit=crop"
+            },
+            {
+                id: "sample2",
+                name: "Bohemian Crochet Top",
+                category: "Tops",
+                price: 45.50,
+                quantity: 2,
+                size: "S",
+                color: "Cream",
+                creator: "Luna Hartwell",
+                customNote: "Please make sleeves slightly longer",
+                image: "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=300&h=300&fit=crop"
+            },
+            {
+                id: "sample3",
+                name: "Artisan Tote Bag",
+                category: "Bags",
+                price: 35.00,
+                quantity: 1,
+                color: "Natural Beige",
+                creator: "Marcus Sterling",
+                image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=300&fit=crop"
             }
+        ];
+
+        // Initialize cart
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                loadCart();
+            }, 1500); // Simulate loading time
+        });
+
+        function loadCart() {
+            // Get cart from account manager or localStorage
+            let cart = [];
+            if (window.accountManager && window.accountManager.getCurrentUser()) {
+                cart = window.accountManager.getCart();
+            } else {
+                cart = JSON.parse(localStorage.getItem('threadTheoryCart')) || [];
+            }
+
+            // Use sample data if cart is empty for demonstration
+            cartItems = cart.length > 0 ? cart : sampleCartItems;
+
+            isLoading = false;
+            renderCart();
+        }
+
+        function renderCart() {
+            const loadingContainer = document.getElementById('loading-container');
+            const cartContent = document.getElementById('cart-content');
+            const emptyCart = document.getElementById('empty-cart');
+            const cartSubtitle = document.getElementById('cart-subtitle');
+
+            loadingContainer.style.display = 'none';
+
+            if (cartItems.length === 0) {
+                emptyCart.style.display = 'block';
+                cartContent.style.display = 'none';
+                cartSubtitle.textContent = "Your cart is ready for beautiful handcrafted pieces";
+            } else {
+                emptyCart.style.display = 'none';
+                cartContent.style.display = 'grid';
+                cartSubtitle.textContent = "Review your handpicked crochet treasures before checkout";
+                renderCartItems();
+                updateSummary();
+            }
+        }
+
+        function renderCartItems() {
+            const cartItemsContainer = document.getElementById('cart-items');
             
-            emptyCart.style.display = 'none';
-            cartSummary.style.display = 'block';
-            
-            cartItemsContainer.innerHTML = cart.map((item, index) => `
-                <div class="cart-item">
-                    <div class="cart-item-image">
-                        <img src="${item.image}" alt="${item.name}">
+            cartItemsContainer.innerHTML = cartItems.map((item, index) => `
+                <div class="cart-item" style="animation-delay: ${index * 0.1}s; animation: fadeInUp 0.6s ease both;">
+                    <div class="item-image">
+                        ${item.image ? `<img src="${item.image}" alt="${item.name}" onerror="this.outerHTML='<div class=\\"item-image\\"><span>📷 Image</span></div>'">` : `<span>📷 Image</span>`}
                     </div>
-                    <div class="cart-item-details">
-                        <div class="cart-item-name">${item.name}</div>
-                        <div class="cart-item-price">$${item.price}</div>
-                        <div class="quantity-controls">
-                            <button class="quantity-btn" onclick="updateQuantity(${index}, -1)">-</button>
-                            <span class="quantity-display">${item.quantity}</span>
-                            <button class="quantity-btn" onclick="updateQuantity(${index}, 1)">+</button>
+                    <div class="item-details">
+                        <h3 class="item-name">${item.name}</h3>
+                        <p class="item-category">${item.category || 'Handcrafted Item'}</p>
+                        <p class="item-price">$${item.price.toFixed(2)}</p>
+                        <div class="item-attributes">
+                            ${item.size ? `<span>Size: ${item.size}</span>` : ''}
+                            ${item.color ? `<span>Color: ${item.color}</span>` : ''}
                         </div>
+                        ${item.creator ? `<p class="item-creator">Created by ${item.creator}</p>` : ''}
+                        ${item.customNote ? `<div class="custom-note">Note: ${item.customNote}</div>` : ''}
                     </div>
-                    <button class="remove-btn" onclick="removeFromCart(${index})">Remove</button>
+                    <div class="item-actions">
+                        <div class="quantity-controls">
+                            <button class="qty-btn" onclick="updateQuantity('${item.id}', ${item.quantity - 1})" ${item.quantity <= 1 ? 'disabled' : ''}>−</button>
+                            <span class="quantity">${item.quantity}</span>
+                            <button class="qty-btn" onclick="updateQuantity('${item.id}', ${item.quantity + 1})">+</button>
+                        </div>
+                        <button class="remove-btn" onclick="removeItem('${item.id}')">Remove</button>
+                    </div>
                 </div>
             `).join('');
-            
-            updateTotal();
         }
-        
-        function updateQuantity(index, change) {
-            cart[index].quantity += change;
-            if (cart[index].quantity <= 0) {
-                cart.splice(index, 1);
+
+        function updateQuantity(itemId, newQuantity) {
+            if (newQuantity < 1) return;
+
+            const itemIndex = cartItems.findIndex(item => item.id === itemId);
+            if (itemIndex > -1) {
+                cartItems[itemIndex].quantity = newQuantity;
+                
+                // Update in storage
+                if (window.accountManager && window.accountManager.getCurrentUser()) {
+                    window.accountManager.updateCart(cartItems);
+                } else {
+                    localStorage.setItem('threadTheoryCart', JSON.stringify(cartItems));
+                }
+
+                renderCartItems();
+                updateSummary();
+                
+                // Update cart counter if available
+                if (window.updateCartCounter) {
+                    window.updateCartCounter();
+                }
             }
-            localStorage.setItem('threadTheoryCart', JSON.stringify(cart));
-            displayCart();
         }
-        
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            localStorage.setItem('threadTheoryCart', JSON.stringify(cart));
-            displayCart();
-        }
-        
-        function updateTotal() {
-            const total = cart.reduce((sum, item) => sum + (parseFloat(item.price) * item.quantity), 0);
-            document.getElementById('total-amount').textContent = total.toFixed(2);
-        }
-        
-        function generateWhatsAppMessage() {
-            let message = "Hello! I'd like to purchase the following items from Thread Theory:\\n\\n";
+
+        function removeItem(itemId) {
+            cartItems = cartItems.filter(item => item.id !== itemId);
             
-            cart.forEach(item => {
-                message += `• ${item.name} - $${item.price} x ${item.quantity}\\n`;
-            });
+            // Update in storage
+            if (window.accountManager && window.accountManager.getCurrentUser()) {
+                window.accountManager.updateCart(cartItems);
+            } else {
+                localStorage.setItem('threadTheoryCart', JSON.stringify(cartItems));
+            }
+
+            renderCart();
             
-            const total = cart.reduce((sum, item) => sum + (parseFloat(item.price) * item.quantity), 0);
-            message += `\\nTotal: $${total.toFixed(2)}\\n\\nPlease let me know how to proceed with the purchase. Thank you!`;
-            
-            return encodeURIComponent(message);
+            // Update cart counter if available
+            if (window.updateCartCounter) {
+                window.updateCartCounter();
+            }
+
+            // Show notification
+            if (window.showNotification) {
+                window.showNotification('Item removed from cart', 'success');
+            }
         }
-        
-        document.getElementById('whatsapp-checkout').addEventListener('click', function(e) {
-            e.preventDefault();
-            const message = generateWhatsAppMessage();
-            const whatsappUrl = `https://wa.me/263786018957?text=${message}`;
+
+        function updateSummary() {
+            const itemsCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+            const subtotal = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+
+            document.getElementById('items-count').textContent = itemsCount;
+            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('total').textContent = `$${subtotal.toFixed(2)}`;
+        }
+
+        function proceedToCheckout() {
+            if (cartItems.length === 0) return;
+
+            const itemsList = cartItems.map(item => 
+                `• ${item.name} (${item.quantity}x) - $${(item.price * item.quantity).toFixed(2)}`
+            ).join('\n');
+
+            const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            const message = `Hi! I'd like to purchase the following items from Thread Theory:\n\n${itemsList}\n\nTotal: $${total.toFixed(2)}\n\nPlease let me know the next steps for payment and delivery. Thank you!`;
+            
+            const whatsappUrl = `https://wa.me/263786018957?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
-        });
-        
-        // Display cart on page load
-        displayCart();
+        }
     </script>
 </body>
 </html>
