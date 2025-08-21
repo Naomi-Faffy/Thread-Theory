@@ -9,255 +9,339 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <style>
-        .vote-section {
-            padding: 120px 0 80px;
+        .vote-page {
             min-height: 100vh;
-            background: var(--off-white);
-        }
-        
-        .vote-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        .vote-form {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 25px;
-            padding: 50px 40px;
-            box-shadow: 
-                0 0 20px rgba(0, 0, 0, 0.3),
-                0 0 40px rgba(0, 0, 0, 0.2),
-                0 0 60px rgba(0, 0, 0, 0.1),
-                inset 0 0 20px rgba(0, 0, 0, 0.05);
-            border: 2px solid rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
+            background: linear-gradient(135deg, #fdf2f8 0%, #ffffff 50%, #f3e8ff 100%);
             position: relative;
-            transition: var(--smooth-transition);
+            overflow-x: hidden;
         }
-        
-        .vote-form::before {
-            content: '';
+
+        /* Background decorative elements */
+        .vote-background {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .vote-bg-element {
             position: absolute;
-            top: -3px;
-            left: -3px;
-            right: -3px;
-            bottom: -3px;
-            background: linear-gradient(45deg, 
-                rgba(0, 0, 0, 0.4), 
-                rgba(0, 0, 0, 0.2), 
-                rgba(0, 0, 0, 0.4));
-            border-radius: 28px;
-            z-index: -1;
-            opacity: 0.7;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.6;
+            animation: float 20s infinite ease-in-out;
         }
-        
-        .vote-instructions {
+
+        .vote-bg-element:nth-child(1) {
+            top: 80px;
+            left: 40px;
+            width: 128px;
+            height: 128px;
+            background: linear-gradient(135deg, #f87171, #c084fc);
+            animation-delay: 0s;
+        }
+
+        .vote-bg-element:nth-child(2) {
+            top: 240px;
+            right: 80px;
+            width: 192px;
+            height: 192px;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            animation-delay: -5s;
+        }
+
+        .vote-bg-element:nth-child(3) {
+            bottom: 80px;
+            left: 33%;
+            width: 160px;
+            height: 160px;
+            background: linear-gradient(135deg, #f59e0b, #f87171);
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+        }
+
+        .vote-container {
+            position: relative;
+            z-index: 10;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 120px 16px 48px;
+        }
+
+        .vote-header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 48px;
+            animation: fadeInUp 0.8s ease-out;
         }
-        
-        .vote-instructions h2 {
-            color: var(--primary-black);
-            margin-bottom: 15px;
+
+        .decorative-vote-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 24px;
         }
-        
-        .vote-instructions p {
-            color: var(--charcoal);
-            font-size: 1.1rem;
+
+        .header-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        .sparkles-icon {
+            color: #f59e0b;
+            animation: spin 20s linear infinite;
+        }
+
+        .vote-icon {
+            color: #fb7185;
+            width: 32px;
+            height: 32px;
+        }
+
+        .heart-icon {
+            color: #a855f7;
+            animation: spin 25s linear infinite reverse;
+        }
+
+        .header-line {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #f9a8d4, transparent);
+            flex: 1;
+            max-width: 96px;
+        }
+
+        .vote-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-family: serif;
+            font-weight: 300;
+            color: #1f2937;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .vote-title-highlight {
+            background: linear-gradient(135deg, #fb7185, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+        }
+
+        .vote-subtitle {
+            font-size: 1.125rem;
+            color: #6b7280;
             line-height: 1.6;
+            margin-bottom: 16px;
         }
-        
-        .collections-vote-grid {
+
+        .vote-timer {
+            display: inline-block;
+            background: linear-gradient(135deg, #fb7185, #a855f7);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .vote-categories {
+            display: grid;
+            gap: 32px;
+        }
+
+        .vote-category {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+            border: 1px solid #f3f4f6;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .category-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .vote-options {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
-            margin-bottom: 40px;
+            margin-bottom: 24px;
         }
-        
-        .collection-vote-item {
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 15px;
-            padding: 20px;
-            border: 2px solid rgba(0, 0, 0, 0.1);
-            transition: var(--smooth-transition);
-            cursor: pointer;
+
+        .vote-option {
             position: relative;
-        }
-        
-        .collection-vote-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            border-color: var(--primary-black);
-        }
-        
-        .collection-vote-item.selected {
-            background: rgba(0, 0, 0, 0.1);
-            border-color: var(--primary-black);
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-        }
-        
-        .collection-vote-item input[type="checkbox"] {
-            position: absolute;
-            opacity: 0;
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 20px;
             cursor: pointer;
-        }
-        
-        .collection-vote-item .checkmark {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 25px;
-            height: 25px;
-            background: var(--white);
-            border: 2px solid var(--charcoal);
-            border-radius: 50%;
-            transition: var(--smooth-transition);
-        }
-        
-        .collection-vote-item.selected .checkmark {
-            background: var(--primary-black);
-            border-color: var(--primary-black);
-        }
-        
-        .collection-vote-item.selected .checkmark::after {
-            content: '✓';
-            color: var(--white);
-            font-size: 16px;
-            font-weight: bold;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        
-        .collection-name {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--primary-black);
-            margin-bottom: 10px;
-        }
-        
-        .collection-description {
-            color: var(--charcoal);
-            font-size: 0.9rem;
-            line-height: 1.4;
-        }
-        
-        .vote-counter {
+            transition: all 0.3s ease;
             text-align: center;
-            margin: 30px 0;
-            font-size: 1.1rem;
-            color: var(--charcoal);
         }
-        
-        .vote-counter.error {
-            color: #dc3545;
+
+        .vote-option:hover {
+            border-color: #fb7185;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(251, 113, 133, 0.15);
         }
-        
-        .vote-button {
-            background: var(--primary-black);
-            color: var(--white);
+
+        .vote-option.voted {
+            border-color: #10b981;
+            background: #f0fdf4;
+        }
+
+        .vote-option.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .option-name {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+
+        .option-description {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-bottom: 16px;
+        }
+
+        .vote-progress {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #fb7185, #a855f7);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 4px;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+
+        .vote-btn {
+            width: 100%;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #fb7185, #a855f7);
+            color: white;
             border: none;
-            padding: 15px 40px;
-            border-radius: 50px;
-            font-size: 1.1rem;
+            border-radius: 12px;
             font-weight: 600;
             cursor: pointer;
-            transition: var(--smooth-transition);
-            display: block;
-            margin: 0 auto;
-            width: fit-content;
+            transition: all 0.3s ease;
+            margin-top: 16px;
         }
-        
-        .vote-button:hover {
-            background: var(--charcoal);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+
+        .vote-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(251, 113, 133, 0.3);
         }
-        
-        .vote-button:disabled {
-            background: #ccc;
+
+        .vote-btn:disabled {
+            background: #9ca3af;
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
         }
-        
-        .results-section {
-            margin-top: 50px;
-            padding-top: 40px;
-            border-top: 2px solid rgba(0, 0, 0, 0.1);
-        }
-        
-        .results-title {
+
+        .voting-status {
             text-align: center;
-            color: var(--primary-black);
-            margin-bottom: 30px;
+            padding: 20px;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 12px;
+            color: #166534;
+            font-weight: 500;
         }
-        
-        .result-item {
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            padding: 15px 20px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+
+        .results-section {
+            margin-top: 32px;
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+            border: 1px solid #f3f4f6;
         }
-        
-        .result-name {
+
+        .results-title {
+            font-size: 1.25rem;
             font-weight: 600;
-            color: var(--primary-black);
+            color: #1f2937;
+            margin-bottom: 24px;
+            text-align: center;
         }
-        
-        .result-bar {
-            flex: 1;
-            height: 20px;
-            background: rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            margin: 0 20px;
-            overflow: hidden;
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        
-        .result-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-black), var(--charcoal));
-            border-radius: 10px;
-            transition: width 0.8s ease;
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
-        
-        .result-percentage {
-            font-weight: 600;
-            color: var(--primary-black);
-            min-width: 50px;
-            text-align: right;
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
-        
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .vote-form {
-                padding: 30px 25px;
-                border-radius: 20px;
+            .vote-container {
+                padding: 100px 16px 48px;
             }
-            
-            .vote-form::before {
-                border-radius: 23px;
+
+            .vote-category {
+                padding: 24px;
             }
-            
-            .collections-vote-grid {
+
+            .vote-options {
                 grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
-<body>
-    <!-- Floating Background Bubbles -->
-    <div class="floating-bubbles">
-        <div class="bubble bubble-1"></div>
-        <div class="bubble bubble-2"></div>
-        <div class="bubble bubble-3"></div>
-        <div class="bubble bubble-4"></div>
-        <div class="bubble bubble-5"></div>
-        <div class="bubble bubble-6"></div>
+<body class="vote-page">
+    <!-- Background decorative elements -->
+    <div class="vote-background">
+        <div class="vote-bg-element"></div>
+        <div class="vote-bg-element"></div>
+        <div class="vote-bg-element"></div>
     </div>
 
     <!-- Navigation -->
@@ -297,312 +381,302 @@
         </div>
     </nav>
 
-    <!-- Vote Section -->
-    <section class="vote-section">
-        <div class="vote-container">
-            <div class="vote-form">
-                <div class="vote-instructions">
-                    <h1 class="section-title">Vote for Your Favorites</h1>
-                    <p>Help us understand your preferences! Select your top 6 favorite collections from Thread Theory. Your votes help us create more of what you love.</p>
-                </div>
-                
-                <form id="vote-form">
-                    <div class="collections-vote-grid">
-                        <div class="collection-vote-item" data-collection="jerseys">
-                            <input type="checkbox" name="collection" value="jerseys">
-                            <div class="checkmark"></div>
-                            <div class="collection-name">Jerseys</div>
-                            <div class="collection-description">Comfortable and stylish knit jerseys</div>
-                        </div>
-                        
-                        <div class="collection-vote-item" data-collection="shrugs">
-                            <input type="checkbox" name="collection" value="shrugs">
-                            <div class="checkmark"></div>
-                            <div class="collection-name">Shrugs</div>
-                            <div class="collection-description">Elegant layering pieces</div>
-                        </div>
-                        
-                        <div class="collection-vote-item" data-collection="skirts">
-                            <input type="checkbox" name="collection" value="skirts">
-                            <div class="checkmark"></div>
-                            <div class="collection-name">Skirts</div>
-                            <div class="collection-description">Handcrafted knit and crochet skirts</div>
-                        </div>
-                        
-                        <div class="collection-vote-item" data-collection="dresses">
-                            <input type="checkbox" name="collection" value="dresses">
-                            <div class="checkmark"></div>
-                            <div class="collection-name">Dresses</div>
-                            <div class="collection-description">Beautiful handmade dresses</div>
-                        </div>
-                        
-                        <div class="collection-vote-item" data-collection="tops">
-                            <input type="checkbox" name="collection" value="tops">
-                            <div class="checkmark"></div>
-                            <div class="collection-name">Tops</div>
-                            <div class="collection-description">Stylish knit and crochet tops</div>
-                        </div>
-                        
-                        <div class="collection-vote-item" data-collection="shorts">
-                            <input type="checkbox" name="collection" value="shorts">
-                            <div class="checkmark"></div>
-                            <div class="collection-name">Shorts</div>
-                            <div class="collection-description">Comfortable knit shorts</div>
-                        </div>
-                        
-                        <div class="collection-vote-item" data-collection="bags">
-                            <input type="checkbox" name="collection" value="bags">
-                            <div class="checkmark"></div>
-                            <div class="collection-name">Bags</div>
-                            <div class="collection-description">Handcrafted bags and accessories</div>
-                        </div>
-                        
-                        <div class="collection-vote-item" data-collection="jumpsuits">
-                            <input type="checkbox" name="collection" value="jumpsuits">
-                            <div class="checkmark"></div>
-                            <div class="collection-name">Jumpsuits</div>
-                            <div class="collection-description">Stylish one-piece outfits</div>
-                        </div>
-                        
-                        <div class="collection-vote-item" data-collection="two-piece">
-                            <input type="checkbox" name="collection" value="two-piece">
-                            <div class="checkmark"></div>
-                            <div class="collection-name">Two Piece</div>
-                            <div class="collection-description">Coordinated two-piece sets</div>
-                        </div>
-                        
-                        <div class="collection-vote-item" data-collection="bottoms">
-                            <input type="checkbox" name="collection" value="bottoms">
-                            <div class="checkmark"></div>
-                            <div class="collection-name">Bottoms</div>
-                            <div class="collection-description">Various knit bottom wear</div>
-                        </div>
-                        
-                        <div class="collection-vote-item" data-collection="hats">
-                            <input type="checkbox" name="collection" value="hats">
-                            <div class="checkmark"></div>
-                            <div class="collection-name">Hats</div>
-                            <div class="collection-description">Stylish knit and crochet hats</div>
-                        </div>
-                        
-                        <div class="collection-vote-item" data-collection="accessories">
-                            <input type="checkbox" name="collection" value="accessories">
-                            <div class="checkmark"></div>
-                            <div class="collection-name">Accessories</div>
-                            <div class="collection-description">Various handmade accessories</div>
-                        </div>
-                        
-                        <div class="collection-vote-item" data-collection="shoes">
-                            <input type="checkbox" name="collection" value="shoes">
-                            <div class="checkmark"></div>
-                            <div class="collection-name">Shoes</div>
-                            <div class="collection-description">Handcrafted footwear</div>
-                        </div>
-                        
-                        <div class="collection-vote-item" data-collection="hair">
-                            <input type="checkbox" name="collection" value="hair">
-                            <div class="checkmark"></div>
-                            <div class="collection-name">Hair Accessories</div>
-                            <div class="collection-description">Beautiful hair accessories</div>
-                        </div>
-                        
-                        <div class="collection-vote-item" data-collection="jewellery">
-                            <input type="checkbox" name="collection" value="jewellery">
-                            <div class="checkmark"></div>
-                            <div class="collection-name">Jewellery</div>
-                            <div class="collection-description">Handcrafted jewelry pieces</div>
-                        </div>
-                        
-                        <div class="collection-vote-item" data-collection="men">
-                            <input type="checkbox" name="collection" value="men">
-                            <div class="checkmark"></div>
-                            <div class="collection-name">Men</div>
-                            <div class="collection-description">Handcrafted pieces for men</div>
-                        </div>
-                        
-                        <div class="collection-vote-item" data-collection="home">
-                            <input type="checkbox" name="collection" value="home">
-                            <div class="checkmark"></div>
-                            <div class="collection-name">Home</div>
-                            <div class="collection-description">Beautiful home decor items</div>
-                        </div>
-                        
-                        <div class="collection-vote-item" data-collection="customization">
-                            <input type="checkbox" name="collection" value="customization">
-                            <div class="checkmark"></div>
-                            <div class="collection-name">Customization</div>
-                            <div class="collection-description">Custom-made pieces by our creators</div>
-                        </div>
-                    </div>
-                    
-                    <div class="vote-counter">
-                        Selected: <span id="selected-count">0</span> / 6
-                    </div>
-                    
-                    <button type="submit" class="vote-button" id="submit-vote">Submit My Vote</button>
-                </form>
-                
-                <div class="results-section" id="results-section" style="display: none;">
-                    <h3 class="results-title">Current Vote Results</h3>
-                    <div id="results-container"></div>
-                </div>
+    <div class="vote-container">
+        <!-- Header -->
+        <header class="vote-header">
+            <div class="decorative-vote-header">
+                <svg class="header-icon sparkles-icon" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z"/>
+                </svg>
+                <div class="header-line"></div>
+                <svg class="vote-icon" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z"/>
+                </svg>
+                <div class="header-line"></div>
+                <svg class="header-icon heart-icon" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z"/>
+                </svg>
+            </div>
+
+            <h1 class="vote-title">
+                Vote for Your <span class="vote-title-highlight">Favorites</span>
+            </h1>
+
+            <p class="vote-subtitle">
+                Help us understand what styles you love most!
+            </p>
+
+            <div class="vote-timer" id="vote-timer">
+                Next reset in: <span id="time-remaining">--:--:--</span>
+            </div>
+        </header>
+
+        <!-- Vote Categories -->
+        <div class="vote-categories" id="vote-categories">
+            <!-- Categories will be populated by JavaScript -->
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section">
+            <h2 class="results-title">Live Results</h2>
+            <div id="results-container">
+                <!-- Results will be populated by JavaScript -->
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Footer -->
-    <footer class="footer">
+    <!-- Simple Footer -->
+    <footer class="footer" style="background: var(--primary-black); color: var(--white); padding: 40px 0; text-align: center;">
         <div class="container">
-            <div class="footer-bottom">
-                <p>&copy; 2025 Thread Theory. All rights reserved.</p>
-            </div>
+            <p>&copy; 2025 Thread Theory. All rights reserved.</p>
         </div>
     </footer>
 
     <script src="script.js"></script>
-    <script>
-        // Voting functionality
-        let selectedCollections = [];
-        const maxSelections = 6;
-        
-        // Load existing votes from localStorage
-        let votes = JSON.parse(localStorage.getItem('threadTheoryVotes')) || {
-            jerseys: 0, shrugs: 0, skirts: 0, dresses: 0, tops: 0, shorts: 0,
-            bags: 0, jumpsuits: 0, 'two-piece': 0, bottoms: 0, hats: 0,
-            accessories: 0, shoes: 0, hair: 0, jewellery: 0
-        };
-        
-        // Check if user has already voted
-        const hasVoted = localStorage.getItem('threadTheoryUserVoted') === 'true';
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            const voteItems = document.querySelectorAll('.collection-vote-item');
-            const selectedCountElement = document.getElementById('selected-count');
-            const submitButton = document.getElementById('submit-vote');
-            const voteForm = document.getElementById('vote-form');
-            
-            // If user has already voted, show results
-            if (hasVoted) {
-                showResults();
-                voteForm.style.display = 'none';
-            }
-            
-            voteItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    if (hasVoted) return;
-                    
-                    const collection = this.dataset.collection;
-                    const checkbox = this.querySelector('input[type="checkbox"]');
-                    
-                    if (this.classList.contains('selected')) {
-                        // Deselect
-                        this.classList.remove('selected');
-                        checkbox.checked = false;
-                        selectedCollections = selectedCollections.filter(c => c !== collection);
-                    } else {
-                        // Select (if under limit)
-                        if (selectedCollections.length < maxSelections) {
-                            this.classList.add('selected');
-                            checkbox.checked = true;
-                            selectedCollections.push(collection);
-                        }
-                    }
-                    
-                    updateCounter();
-                });
-            });
-            
-            function updateCounter() {
-                selectedCountElement.textContent = selectedCollections.length;
-                const counterElement = document.querySelector('.vote-counter');
-                
-                if (selectedCollections.length > maxSelections) {
-                    counterElement.classList.add('error');
-                    submitButton.disabled = true;
-                } else {
-                    counterElement.classList.remove('error');
-                    submitButton.disabled = selectedCollections.length === 0;
-                }
-            }
-            
-            voteForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                if (selectedCollections.length === 0 || selectedCollections.length > maxSelections) {
-                    alert('Please select between 1 and 6 collections.');
-                    return;
-                }
-                
-                // Check if user is logged in
-                if (window.accountManager && window.accountManager.getCurrentUser()) {
-                    // User is logged in - save vote to their account
-                    const success = window.accountManager.addVote(selectedCollections);
-                    if (success) {
-                        // Add votes to global tally
-                        selectedCollections.forEach(collection => {
-                            votes[collection]++;
-                        });
-                        localStorage.setItem('threadTheoryVotes', JSON.stringify(votes));
-                    }
-                } else {
-                    // User not logged in - use old system but encourage account creation
-                    if (!localStorage.getItem('threadTheoryUserVoted')) {
-                        selectedCollections.forEach(collection => {
-                            votes[collection]++;
-                        });
-                        localStorage.setItem('threadTheoryVotes', JSON.stringify(votes));
-                        localStorage.setItem('threadTheoryUserVoted', 'true');
-                        
-                        // Show account creation suggestion
-                        setTimeout(() => {
-                            if (confirm('Create an account to track your votes and preferences across devices. Would you like to create an account now?')) {
-                                window.location.href = 'account.html';
-                                return;
-                            }
-                        }, 2000);
-                    } else {
-                        alert('You have already voted. Create an account to vote again or change your preferences!');
-                        return;
-                    }
-                }
-                
-                // Show results
-                showResults();
-                voteForm.style.display = 'none';
-                
-                alert('Thank you for voting! Your preferences have been recorded.');
-            });
-            
-            function showResults() {
-                const resultsSection = document.getElementById('results-section');
-                const resultsContainer = document.getElementById('results-container');
-                
-                // Calculate total votes
-                const totalVotes = Object.values(votes).reduce((sum, count) => sum + count, 0);
-                
-                // Sort collections by vote count
-                const sortedCollections = Object.entries(votes)
-                    .sort(([,a], [,b]) => b - a)
-                    .map(([collection, count]) => ({
-                        name: collection.charAt(0).toUpperCase() + collection.slice(1).replace('-', ' '),
-                        count: count,
-                        percentage: totalVotes > 0 ? ((count / totalVotes) * 100).toFixed(1) : 0
-                    }));
-                
-                resultsContainer.innerHTML = sortedCollections.map(item => `
-                    <div class="result-item">
-                        <div class="result-name">${item.name}</div>
-                        <div class="result-bar">
-                            <div class="result-fill" style="width: ${item.percentage}%"></div>
-                        </div>
-                        <div class="result-percentage">${item.percentage}%</div>
-                    </div>
-                `).join('');
-                
-                resultsSection.style.display = 'block';
-            }
-        });
-    </script>
     <script src="account.js"></script>
+    <script>
+        // Vote categories and options
+        const voteCategories = [
+            {
+                id: 'favorite_style',
+                title: 'Favorite Style',
+                options: [
+                    { id: 'bohemian', name: 'Bohemian', description: 'Free-flowing, earthy designs' },
+                    { id: 'modern', name: 'Modern Minimalist', description: 'Clean lines, simple elegance' },
+                    { id: 'vintage', name: 'Vintage Classic', description: 'Timeless, traditional patterns' },
+                    { id: 'colorful', name: 'Colorful & Bold', description: 'Vibrant, eye-catching pieces' }
+                ]
+            },
+            {
+                id: 'preferred_category',
+                title: 'Preferred Category',
+                options: [
+                    { id: 'dresses', name: 'Dresses', description: 'Elegant day and evening wear' },
+                    { id: 'tops', name: 'Tops', description: 'Versatile blouses and shirts' },
+                    { id: 'accessories', name: 'Accessories', description: 'Bags, jewelry, and more' },
+                    { id: 'men', name: "Men's Wear", description: 'Sophisticated masculine pieces' }
+                ]
+            },
+            {
+                id: 'color_preference',
+                title: 'Color Preference',
+                options: [
+                    { id: 'neutrals', name: 'Neutral Tones', description: 'Beige, cream, white, gray' },
+                    { id: 'earth', name: 'Earth Tones', description: 'Browns, greens, rust' },
+                    { id: 'pastels', name: 'Soft Pastels', description: 'Pink, lavender, mint' },
+                    { id: 'bold', name: 'Bold Colors', description: 'Red, blue, purple, yellow' }
+                ]
+            }
+        ];
+
+        let voteData = {};
+        let userVotes = {};
+        let voteTimer = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeVoting();
+            renderVoteCategories();
+            updateTimer();
+            setInterval(updateTimer, 1000);
+        });
+
+        function initializeVoting() {
+            // Get existing vote data
+            const storedVotes = localStorage.getItem('threadTheoryVotes');
+            const storedUserVotes = localStorage.getItem('threadTheoryUserVotes');
+            
+            if (storedVotes) {
+                voteData = JSON.parse(storedVotes);
+            }
+
+            if (storedUserVotes) {
+                userVotes = JSON.parse(storedUserVotes);
+            }
+
+            // Check if we need to reset votes (every 72 hours)
+            checkVoteReset();
+        }
+
+        function checkVoteReset() {
+            const lastReset = localStorage.getItem('threadTheoryLastReset');
+            const now = Date.now();
+            const resetInterval = 72 * 60 * 60 * 1000; // 72 hours in milliseconds
+
+            if (!lastReset || (now - parseInt(lastReset)) >= resetInterval) {
+                // Reset votes
+                voteData = {};
+                userVotes = {};
+                localStorage.setItem('threadTheoryLastReset', now.toString());
+                localStorage.removeItem('threadTheoryVotes');
+                localStorage.removeItem('threadTheoryUserVotes');
+            }
+        }
+
+        function updateTimer() {
+            const lastReset = localStorage.getItem('threadTheoryLastReset') || Date.now();
+            const resetInterval = 72 * 60 * 60 * 1000; // 72 hours
+            const nextReset = parseInt(lastReset) + resetInterval;
+            const timeLeft = nextReset - Date.now();
+
+            if (timeLeft <= 0) {
+                checkVoteReset();
+                document.getElementById('time-remaining').textContent = '00:00:00';
+                return;
+            }
+
+            const hours = Math.floor(timeLeft / (60 * 60 * 1000));
+            const minutes = Math.floor((timeLeft % (60 * 60 * 1000)) / (60 * 1000));
+            const seconds = Math.floor((timeLeft % (60 * 1000)) / 1000);
+
+            document.getElementById('time-remaining').textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function renderVoteCategories() {
+            const container = document.getElementById('vote-categories');
+            
+            container.innerHTML = voteCategories.map(category => `
+                <div class="vote-category">
+                    <h2 class="category-title">${category.title}</h2>
+                    <div class="vote-options">
+                        ${category.options.map(option => {
+                            const votes = (voteData[category.id] && voteData[category.id][option.id]) || 0;
+                            const totalVotes = getTotalVotesForCategory(category.id);
+                            const percentage = totalVotes > 0 ? (votes / totalVotes * 100).toFixed(1) : 0;
+                            const hasVoted = userVotes[category.id];
+                            const isUserChoice = userVotes[category.id] === option.id;
+                            
+                            return `
+                                <div class="vote-option ${isUserChoice ? 'voted' : ''} ${hasVoted && !isUserChoice ? 'disabled' : ''}" 
+                                     onclick="${hasVoted ? '' : `castVote('${category.id}', '${option.id}')`}">
+                                    <div class="option-name">${option.name}</div>
+                                    <div class="option-description">${option.description}</div>
+                                    <div class="vote-progress">
+                                        <div class="progress-bar" style="width: ${percentage}%"></div>
+                                    </div>
+                                    <div class="progress-text">
+                                        <span>${percentage}%</span>
+                                        <span>${votes} votes</span>
+                                    </div>
+                                    ${!hasVoted ? `<button class="vote-btn">Vote for ${option.name}</button>` : 
+                                      isUserChoice ? '<div style="color: #10b981; font-weight: 600; margin-top: 12px;">✓ Your Choice</div>' : ''}
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                    ${userVotes[category.id] ? 
+                        `<div class="voting-status">You voted for this category! Thank you for your input.</div>` : 
+                        ''
+                    }
+                </div>
+            `).join('');
+
+            // Update results
+            updateResults();
+        }
+
+        function getTotalVotesForCategory(categoryId) {
+            if (!voteData[categoryId]) return 0;
+            return Object.values(voteData[categoryId]).reduce((sum, votes) => sum + votes, 0);
+        }
+
+        function castVote(categoryId, optionId) {
+            // Check if user already voted in this category
+            if (userVotes[categoryId]) {
+                return;
+            }
+
+            // Initialize category if it doesn't exist
+            if (!voteData[categoryId]) {
+                voteData[categoryId] = {};
+            }
+
+            // Initialize option if it doesn't exist
+            if (!voteData[categoryId][optionId]) {
+                voteData[categoryId][optionId] = 0;
+            }
+
+            // Cast vote
+            voteData[categoryId][optionId]++;
+            userVotes[categoryId] = optionId;
+
+            // Save to localStorage
+            localStorage.setItem('threadTheoryVotes', JSON.stringify(voteData));
+            localStorage.setItem('threadTheoryUserVotes', JSON.stringify(userVotes));
+
+            // Save to user account if logged in
+            if (window.accountManager && window.accountManager.getCurrentUser()) {
+                const vote = {
+                    category: categoryId,
+                    option: optionId,
+                    date: new Date().toISOString()
+                };
+                window.accountManager.addVote(vote);
+            }
+
+            // Re-render
+            renderVoteCategories();
+
+            // Show notification
+            if (window.showNotification) {
+                window.showNotification('Vote cast successfully!', 'success');
+            }
+        }
+
+        function updateResults() {
+            const resultsContainer = document.getElementById('results-container');
+            
+            resultsContainer.innerHTML = voteCategories.map(category => {
+                const totalVotes = getTotalVotesForCategory(category.id);
+                
+                if (totalVotes === 0) {
+                    return `
+                        <div style="margin-bottom: 24px; padding: 20px; background: #f9fafb; border-radius: 12px;">
+                            <h3 style="color: #1f2937; margin-bottom: 8px;">${category.title}</h3>
+                            <p style="color: #6b7280;">No votes yet</p>
+                        </div>
+                    `;
+                }
+
+                const sortedOptions = category.options
+                    .map(option => ({
+                        ...option,
+                        votes: (voteData[category.id] && voteData[category.id][option.id]) || 0
+                    }))
+                    .sort((a, b) => b.votes - a.votes);
+
+                return `
+                    <div style="margin-bottom: 24px; padding: 20px; background: #f9fafb; border-radius: 12px;">
+                        <h3 style="color: #1f2937; margin-bottom: 16px;">${category.title} (${totalVotes} total votes)</h3>
+                        ${sortedOptions.map((option, index) => {
+                            const percentage = (option.votes / totalVotes * 100).toFixed(1);
+                            return `
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                    <span style="color: #374151; font-weight: ${index === 0 ? '600' : '400'};">
+                                        ${index === 0 ? '🏆 ' : ''}${option.name}
+                                    </span>
+                                    <span style="color: #6b7280; font-size: 0.875rem;">
+                                        ${option.votes} votes (${percentage}%)
+                                    </span>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Real-time updates every 5 seconds
+        setInterval(() => {
+            const storedVotes = localStorage.getItem('threadTheoryVotes');
+            if (storedVotes) {
+                const newVoteData = JSON.parse(storedVotes);
+                if (JSON.stringify(newVoteData) !== JSON.stringify(voteData)) {
+                    voteData = newVoteData;
+                    renderVoteCategories();
+                }
+            }
+        }, 5000);
+    </script>
 </body>
 </html>
