@@ -1,185 +1,224 @@
-# PowerShell script to generate all collection pages
+# Collection data with descriptions and products
+$collections = @{
+    "Jerseys" = @{
+        "description" = "Comfortable and stylish knit jerseys perfect for casual wear and layering. Each jersey combines warmth with breathability for all-day comfort."
+        "products" = @(
+            @{ name = "Classic Knit Jersey"; price = "$89.99"; placeholder = "Jersey 1" },
+            @{ name = "Striped Casual Jersey"; price = "$94.99"; placeholder = "Jersey 2" },
+            @{ name = "Oversized Comfort Jersey"; price = "$99.99"; placeholder = "Jersey 3" },
+            @{ name = "Fitted Athletic Jersey"; price = "$84.99"; placeholder = "Jersey 4" },
+            @{ name = "Vintage Style Jersey"; price = "$109.99"; placeholder = "Jersey 5" },
+            @{ name = "Modern Cut Jersey"; price = "$89.99"; placeholder = "Jersey 6" }
+        )
+    }
+    "Dresses" = @{
+        "description" = "Beautiful handmade dresses that combine elegance with comfort. Each dress is carefully crafted to celebrate your unique style and personality."
+        "products" = @(
+            @{ name = "Elegant Knit Dress"; price = "$149.99"; placeholder = "Dress 1" },
+            @{ name = "Bohemian Crochet Dress"; price = "$169.99"; placeholder = "Dress 2" },
+            @{ name = "Summer Midi Dress"; price = "$134.99"; placeholder = "Dress 3" },
+            @{ name = "Vintage Lace Dress"; price = "$189.99"; placeholder = "Dress 4" },
+            @{ name = "Casual Day Dress"; price = "$124.99"; placeholder = "Dress 5" },
+            @{ name = "Evening Maxi Dress"; price = "$199.99"; placeholder = "Dress 6" }
+        )
+    }
+    "Tops" = @{
+        "description" = "Versatile and stylish tops that effortlessly transition from day to night. Handcrafted with premium yarns for lasting comfort and style."
+        "products" = @(
+            @{ name = "Cropped Crochet Top"; price = "$69.99"; placeholder = "Top 1" },
+            @{ name = "Flowy Bohemian Blouse"; price = "$79.99"; placeholder = "Top 2" },
+            @{ name = "Fitted Tank Top"; price = "$54.99"; placeholder = "Top 3" },
+            @{ name = "Off-Shoulder Top"; price = "$74.99"; placeholder = "Top 4" },
+            @{ name = "Lace Detail Blouse"; price = "$84.99"; placeholder = "Top 5" },
+            @{ name = "Casual Knit Sweater"; price = "$89.99"; placeholder = "Top 6" }
+        )
+    }
+    "Bottoms" = @{
+        "description" = "Comfortable and fashionable bottoms including skirts, pants, and shorts. Each piece is designed for both style and everyday wearability."
+        "products" = @(
+            @{ name = "High-Waisted Skirt"; price = "$79.99"; placeholder = "Bottom 1" },
+            @{ name = "Crochet Wide-Leg Pants"; price = "$94.99"; placeholder = "Bottom 2" },
+            @{ name = "A-Line Mini Skirt"; price = "$69.99"; placeholder = "Bottom 3" },
+            @{ name = "Flowy Maxi Skirt"; price = "$89.99"; placeholder = "Bottom 4" },
+            @{ name = "Fitted Pencil Skirt"; price = "$74.99"; placeholder = "Bottom 5" },
+            @{ name = "Casual Jogger Pants"; price = "$84.99"; placeholder = "Bottom 6" }
+        )
+    }
+    "Accessories" = @{
+        "description" = "Complete your look with our handcrafted accessories. From bags to jewelry, each piece adds the perfect finishing touch to any outfit."
+        "products" = @(
+            @{ name = "Crochet Shoulder Bag"; price = "$49.99"; placeholder = "Accessory 1" },
+            @{ name = "Beaded Statement Necklace"; price = "$34.99"; placeholder = "Accessory 2" },
+            @{ name = "Knit Headband"; price = "$24.99"; placeholder = "Accessory 3" },
+            @{ name = "Woven Belt"; price = "$29.99"; placeholder = "Accessory 4" },
+            @{ name = "Crochet Earrings"; price = "$19.99"; placeholder = "Accessory 5" },
+            @{ name = "Textured Scarf"; price = "$39.99"; placeholder = "Accessory 6" }
+        )
+    }
+    "Bags" = @{
+        "description" = "Stylish and functional handcrafted bags for every occasion. From everyday totes to evening clutches, each bag combines beauty with practicality."
+        "products" = @(
+            @{ name = "Large Tote Bag"; price = "$79.99"; placeholder = "Bag 1" },
+            @{ name = "Crossbody Messenger"; price = "$64.99"; placeholder = "Bag 2" },
+            @{ name = "Evening Clutch"; price = "$44.99"; placeholder = "Bag 3" },
+            @{ name = "Backpack Style Bag"; price = "$89.99"; placeholder = "Bag 4" },
+            @{ name = "Mini Shoulder Bag"; price = "$54.99"; placeholder = "Bag 5" },
+            @{ name = "Beach Tote"; price = "$69.99"; placeholder = "Bag 6" }
+        )
+    }
+    "Hats" = @{
+        "description" = "Stylish headwear that combines fashion with function. From sun hats to beanies, each piece is crafted to complement your personal style."
+        "products" = @(
+            @{ name = "Wide Brim Sun Hat"; price = "$39.99"; placeholder = "Hat 1" },
+            @{ name = "Cozy Winter Beanie"; price = "$29.99"; placeholder = "Hat 2" },
+            @{ name = "Vintage Cloche Hat"; price = "$44.99"; placeholder = "Hat 3" },
+            @{ name = "Baseball Cap Style"; price = "$34.99"; placeholder = "Hat 4" },
+            @{ name = "Beret Style Hat"; price = "$37.99"; placeholder = "Hat 5" },
+            @{ name = "Bucket Hat"; price = "$32.99"; placeholder = "Hat 6" }
+        )
+    }
+    "Shoes" = @{
+        "description" = "Comfortable and stylish footwear handcrafted with care. From casual slippers to elegant flats, each pair combines comfort with artisanal beauty."
+        "products" = @(
+            @{ name = "Crochet Ballet Flats"; price = "$59.99"; placeholder = "Shoe 1" },
+            @{ name = "Cozy House Slippers"; price = "$34.99"; placeholder = "Shoe 2" },
+            @{ name = "Summer Sandals"; price = "$49.99"; placeholder = "Shoe 3" },
+            @{ name = "Ankle Boots"; price = "$79.99"; placeholder = "Shoe 4" },
+            @{ name = "Espadrille Style"; price = "$54.99"; placeholder = "Shoe 5" },
+            @{ name = "Mary Jane Flats"; price = "$64.99"; placeholder = "Shoe 6" }
+        )
+    }
+    "Jewellery" = @{
+        "description" = "Unique handcrafted jewelry pieces that add elegance to any outfit. Each piece is carefully designed to be both beautiful and meaningful."
+        "products" = @(
+            @{ name = "Statement Necklace"; price = "$44.99"; placeholder = "Jewelry 1" },
+            @{ name = "Delicate Bracelet Set"; price = "$29.99"; placeholder = "Jewelry 2" },
+            @{ name = "Bohemian Earrings"; price = "$24.99"; placeholder = "Jewelry 3" },
+            @{ name = "Vintage Ring"; price = "$34.99"; placeholder = "Jewelry 4" },
+            @{ name = "Layered Chain Necklace"; price = "$39.99"; placeholder = "Jewelry 5" },
+            @{ name = "Charm Bracelet"; price = "$32.99"; placeholder = "Jewelry 6" }
+        )
+    }
+    "Hair" = @{
+        "description" = "Beautiful hair accessories that add the perfect finishing touch. From headbands to hair ties, each piece combines function with style."
+        "products" = @(
+            @{ name = "Crochet Headband"; price = "$24.99"; placeholder = "Hair 1" },
+            @{ name = "Silk Hair Scrunchie"; price = "$14.99"; placeholder = "Hair 2" },
+            @{ name = "Decorative Hair Clip"; price = "$19.99"; placeholder = "Hair 3" },
+            @{ name = "Braided Hair Tie"; price = "$12.99"; placeholder = "Hair 4" },
+            @{ name = "Flower Hair Pin"; price = "$16.99"; placeholder = "Hair 5" },
+            @{ name = "Vintage Hair Comb"; price = "$22.99"; placeholder = "Hair 6" }
+        )
+    }
+    "Shorts" = @{
+        "description" = "Comfortable and stylish shorts perfect for warm weather. Each pair is crafted with breathable materials for all-day comfort and style."
+        "products" = @(
+            @{ name = "High-Waisted Shorts"; price = "$54.99"; placeholder = "Shorts 1" },
+            @{ name = "Crochet Lace Shorts"; price = "$49.99"; placeholder = "Shorts 2" },
+            @{ name = "Casual Denim Style"; price = "$59.99"; placeholder = "Shorts 3" },
+            @{ name = "Flowy Summer Shorts"; price = "$44.99"; placeholder = "Shorts 4" },
+            @{ name = "Athletic Style Shorts"; price = "$39.99"; placeholder = "Shorts 5" },
+            @{ name = "Vintage Inspired Shorts"; price = "$52.99"; placeholder = "Shorts 6" }
+        )
+    }
+    "Skirts" = @{
+        "description" = "Elegant and versatile skirts that flatter every figure. From mini to maxi, each skirt is designed to make you feel confident and beautiful."
+        "products" = @(
+            @{ name = "A-Line Midi Skirt"; price = "$69.99"; placeholder = "Skirt 1" },
+            @{ name = "Flowy Maxi Skirt"; price = "$79.99"; placeholder = "Skirt 2" },
+            @{ name = "Pencil Skirt"; price = "$64.99"; placeholder = "Skirt 3" },
+            @{ name = "Pleated Mini Skirt"; price = "$54.99"; placeholder = "Skirt 4" },
+            @{ name = "Wrap Style Skirt"; price = "$59.99"; placeholder = "Skirt 5" },
+            @{ name = "Tiered Bohemian Skirt"; price = "$74.99"; placeholder = "Skirt 6" }
+        )
+    }
+    "Shrugs" = @{
+        "description" = "Versatile layering pieces that add warmth and style to any outfit. Perfect for transitional weather and elegant occasions."
+        "products" = @(
+            @{ name = "Lace Shrug"; price = "$49.99"; placeholder = "Shrug 1" },
+            @{ name = "Cropped Cardigan"; price = "$59.99"; placeholder = "Shrug 2" },
+            @{ name = "Bolero Style Shrug"; price = "$44.99"; placeholder = "Shrug 3" },
+            @{ name = "Open Front Shrug"; price = "$54.99"; placeholder = "Shrug 4" },
+            @{ name = "Vintage Inspired Shrug"; price = "$52.99"; placeholder = "Shrug 5" },
+            @{ name = "Textured Knit Shrug"; price = "$57.99"; placeholder = "Shrug 6" }
+        )
+    }
+    "Jumpsuits" = @{
+        "description" = "Effortlessly chic one-piece outfits that make a statement. Each jumpsuit combines comfort with sophisticated style for any occasion."
+        "products" = @(
+            @{ name = "Wide-Leg Jumpsuit"; price = "$129.99"; placeholder = "Jumpsuit 1" },
+            @{ name = "Fitted Romper"; price = "$89.99"; placeholder = "Jumpsuit 2" },
+            @{ name = "Bohemian Jumpsuit"; price = "$119.99"; placeholder = "Jumpsuit 3" },
+            @{ name = "Casual Overall Style"; price = "$99.99"; placeholder = "Jumpsuit 4" },
+            @{ name = "Evening Jumpsuit"; price = "$149.99"; placeholder = "Jumpsuit 5" },
+            @{ name = "Cropped Leg Jumpsuit"; price = "$109.99"; placeholder = "Jumpsuit 6" }
+        )
+    }
+    "Two-piece" = @{
+        "description" = "Coordinated sets that take the guesswork out of styling. Each two-piece set is designed to work together perfectly while offering versatile mix-and-match options."
+        "products" = @(
+            @{ name = "Crop Top & Skirt Set"; price = "$119.99"; placeholder = "Two-piece 1" },
+            @{ name = "Matching Cardigan Set"; price = "$134.99"; placeholder = "Two-piece 2" },
+            @{ name = "Shorts & Top Combo"; price = "$99.99"; placeholder = "Two-piece 3" },
+            @{ name = "Blazer & Pants Set"; price = "$159.99"; placeholder = "Two-piece 4" },
+            @{ name = "Knit Top & Bottom Set"; price = "$109.99"; placeholder = "Two-piece 5" },
+            @{ name = "Vintage Inspired Set"; price = "$124.99"; placeholder = "Two-piece 6" }
+        )
+    }
+    "Men" = @{
+        "description" = "Sophisticated menswear that redefines masculine style with comfort and contemporary elegance. Each piece is crafted for the modern gentleman."
+        "products" = @(
+            @{ name = "Classic Polo Shirt"; price = "$79.99"; placeholder = "Men 1" },
+            @{ name = "Knit Sweater"; price = "$99.99"; placeholder = "Men 2" },
+            @{ name = "Casual Button-Up"; price = "$89.99"; placeholder = "Men 3" },
+            @{ name = "Textured Vest"; price = "$69.99"; placeholder = "Men 4" },
+            @{ name = "Cardigan Jacket"; price = "$119.99"; placeholder = "Men 5" },
+            @{ name = "Henley Style Shirt"; price = "$74.99"; placeholder = "Men 6" }
+        )
+    }
+}
 
-$collections = @(
-    @{Name="Shrugs"; Description="Elegant layering pieces that add sophistication to any outfit. Perfect for transitional seasons and versatile styling."; Items=@("Shrug 1", "Shrug 2", "Shrug 3", "Shrug 4", "Shrug 5", "Shrug 6"); Prices=@("$69.99", "$79.99", "$89.99", "$74.99", "$84.99", "$94.99")},
-    @{Name="Skirts"; Description="Handcrafted knit and crochet skirts that celebrate feminine elegance. From casual to formal, find your perfect fit."; Items=@("Skirt 1", "Skirt 2", "Skirt 3", "Skirt 4", "Skirt 5", "Skirt 6"); Prices=@("$89.99", "$99.99", "$79.99", "$109.99", "$94.99", "$119.99")},
-    @{Name="Tops"; Description="Versatile knit and crochet tops designed for comfort and style. Perfect for layering or wearing on their own."; Items=@("Top 1", "Top 2", "Top 3", "Top 4", "Top 5", "Top 6"); Prices=@("$59.99", "$69.99", "$64.99", "$74.99", "$79.99", "$84.99")},
-    @{Name="Shorts"; Description="Comfortable summer essentials crafted with breathable materials. Perfect for warm weather and casual occasions."; Items=@("Shorts 1", "Shorts 2", "Shorts 3", "Shorts 4", "Shorts 5", "Shorts 6"); Prices=@("$49.99", "$54.99", "$59.99", "$64.99", "$69.99", "$74.99")},
-    @{Name="Bags"; Description="Handcrafted crochet bags that combine functionality with style. From everyday totes to evening clutches."; Items=@("Bag 1", "Bag 2", "Bag 3", "Bag 4", "Bag 5", "Bag 6"); Prices=@("$39.99", "$49.99", "$59.99", "$69.99", "$79.99", "$89.99")},
-    @{Name="Jumpsuits"; Description="Stylish one-piece wonders that make dressing effortless. Perfect for any occasion with minimal styling required."; Items=@("Jumpsuit 1", "Jumpsuit 2", "Jumpsuit 3", "Jumpsuit 4", "Jumpsuit 5", "Jumpsuit 6"); Prices=@("$159.99", "$179.99", "$199.99", "$169.99", "$189.99", "$219.99")},
-    @{Name="Two Piece"; Description="Coordinated sets and ensembles that take the guesswork out of styling. Mix and match for versatile looks."; Items=@("Set 1", "Set 2", "Set 3", "Set 4", "Set 5", "Set 6"); Prices=@("$129.99", "$149.99", "$139.99", "$159.99", "$169.99", "$179.99")},
-    @{Name="Bottoms"; Description="Comfortable pants, leggings, and more crafted for everyday wear. Designed for movement and all-day comfort."; Items=@("Bottom 1", "Bottom 2", "Bottom 3", "Bottom 4", "Bottom 5", "Bottom 6"); Prices=@("$79.99", "$89.99", "$94.99", "$99.99", "$104.99", "$109.99")},
-    @{Name="Hats"; Description="Stylish headwear collection featuring knit and crochet designs. From beanies to sun hats, complete your look."; Items=@("Hat 1", "Hat 2", "Hat 3", "Hat 4", "Hat 5", "Hat 6"); Prices=@("$29.99", "$34.99", "$39.99", "$44.99", "$49.99", "$54.99")},
-    @{Name="Accessories"; Description="Beautiful scarves, belts, and accessories to complement your wardrobe. The perfect finishing touches."; Items=@("Accessory 1", "Accessory 2", "Accessory 3", "Accessory 4", "Accessory 5", "Accessory 6"); Prices=@("$24.99", "$29.99", "$34.99", "$39.99", "$44.99", "$49.99")},
-    @{Name="Shoes"; Description="Handcrafted footwear that combines comfort with unique design. From slippers to statement pieces."; Items=@("Shoe 1", "Shoe 2", "Shoe 3", "Shoe 4", "Shoe 5", "Shoe 6"); Prices=@("$89.99", "$99.99", "$109.99", "$119.99", "$129.99", "$139.99")},
-    @{Name="Hair"; Description="Beautiful hair accessories including headbands, scrunchies, and decorative pieces. Add elegance to your hairstyle."; Items=@("Hair Accessory 1", "Hair Accessory 2", "Hair Accessory 3", "Hair Accessory 4", "Hair Accessory 5", "Hair Accessory 6"); Prices=@("$19.99", "$24.99", "$29.99", "$34.99", "$39.99", "$44.99")},
-    @{Name="Jewellery"; Description="Handcrafted jewelry pieces that complement your style. From delicate to statement pieces, find your perfect match."; Items=@("Jewelry 1", "Jewelry 2", "Jewelry 3", "Jewelry 4", "Jewelry 5", "Jewelry 6"); Prices=@("$34.99", "$44.99", "$54.99", "$64.99", "$74.99", "$84.99")}
-)
+# Read template
+$template = Get-Content "collection-template.html" -Raw
 
-foreach ($collection in $collections) {
-    $fileName = $collection.Name.ToLower() -replace " ", "-"
-    $fileName = "$fileName.html"
+foreach ($collectionName in $collections.Keys) {
+    $collectionData = $collections[$collectionName]
+    $fileName = $collectionName.ToLower() + ".html"
     
-    $productItems = ""
-    for ($i = 0; $i -lt 6; $i++) {
-        $productItems += @"
+    # Generate products HTML
+    $productsHtml = ""
+    for ($i = 0; $i -lt $collectionData.products.Count; $i++) {
+        $product = $collectionData.products[$i]
+        $productsHtml += @"
                 <!-- Product $($i + 1) -->
                 <div class="product-item">
                     <div class="product-image">
                         <div class="image-placeholder">
-                            <p>$($collection.Items[$i])</p>
+                            <p>$($product.placeholder)</p>
                             <span class="placeholder-text">Your image will go here</span>
                         </div>
                         <div class="product-overlay">
                             <button class="quick-view-btn">Quick View</button>
-                            <button class="add-to-cart-btn">Add to Cart</button>
+                            <button class="add-to-cart-btn" onclick="addToCart('$($product.name)', '$($product.price)', '$($product.placeholder)')">Add to Cart</button>
                         </div>
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name">$($collection.Items[$i])</h3>
-                        <p class="product-price">$($collection.Prices[$i])</p>
+                        <h3 class="product-name">$($product.name)</h3>
+                        <p class="product-price">$($product.price)</p>
                     </div>
                 </div>
 
 "@
     }
-
-    $htmlContent = @"
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>$($collection.Name) Collection - Thread Theory</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="collection-styles.css">
-</head>
-<body>
-    <!-- Floating Background Bubbles -->
-    <div class="floating-bubbles">
-        <div class="bubble bubble-1"></div>
-        <div class="bubble bubble-2"></div>
-        <div class="bubble bubble-3"></div>
-        <div class="bubble bubble-4"></div>
-        <div class="bubble bubble-5"></div>
-        <div class="bubble bubble-6"></div>
-    </div>
-
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <a href="index.html">
-                    <img src="logo.png" alt="Thread Theory Logo" class="logo-img">
-                </a>
-            </div>
-            <ul class="nav-menu" id="nav-menu">
-                <li class="nav-item">
-                    <a href="index.html" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="index.html#collections" class="nav-link">Collections</a>
-                </li>
-                <li class="nav-item">
-                    <a href="index.html#about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="index.html#contact" class="nav-link">Contact</a>
-                </li>
-            </ul>
-            <div class="hamburger" id="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Collection Header -->
-    <section class="collection-header">
-        <div class="container">
-            <div class="collection-header-content">
-                <h1 class="collection-title">$($collection.Name) Collection</h1>
-                <p class="collection-description">$($collection.Description)</p>
-                <div class="breadcrumb">
-                    <a href="index.html">Home</a> / <a href="index.html#collections">Collections</a> / <span>$($collection.Name)</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Collection Gallery -->
-    <section class="collection-gallery">
-        <div class="container">
-            <div class="gallery-grid">
-$productItems
-            </div>
-        </div>
-    </section>
-
-    <!-- Back to Collections -->
-    <section class="back-to-collections">
-        <div class="container">
-            <a href="index.html#collections" class="back-btn">← Back to All Collections</a>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <h3>Thread Theory</h3>
-                    <p>Crafting stories, one stitch at a time.</p>
-                </div>
-                <div class="footer-links">
-                    <div class="footer-column">
-                        <h4>Collections</h4>
-                        <ul>
-                            <li><a href="jerseys.html">Jerseys</a></li>
-                            <li><a href="dresses.html">Dresses</a></li>
-                            <li><a href="tops.html">Tops</a></li>
-                            <li><a href="bags.html">Bags</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-column">
-                        <h4>About</h4>
-                        <ul>
-                            <li><a href="index.html#about">Our Story</a></li>
-                            <li><a href="#">Sustainability</a></li>
-                            <li><a href="#">Care Guide</a></li>
-                            <li><a href="#">Size Guide</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-column">
-                        <h4>Support</h4>
-                        <ul>
-                            <li><a href="index.html#contact">Contact Us</a></li>
-                            <li><a href="#">Shipping</a></li>
-                            <li><a href="#">Returns</a></li>
-                            <li><a href="#">FAQ</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 Thread Theory. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script src="script.js"></script>
-    <script src="collection-script.js"></script>
-</body>
-</html>
-"@
-
-    $htmlContent | Out-File -FilePath $fileName -Encoding UTF8
+    
+    # Replace placeholders in template
+    $content = $template -replace "{{COLLECTION_NAME}}", $collectionName
+    $content = $content -replace "{{COLLECTION_DESCRIPTION}}", $collectionData.description
+    $content = $content -replace "{{PRODUCTS}}", $productsHtml
+    
+    # Write file
+    Set-Content $fileName $content -NoNewline
     Write-Host "Generated $fileName"
 }
 
 Write-Host "All collection pages generated successfully!"
-"@

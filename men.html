@@ -4,28 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Men Collection - Thread Theory</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="collection-styles.css">
 </head>
 <body>
+    <!-- Floating Background Bubbles -->
+    <div class="floating-bubbles">
+        <div class="bubble bubble-1"></div>
+        <div class="bubble bubble-2"></div>
+        <div class="bubble bubble-3"></div>
+        <div class="bubble bubble-4"></div>
+        <div class="bubble bubble-5"></div>
+        <div class="bubble bubble-6"></div>
+    </div>
+
     <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-brand">
-                <h1>Thread Theory</h1>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html" class="logo-text">Thread Theory</a>
             </div>
-            <div class="nav-menu" id="nav-menu">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="index.html#collections" class="nav-link">Collections</a>
-                <a href="creators.html" class="nav-link">Creators</a>
-                <a href="about.html" class="nav-link">About</a>
-                <a href="vote.html" class="nav-link">Vote</a>
-                <a href="cart.html" class="nav-link">Cart</a>
-                <a href="account.html" class="nav-link">Account</a>
-            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#collections" class="nav-link">Collections</a>
+                </li>
+                <li class="nav-item">
+                    <a href="creators.html" class="nav-link">Creators</a>
+                </li>
+                <li class="nav-item">
+                    <a href="about.html" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="vote.html" class="nav-link">Vote</a>
+                </li>
+                <li class="nav-item">
+                    <a href="cart.html" class="nav-link">My Cart</a>
+                </li>
+                <li class="nav-item">
+                    <a href="account.html" class="nav-link">Account</a>
+                </li>
+            </ul>
             <div class="hamburger" id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
             </div>
         </div>
     </nav>
@@ -33,16 +61,123 @@
     <!-- Collection Header -->
     <section class="collection-header">
         <div class="container">
-            <h1 class="collection-title-main">Men Collection</h1>
-            <p class="collection-description">Handcrafted knitwear and crochet pieces designed for the modern man.</p>
+            <div class="collection-header-content">
+                <h1 class="collection-title">Men Collection</h1>
+                <p class="collection-description">Sophisticated menswear that redefines masculine style with comfort and contemporary elegance. Each piece is crafted for the modern gentleman.</p>
+                <div class="breadcrumb">
+                    <a href="index.html">Home</a> / <a href="index.html#collections">Collections</a> / <span>Men</span>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Products Grid -->
-    <section class="products">
+    <!-- Collection Gallery -->
+    <section class="collection-gallery">
         <div class="container">
-            <div class="products-grid" id="products-grid">
-                <!-- Products will be loaded here -->
+            <div class="gallery-grid">
+                                <!-- Product 1 -->
+                <div class="product-item">
+                    <div class="product-image">
+                        <div class="image-placeholder">
+                            <p>Men 1</p>
+                            <span class="placeholder-text">Your image will go here</span>
+                        </div>
+                        <div class="product-overlay">
+                            <button class="quick-view-btn">Quick View</button>
+                            <button class="add-to-cart-btn" onclick="addToCart('Classic Polo Shirt', '.99', 'Men 1')">Add to Cart</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Classic Polo Shirt</h3>
+                        <p class="product-price">.99</p>
+                    </div>
+                </div>
+                <!-- Product 2 -->
+                <div class="product-item">
+                    <div class="product-image">
+                        <div class="image-placeholder">
+                            <p>Men 2</p>
+                            <span class="placeholder-text">Your image will go here</span>
+                        </div>
+                        <div class="product-overlay">
+                            <button class="quick-view-btn">Quick View</button>
+                            <button class="add-to-cart-btn" onclick="addToCart('Knit Sweater', '.99', 'Men 2')">Add to Cart</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Knit Sweater</h3>
+                        <p class="product-price">.99</p>
+                    </div>
+                </div>
+                <!-- Product 3 -->
+                <div class="product-item">
+                    <div class="product-image">
+                        <div class="image-placeholder">
+                            <p>Men 3</p>
+                            <span class="placeholder-text">Your image will go here</span>
+                        </div>
+                        <div class="product-overlay">
+                            <button class="quick-view-btn">Quick View</button>
+                            <button class="add-to-cart-btn" onclick="addToCart('Casual Button-Up', '.99', 'Men 3')">Add to Cart</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Casual Button-Up</h3>
+                        <p class="product-price">.99</p>
+                    </div>
+                </div>
+                <!-- Product 4 -->
+                <div class="product-item">
+                    <div class="product-image">
+                        <div class="image-placeholder">
+                            <p>Men 4</p>
+                            <span class="placeholder-text">Your image will go here</span>
+                        </div>
+                        <div class="product-overlay">
+                            <button class="quick-view-btn">Quick View</button>
+                            <button class="add-to-cart-btn" onclick="addToCart('Textured Vest', '.99', 'Men 4')">Add to Cart</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Textured Vest</h3>
+                        <p class="product-price">.99</p>
+                    </div>
+                </div>
+                <!-- Product 5 -->
+                <div class="product-item">
+                    <div class="product-image">
+                        <div class="image-placeholder">
+                            <p>Men 5</p>
+                            <span class="placeholder-text">Your image will go here</span>
+                        </div>
+                        <div class="product-overlay">
+                            <button class="quick-view-btn">Quick View</button>
+                            <button class="add-to-cart-btn" onclick="addToCart('Cardigan Jacket', '.99', 'Men 5')">Add to Cart</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Cardigan Jacket</h3>
+                        <p class="product-price">.99</p>
+                    </div>
+                </div>
+                <!-- Product 6 -->
+                <div class="product-item">
+                    <div class="product-image">
+                        <div class="image-placeholder">
+                            <p>Men 6</p>
+                            <span class="placeholder-text">Your image will go here</span>
+                        </div>
+                        <div class="product-overlay">
+                            <button class="quick-view-btn">Quick View</button>
+                            <button class="add-to-cart-btn" onclick="addToCart('Henley Style Shirt', '.99', 'Men 6')">Add to Cart</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Henley Style Shirt</h3>
+                        <p class="product-price">.99</p>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -50,113 +185,42 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Thread Theory</h3>
+                    <p>Handcrafted crochet clothing made with love and attention to detail.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#collections">Collections</a></li>
+                        <li><a href="creators.html">Creators</a></li>
+                        <li><a href="about.html">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Collections</h4>
+                    <ul>
+                        <li><a href="dresses.html">Dresses</a></li>
+                        <li><a href="tops.html">Tops</a></li>
+                        <li><a href="bottoms.html">Bottoms</a></li>
+                        <li><a href="accessories.html">Accessories</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>WhatsApp: +263786018957</p>
+                    <p>Email: info@threadtheory.com</p>
+                </div>
+            </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 Thread Theory. All rights reserved.</p>
+                <p>&copy; 2024 Thread Theory. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script src="script.js"></script>
-    <script>
-        // Men collection products
-        const products = [
-            {
-                id: 'men-sweater-1',
-                name: 'Classic Knit Sweater',
-                price: '89.99',
-                image: 'men-sweater-1.jpg',
-                description: 'Comfortable wool blend sweater perfect for any occasion.'
-            },
-            {
-                id: 'men-cardigan-1',
-                name: 'Button-Up Cardigan',
-                price: '95.99',
-                image: 'men-cardigan-1.jpg',
-                description: 'Stylish cardigan with wooden buttons and ribbed details.'
-            },
-            {
-                id: 'men-vest-1',
-                name: 'Knit Vest',
-                price: '65.99',
-                image: 'men-vest-1.jpg',
-                description: 'Versatile knit vest for layering in any season.'
-            },
-            {
-                id: 'men-scarf-1',
-                name: 'Wool Scarf',
-                price: '35.99',
-                image: 'men-scarf-1.jpg',
-                description: 'Warm and stylish wool scarf in classic patterns.'
-            },
-            {
-                id: 'men-beanie-1',
-                name: 'Knit Beanie',
-                price: '25.99',
-                image: 'men-beanie-1.jpg',
-                description: 'Cozy knit beanie available in multiple colors.'
-            },
-            {
-                id: 'men-pullover-1',
-                name: 'Cable Knit Pullover',
-                price: '99.99',
-                image: 'men-pullover-1.jpg',
-                description: 'Traditional cable knit pullover with modern fit.'
-            }
-        ];
-
-        // Load products
-        function loadProducts() {
-            const grid = document.getElementById('products-grid');
-            grid.innerHTML = products.map(product => `
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="${product.image}" alt="${product.name}" onerror="this.src='placeholder.jpg'">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">${product.name}</h3>
-                        <p class="product-description">${product.description}</p>
-                        <div class="product-price">$${product.price}</div>
-                        <button class="add-to-cart-btn" onclick="addToCart('${product.id}', '${product.name}', '${product.price}', '${product.image}')">
-                            Add to Cart
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Add to cart function
-        function addToCart(id, name, price, image) {
-            const cart = JSON.parse(localStorage.getItem('threadTheoryCart')) || [];
-            const existingItem = cart.find(item => item.id === id);
-            
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({
-                    id: id,
-                    name: name,
-                    price: price,
-                    image: image,
-                    quantity: 1
-                });
-            }
-            
-            localStorage.setItem('threadTheoryCart', JSON.stringify(cart));
-            updateCartCounter();
-            
-            // Show feedback
-            const button = event.target;
-            const originalText = button.textContent;
-            button.textContent = 'Added!';
-            button.style.background = '#28a745';
-            setTimeout(() => {
-                button.textContent = originalText;
-                button.style.background = '';
-            }, 1500);
-        }
-
-        // Load products when page loads
-        document.addEventListener('DOMContentLoaded', loadProducts);
-    </script>
+    <script src="collection-script.js"></script>
 </body>
 </html>

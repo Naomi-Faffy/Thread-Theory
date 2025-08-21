@@ -1,278 +1,343 @@
-// Collection Page Navigation Script
-// DOM Elements
-const navbar = document.getElementById('navbar');
-const hamburger = document.getElementById('hamburger');
-const navMenu = document.getElementById('nav-menu');
-const navLinks = document.querySelectorAll('.nav-link');
+// Collection Page Functionality
 
-// Navbar scroll effect
-window.addEventListener('scroll', () => {
-    if (window.scrollY > 100) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
-});
-
-// Mobile menu toggle
-hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    navMenu.classList.toggle('active');
-});
-
-// Close mobile menu when clicking on a link
-navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        navMenu.classList.remove('active');
-    });
-});
-
-// Handle navigation links for collection pages
-navLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-        const href = link.getAttribute('href');
-        
-        // If it's a hash link (like #home, #collections), redirect to homepage
-        if (href.startsWith('#')) {
-            e.preventDefault();
-            if (href === '#home') {
-                window.location.href = 'index.html';
-            } else {
-                window.location.href = 'index.html' + href;
-            }
-        }
-        // Otherwise, let the link work normally (for direct page links)
-    });
-});
-
-// Cart functionality
-let cart = JSON.parse(localStorage.getItem('threadTheoryCart')) || [];
-
-// Update cart counter
-function updateCartCounter() {
-    const cart = JSON.parse(localStorage.getItem('threadTheoryCart')) || [];
-    const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
-    
-    // Find cart link and add counter
-    const cartLink = document.querySelector('a[href="cart.html"]');
-    if (cartLink) {
-        // Remove existing counter
-        const existingCounter = cartLink.querySelector('.cart-counter');
-        if (existingCounter) {
-            existingCounter.remove();
-        }
-        
-        // Add new counter if there are items
-        if (cartCount > 0) {
-            const counter = document.createElement('span');
-            counter.className = 'cart-counter';
-            counter.textContent = cartCount;
-            counter.style.cssText = `
-                position: absolute;
-                top: -8px;
-                right: -8px;
-                background: #dc3545;
-                color: white;
-                border-radius: 50%;
-                width: 20px;
-                height: 20px;
-                font-size: 12px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-weight: bold;
-            `;
-            cartLink.style.position = 'relative';
-            cartLink.appendChild(counter);
-        }
-    }
-}
-
+// Add to cart functionality
 function addToCart(productName, productPrice, productImage) {
-    // Check if item already exists in cart
-    const existingItem = cart.find(item => item.name === productName);
+    // Parse price (remove $ and convert to number)
+    const price = parseFloat(productPrice.replace('$', ''));
     
-    if (existingItem) {
-        existingItem.quantity += 1;
+    const product = {
+        id: Date.now().toString(),
+        name: productName,
+        price: price,
+        quantity: 1,
+        image: productImage || 'placeholder.jpg'
+    };
+
+    // Get current cart
+    let cart = [];
+    if (window.accountManager && window.accountManager.getCurrentUser()) {
+        cart = window.accountManager.getCart();
     } else {
-        cart.push({
-            name: productName,
-            price: productPrice,
-            image: productImage,
-            quantity: 1
-        });
+        cart = JSON.parse(localStorage.getItem('threadTheoryCart')) || [];
     }
+
+    // Check if product already exists in cart
+    const existingProductIndex = cart.findIndex(item => item.name === productName);
     
-    // Save to localStorage
-    localStorage.setItem('threadTheoryCart', JSON.stringify(cart));
-    
-    // Show notification
-    showNotification(`${productName} added to cart!`);
-    
+    if (existingProductIndex > -1) {
+        // Increase quantity if product exists
+        cart[existingProductIndex].quantity += 1;
+    } else {
+        // Add new product to cart
+        cart.push(product);
+    }
+
+    // Save cart
+    if (window.accountManager && window.accountManager.getCurrentUser()) {
+        window.accountManager.updateCart(cart);
+    } else {
+        localStorage.setItem('threadTheoryCart', JSON.stringify(cart));
+    }
+
     // Update cart counter
-    updateCartCounter();
+    if (window.updateCartCounter) {
+        window.updateCartCounter();
+    }
+
+    // Show notification
+    if (window.showNotification) {
+        window.showNotification(`${productName} added to cart!`, 'success');
+    } else {
+        alert(`${productName} added to cart!`);
+    }
 }
 
-function showNotification(message) {
-    // Create notification element
-    const notification = document.createElement('div');
-    notification.className = 'cart-notification';
-    notification.textContent = message;
-    notification.style.cssText = `
-        position: fixed;
-        top: 100px;
-        right: 20px;
-        background: #25D366;
-        color: white;
-        padding: 15px 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        z-index: 10000;
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-        font-weight: 600;
-    `;
-    
-    document.body.appendChild(notification);
-    
-    // Animate in
-    setTimeout(() => {
-        notification.style.transform = 'translateX(0)';
-    }, 100);
-    
-    // Remove after 3 seconds
-    setTimeout(() => {
-        notification.style.transform = 'translateX(100%)';
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.remove();
-            }
-        }, 300);
-    }, 3000);
-}
-
-// Add event listeners to all "Add to Cart" buttons
+// Quick view functionality
 document.addEventListener('DOMContentLoaded', function() {
-    // Update cart counter on page load
-    updateCartCounter();
+    const quickViewButtons = document.querySelectorAll('.quick-view-btn');
     
-    const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
-    
-    addToCartButtons.forEach(button => {
+    quickViewButtons.forEach(button => {
         button.addEventListener('click', function(e) {
-            e.preventDefault();
+            e.stopPropagation();
             
             const productItem = this.closest('.product-item');
             const productName = productItem.querySelector('.product-name').textContent;
-            const productPrice = productItem.querySelector('.product-price').textContent.replace('$', '');
-            const productImage = productItem.querySelector('.product-img').src;
+            const productPrice = productItem.querySelector('.product-price').textContent;
+            const productImage = productItem.querySelector('.image-placeholder p').textContent;
             
-            addToCart(productName, productPrice, productImage);
+            showQuickView(productName, productPrice, productImage);
+        });
+    });
+
+    // Add hover effects to product items
+    const productItems = document.querySelectorAll('.product-item');
+    
+    productItems.forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            const overlay = this.querySelector('.product-overlay');
+            if (overlay) {
+                overlay.style.opacity = '1';
+            }
+        });
+        
+        item.addEventListener('mouseleave', function() {
+            const overlay = this.querySelector('.product-overlay');
+            if (overlay) {
+                overlay.style.opacity = '0';
+            }
         });
     });
 });
 
-// Intersection Observer for scroll animations
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-        }
-    });
-}, observerOptions);
-
-// Observe elements for scroll animations
-document.addEventListener('DOMContentLoaded', () => {
-    const animateElements = document.querySelectorAll('.collection-title, .collection-description, .product-item');
+// Quick view modal functionality
+function showQuickView(productName, productPrice, productImage) {
+    // Create modal if it doesn't exist
+    let modal = document.getElementById('quick-view-modal');
     
-    animateElements.forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(el);
-    });
-});
-
-// Product item hover effects
-const productItems = document.querySelectorAll('.product-item');
-productItems.forEach(item => {
-    item.addEventListener('mouseenter', () => {
-        const image = item.querySelector('.image-placeholder');
-        if (image) {
-            image.style.transform = 'scale(1.1)';
-        }
-    });
+    if (!modal) {
+        modal = createQuickViewModal();
+        document.body.appendChild(modal);
+    }
     
-    item.addEventListener('mouseleave', () => {
-        const image = item.querySelector('.image-placeholder');
-        if (image) {
-            image.style.transform = 'scale(1)';
-        }
-    });
-});
-
-// Smooth page load animation
-window.addEventListener('load', () => {
-    document.body.style.opacity = '0';
-    document.body.style.transition = 'opacity 0.5s ease';
+    // Populate modal content
+    modal.querySelector('.modal-product-name').textContent = productName;
+    modal.querySelector('.modal-product-price').textContent = productPrice;
+    modal.querySelector('.modal-product-image').textContent = productImage;
     
-    setTimeout(() => {
-        document.body.style.opacity = '1';
-    }, 100);
-});
+    // Update add to cart button
+    const addToCartBtn = modal.querySelector('.modal-add-to-cart');
+    addToCartBtn.onclick = function() {
+        addToCart(productName, productPrice, productImage);
+        closeQuickView();
+    };
+    
+    // Show modal
+    modal.classList.add('active');
+}
 
-// Create scroll-to-top button
-const createScrollToTopButton = () => {
-    const button = document.createElement('button');
-    button.innerHTML = '↑';
-    button.className = 'scroll-to-top';
-    button.style.cssText = `
+function createQuickViewModal() {
+    const modal = document.createElement('div');
+    modal.id = 'quick-view-modal';
+    modal.className = 'quick-view-modal';
+    
+    modal.innerHTML = `
+        <div class="modal-overlay" onclick="closeQuickView()">
+            <div class="modal-content" onclick="event.stopPropagation()">
+                <button class="close-modal" onclick="closeQuickView()">&times;</button>
+                <div class="modal-body">
+                    <div class="modal-image">
+                        <div class="image-placeholder">
+                            <p class="modal-product-image"></p>
+                            <span class="placeholder-text">Your image will go here</span>
+                        </div>
+                    </div>
+                    <div class="modal-info">
+                        <h2 class="modal-product-name"></h2>
+                        <p class="modal-product-price"></p>
+                        <p class="modal-product-description">
+                            This beautiful handcrafted piece is made with premium materials and attention to detail. 
+                            Each item is unique and made to order, ensuring you receive a one-of-a-kind piece.
+                        </p>
+                        <div class="modal-actions">
+                            <button class="modal-add-to-cart">Add to Cart</button>
+                            <button class="modal-contact" onclick="contactForCustomOrder()">Custom Order</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    return modal;
+}
+
+function closeQuickView() {
+    const modal = document.getElementById('quick-view-modal');
+    if (modal) {
+        modal.classList.remove('active');
+    }
+}
+
+function contactForCustomOrder() {
+    const modal = document.getElementById('quick-view-modal');
+    const productName = modal.querySelector('.modal-product-name').textContent;
+    
+    const message = `Hi! I'm interested in a custom order based on the ${productName}. Could we discuss customization options and pricing? Thank you!`;
+    const whatsappUrl = `https://wa.me/263786018957?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+    
+    closeQuickView();
+}
+
+// Add styles for quick view modal
+const quickViewStyles = `
+    .quick-view-modal {
         position: fixed;
-        bottom: 30px;
-        right: 30px;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        background: var(--primary-black);
-        color: white;
-        border: none;
-        font-size: 20px;
-        cursor: pointer;
+        inset: 0;
+        z-index: 1000;
         opacity: 0;
         visibility: hidden;
         transition: all 0.3s ease;
-        z-index: 1000;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        backdrop-filter: blur(10px);
-    `;
+    }
     
-    button.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
+    .quick-view-modal.active {
+        opacity: 1;
+        visibility: visible;
+    }
     
-    document.body.appendChild(button);
+    .quick-view-modal .modal-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
     
-    // Show/hide button based on scroll position
-    window.addEventListener('scroll', () => {
-        if (window.pageYOffset > 300) {
-            button.style.opacity = '1';
-            button.style.visibility = 'visible';
-        } else {
-            button.style.opacity = '0';
-            button.style.visibility = 'hidden';
+    .quick-view-modal .modal-content {
+        background: white;
+        border-radius: 20px;
+        max-width: 600px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+        transform: scale(0.9) translateY(20px);
+        transition: transform 0.3s ease;
+    }
+    
+    .quick-view-modal.active .modal-content {
+        transform: scale(1) translateY(0);
+    }
+    
+    .quick-view-modal .close-modal {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #6b7280;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        z-index: 10;
+    }
+    
+    .quick-view-modal .close-modal:hover {
+        background: #f3f4f6;
+        color: #1f2937;
+    }
+    
+    .quick-view-modal .modal-body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        padding: 30px;
+    }
+    
+    .quick-view-modal .modal-image {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .quick-view-modal .modal-image .image-placeholder {
+        width: 100%;
+        height: 250px;
+        background: var(--off-white);
+        border-radius: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: var(--charcoal);
+        border: 2px dashed var(--border-color);
+    }
+    
+    .quick-view-modal .modal-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    .quick-view-modal .modal-product-name {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--primary-black);
+        margin-bottom: 10px;
+    }
+    
+    .quick-view-modal .modal-product-price {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--primary-black);
+        margin-bottom: 15px;
+    }
+    
+    .quick-view-modal .modal-product-description {
+        color: var(--charcoal);
+        line-height: 1.6;
+        margin-bottom: 25px;
+    }
+    
+    .quick-view-modal .modal-actions {
+        display: flex;
+        gap: 15px;
+    }
+    
+    .quick-view-modal .modal-add-to-cart,
+    .quick-view-modal .modal-contact {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 25px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        flex: 1;
+    }
+    
+    .quick-view-modal .modal-add-to-cart {
+        background: var(--primary-black);
+        color: white;
+    }
+    
+    .quick-view-modal .modal-add-to-cart:hover {
+        background: var(--charcoal);
+        transform: translateY(-2px);
+    }
+    
+    .quick-view-modal .modal-contact {
+        background: #25D366;
+        color: white;
+    }
+    
+    .quick-view-modal .modal-contact:hover {
+        background: #128C7E;
+        transform: translateY(-2px);
+    }
+    
+    @media (max-width: 768px) {
+        .quick-view-modal .modal-body {
+            grid-template-columns: 1fr;
+            gap: 20px;
+            padding: 20px;
         }
-    });
-};
+        
+        .quick-view-modal .modal-actions {
+            flex-direction: column;
+        }
+    }
+`;
 
-// Initialize scroll-to-top button
-document.addEventListener('DOMContentLoaded', createScrollToTopButton);
+// Add styles to head
+const styleSheet = document.createElement('style');
+styleSheet.textContent = quickViewStyles;
+document.head.appendChild(styleSheet);
