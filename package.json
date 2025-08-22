@@ -6,13 +6,28 @@
     "api:dev": "nodemon ./api/server.js"
   },
   "dependencies": {
-    "express": "^4.19.2",
-    "mongodb": "^6.8.0",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.6.1",
+    "express": "^4.21.2",
+    "mongodb": "^6.8.0",
+    "mongoose": "^8.17.2"
   },
   "devDependencies": {
-    "typescript": "^5.9.2",
-    "nodemon": "^3.1.7"
-  }
+    "nodemon": "^3.1.10",
+    "typescript": "^5.9.2"
+  },
+  "version": "1.0.0",
+  "description": "- **Inspired Design**: Based on the elegant React design you shared, adapted to our HTML/CSS/JS structure\r - **Floating Elements**: Animated background bubbles with gradient colors\r - **Creator Profiles**: 6 detailed creator profiles with specializations, experience, and featured works\r - **Interactive Features**: \r   - Filter creators by specialty (Dresses, Tops, Bottoms, etc.)\r   - Modal popups with detailed creator information\r   - Direct WhatsApp contact integration\r   - Smooth animations and hover effects",
+  "main": "account.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Naomi-Faffy/Thread-Theory.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Naomi-Faffy/Thread-Theory/issues"
+  },
+  "homepage": "https://github.com/Naomi-Faffy/Thread-Theory#readme"
 }

@@ -51,14 +51,25 @@ app.post('/api/accounts', async (req, res) => {
 
   try {
     await connect();
-    const db = client.db('Accouns'); // Use your DB name
+    const db = client.db(process.env.DB_NAME || 'ThreadTheory');
     const accounts = db.collection('Accounts');
 
-    // Basic dedupe by email/phone
-    const query = email ? { email } : { phone };
-    const existing = await accounts.findOne(query);
-    if (existing) {
-      return res.status(409).json({ error: 'Account already exists' });
+    // Ensure unique indexes exist (email and phone)
+    try {
+      await accounts.createIndex({ email: 1 }, { unique: true, sparse: true });
+      await accounts.createIndex({ phone: 1 }, { unique: true, sparse: true });
+    } catch (_) {}
+
+    // Check duplicates by email or phone if provided
+    const conditions = [];
+    if (email) conditions.push({ email });
+    if (phone) conditions.push({ phone });
+
+    if (conditions.length) {
+      const existing = await accounts.findOne({ $or: conditions });
+      if (existing) {
+        return res.status(409).json({ error: 'Account already exists' });
+      }
     }
 
     const doc = {
