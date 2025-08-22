@@ -1,291 +1,176 @@
-// Account Management System for Thread Theory
-
+// Account Manager - Handles user authentication and data management
 class AccountManager {
     constructor() {
         this.currentUser = null;
         this.users = JSON.parse(localStorage.getItem('threadTheoryUsers')) || [];
-        this.init();
+        this.loadCurrentUser();
     }
 
-    init() {
-        // Check if user is already logged in
-        const savedUser = localStorage.getItem('threadTheoryCurrentUser');
-        if (savedUser) {
-            this.currentUser = JSON.parse(savedUser);
-            this.showDashboard();
-        }
-
-        // Set up event listeners
-        this.setupEventListeners();
-    }
-
-    setupEventListeners() {
-        // Login form
-        const loginForm = document.getElementById('login-form');
-        if (loginForm) {
-            loginForm.addEventListener('submit', (e) => this.handleLogin(e));
-        }
-
-        // Register form
-        const registerForm = document.getElementById('register-form');
-        if (registerForm) {
-            registerForm.addEventListener('submit', (e) => this.handleRegister(e));
+    loadCurrentUser() {
+        const userData = localStorage.getItem('threadTheoryCurrentUser');
+        if (userData) {
+            this.currentUser = JSON.parse(userData);
         }
     }
 
-    handleLogin(e) {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const email = formData.get('email');
-        const password = formData.get('password');
+    register(userData) {
+        // Check if email already exists
+        if (this.users.find(user => user.email === userData.email)) {
+            return false;
+        }
 
-        // Find user
-        const user = this.users.find(u => u.email === email && u.password === password);
+        const newUser = {
+            id: Date.now().toString(),
+            name: userData.name,
+            email: userData.email,
+            password: userData.password, // In real app, this would be hashed
+            type: userData.type,
+            specialty: userData.specialty || '',
+            experience: userData.experience || 0,
+            bio: userData.bio || '',
+            phone: userData.phone || '',
+            address: userData.address || '',
+            createdAt: new Date().toISOString(),
+            cart: [],
+            votes: [],
+            orders: []
+        };
+
+        this.users.push(newUser);
+        localStorage.setItem('threadTheoryUsers', JSON.stringify(this.users));
         
+        // Auto login
+        this.currentUser = newUser;
+        localStorage.setItem('threadTheoryCurrentUser', JSON.stringify(newUser));
+        
+        return true;
+    }
+
+    login(email, password) {
+        const user = this.users.find(u => u.email === email && u.password === password);
         if (user) {
             this.currentUser = user;
             localStorage.setItem('threadTheoryCurrentUser', JSON.stringify(user));
-            this.showDashboard();
-            this.showNotification('Welcome back!', 'success');
-        } else {
-            this.showNotification('Invalid email or password', 'error');
+            return true;
         }
-    }
-
-    handleRegister(e) {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        
-        const userData = {
-            id: Date.now().toString(),
-            name: formData.get('name'),
-            email: formData.get('email'),
-            password: formData.get('password'),
-            phone: formData.get('phone'),
-            role: formData.get('role'),
-            joinDate: new Date().toISOString(),
-            votes: [],
-            orders: [],
-            cart: []
-        };
-
-        // Add creator-specific data
-        if (userData.role === 'creator') {
-            userData.specialty = formData.get('specialty');
-            userData.experience = formData.get('experience');
-            userData.bio = formData.get('bio');
-            userData.products = [];
-            userData.commissions = [];
-            userData.rating = 5;
-            userData.completedProjects = 0;
-        }
-
-        // Check if email already exists
-        if (this.users.find(u => u.email === userData.email)) {
-            this.showNotification('Email already registered', 'error');
-            return;
-        }
-
-        // Save user
-        this.users.push(userData);
-        localStorage.setItem('threadTheoryUsers', JSON.stringify(this.users));
-        
-        this.currentUser = userData;
-        localStorage.setItem('threadTheoryCurrentUser', JSON.stringify(userData));
-        
-        this.showDashboard();
-        this.showNotification('Account created successfully!', 'success');
-    }
-
-    showDashboard() {
-        // Hide login/register tabs
-        document.querySelector('.account-tabs').style.display = 'none';
-        document.getElementById('login-tab').style.display = 'none';
-        document.getElementById('register-tab').style.display = 'none';
-        
-        // Show dashboard
-        const dashboard = document.getElementById('user-dashboard');
-        dashboard.style.display = 'block';
-        
-        // Populate user info
-        document.getElementById('user-name').textContent = this.currentUser.name;
-        document.getElementById('user-role-display').textContent = 
-            this.currentUser.role.charAt(0).toUpperCase() + this.currentUser.role.slice(1);
-        document.getElementById('user-email-display').textContent = this.currentUser.email;
-        document.getElementById('user-join-date').textContent = 
-            new Date(this.currentUser.joinDate).toLocaleDateString();
-
-        // Show creator-specific actions
-        if (this.currentUser.role === 'creator') {
-            document.getElementById('creator-actions').style.display = 'contents';
-        }
-
-        // Update cart counter
-        if (window.updateCartCounter) {
-            window.updateCartCounter();
-        }
+        return false;
     }
 
     logout() {
         this.currentUser = null;
         localStorage.removeItem('threadTheoryCurrentUser');
-        
-        // Show login/register tabs
-        document.querySelector('.account-tabs').style.display = 'flex';
-        document.getElementById('login-tab').style.display = 'block';
-        document.getElementById('user-dashboard').style.display = 'none';
-        
-        // Reset to login tab
-        switchTab('login');
-        
-        this.showNotification('Logged out successfully', 'success');
-        
-        // Redirect to home after a short delay
-        setTimeout(() => {
-            window.location.href = 'index.html';
-        }, 1500);
     }
 
     getCurrentUser() {
         return this.currentUser;
     }
 
-    updateUser(userData) {
-        if (!this.currentUser) return false;
-        
-        // Update current user
-        Object.assign(this.currentUser, userData);
-        
-        // Update in users array
-        const userIndex = this.users.findIndex(u => u.id === this.currentUser.id);
-        if (userIndex !== -1) {
-            this.users[userIndex] = this.currentUser;
-            localStorage.setItem('threadTheoryUsers', JSON.stringify(this.users));
-            localStorage.setItem('threadTheoryCurrentUser', JSON.stringify(this.currentUser));
-            return true;
-        }
-        return false;
-    }
-
-    addVote(collections) {
-        if (!this.currentUser) return false;
-        
-        const vote = {
-            id: Date.now().toString(),
-            collections: collections,
-            timestamp: new Date().toISOString()
-        };
-        
-        this.currentUser.votes.push(vote);
-        this.updateUser(this.currentUser);
-        return true;
-    }
-
     getCart() {
-        return this.currentUser ? this.currentUser.cart : JSON.parse(localStorage.getItem('threadTheoryCart')) || [];
+        if (this.currentUser) {
+            return this.currentUser.cart || [];
+        }
+        return JSON.parse(localStorage.getItem('threadTheoryCart')) || [];
     }
 
     updateCart(cart) {
         if (this.currentUser) {
             this.currentUser.cart = cart;
-            this.updateUser(this.currentUser);
+            this.updateUserData();
         } else {
             localStorage.setItem('threadTheoryCart', JSON.stringify(cart));
         }
     }
 
-    showNotification(message, type = 'info') {
-        // Use the existing notification system from script.js
-        if (window.showNotification) {
-            window.showNotification(message, type);
-        } else {
-            alert(message);
+    addVote(vote) {
+        if (this.currentUser) {
+            this.currentUser.votes = this.currentUser.votes || [];
+            this.currentUser.votes.push(vote);
+            this.updateUserData();
+        }
+    }
+
+    updateUserData() {
+        if (this.currentUser) {
+            // Update in users array
+            const userIndex = this.users.findIndex(u => u.id === this.currentUser.id);
+            if (userIndex > -1) {
+                this.users[userIndex] = this.currentUser;
+                localStorage.setItem('threadTheoryUsers', JSON.stringify(this.users));
+            }
+            
+            // Update current user
+            localStorage.setItem('threadTheoryCurrentUser', JSON.stringify(this.currentUser));
         }
     }
 }
 
-// Global functions for UI interactions
-function switchTab(tabName) {
-    // Remove active class from all tabs and buttons
-    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-    
-    // Add active class to selected tab and button
-    document.querySelector(`[onclick="switchTab('${tabName}')"]`).classList.add('active');
-    document.getElementById(`${tabName}-tab`).classList.add('active');
-}
+// Initialize account manager globally
+window.accountManager = new AccountManager();
 
-function selectRole(role) {
-    // Remove selected class from all role cards
-    document.querySelectorAll('.role-card').forEach(card => card.classList.remove('selected'));
+// Cart counter functionality
+function updateCartCounter() {
+    const cartCounters = document.querySelectorAll('.cart-counter');
+    let cart = [];
     
-    // Add selected class to clicked card
-    event.target.closest('.role-card').classList.add('selected');
-    
-    // Set role value
-    document.getElementById('user-role').value = role;
-    
-    // Show/hide creator fields
-    const creatorFields = document.getElementById('creator-fields');
-    const registerBtn = document.getElementById('register-btn');
-    
-    if (role === 'creator') {
-        creatorFields.style.display = 'block';
-        // Make creator fields required
-        document.getElementById('creator-specialty').required = true;
-        document.getElementById('creator-experience').required = true;
+    if (window.accountManager && window.accountManager.getCurrentUser()) {
+        cart = window.accountManager.getCart();
     } else {
-        creatorFields.style.display = 'none';
-        // Remove required from creator fields
-        document.getElementById('creator-specialty').required = false;
-        document.getElementById('creator-experience').required = false;
+        cart = JSON.parse(localStorage.getItem('threadTheoryCart')) || [];
     }
     
-    // Enable register button
-    registerBtn.disabled = false;
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    
+    cartCounters.forEach(counter => {
+        if (totalItems > 0) {
+            counter.textContent = totalItems;
+            counter.style.display = 'block';
+        } else {
+            counter.style.display = 'none';
+        }
+    });
 }
 
-// Dashboard action functions
-function viewProfile() {
-    accountManager.showNotification('Profile management coming soon!', 'info');
+// Notification system
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
+        color: white;
+        padding: 16px 24px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        z-index: 10000;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        font-weight: 500;
+        max-width: 300px;
+    `;
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.transform = 'translateX(0)';
+    }, 100);
+    
+    setTimeout(() => {
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.remove();
+            }
+        }, 300);
+    }, 3000);
 }
 
-function viewOrders() {
-    accountManager.showNotification('Order history coming soon!', 'info');
-}
+// Make functions globally available
+window.updateCartCounter = updateCartCounter;
+window.showNotification = showNotification;
 
-function viewCart() {
-    window.location.href = 'cart.html';
-}
-
-function viewVotes() {
-    const user = accountManager.getCurrentUser();
-    if (user && user.votes.length > 0) {
-        const lastVote = user.votes[user.votes.length - 1];
-        accountManager.showNotification(`Your last vote: ${lastVote.collections.join(', ')}`, 'info');
-    } else {
-        accountManager.showNotification('No votes recorded yet. Visit the Vote page!', 'info');
-    }
-}
-
-function manageProducts() {
-    accountManager.showNotification('Product management coming soon!', 'info');
-}
-
-function viewCommissions() {
-    accountManager.showNotification('Commission management coming soon!', 'info');
-}
-
-function logout() {
-    accountManager.logout();
-}
-
-// Initialize account manager when page loads
-let accountManager;
+// Initialize cart counter on page load
 document.addEventListener('DOMContentLoaded', function() {
-    accountManager = new AccountManager();
+    updateCartCounter();
 });
-
-// Export for use in other scripts
-window.AccountManager = AccountManager;
-window.accountManager = accountManager;

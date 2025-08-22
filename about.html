@@ -9,45 +9,119 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* Purple accent styles for about page */
+        /* About Page Specific Styles - Matching Creators Page */
         .about-page {
-            background: linear-gradient(135deg, #fdf2f8 0%, #ffffff 50%, #f3e8ff 100%);
+            min-height: 100vh;
+            background: linear-gradient(135deg, rgba(251, 207, 232, 0.1) 0%, rgba(255, 255, 255, 1) 50%, rgba(196, 181, 253, 0.1) 100%);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Background decorative elements */
+        .about-page::before {
+            content: '';
+            position: fixed;
+            top: 80px;
+            right: 40px;
+            width: 128px;
+            height: 128px;
+            background: linear-gradient(135deg, #dc2626, #9333ea);
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: 0;
+        }
+
+        .about-page::after {
+            content: '';
+            position: fixed;
+            bottom: 160px;
+            left: 80px;
+            width: 192px;
+            height: 192px;
+            background: linear-gradient(135deg, #7c3aed, #db2777);
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: 0;
         }
 
         .about-hero {
-            background: linear-gradient(135deg, rgba(147, 51, 234, 0.1), rgba(219, 39, 119, 0.1));
+            padding: 120px 0 80px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .about-hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
         .about-hero h1 {
-            background: linear-gradient(135deg, #8b5cf6, #ec4899, #f59e0b);
+            font-family: var(--font-serif);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 300;
+            color: var(--primary-black);
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .about-hero h1 .highlight {
+            background: linear-gradient(135deg, #f87171, #a855f7);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            font-weight: 600;
+        }
+
+        .about-section {
+            padding: 60px 0;
+            position: relative;
+            z-index: 10;
         }
 
         .about-section:nth-child(even) {
-            background: linear-gradient(135deg, rgba(167, 139, 250, 0.05), rgba(236, 72, 153, 0.05));
+            background: rgba(251, 207, 232, 0.05);
+        }
+
+        .about-content {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            max-width: 1000px;
+            margin: 0 auto;
         }
 
         .about-section h2 {
-            color: #7c3aed;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--primary-black);
+            margin-bottom: 30px;
             position: relative;
         }
 
         .about-section h2::after {
             content: '';
             position: absolute;
-            bottom: -8px;
+            bottom: -10px;
             left: 0;
             width: 60px;
             height: 3px;
-            background: linear-gradient(90deg, #8b5cf6, #ec4899);
+            background: linear-gradient(90deg, #f87171, #a855f7);
             border-radius: 2px;
         }
 
         .highlight-box {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.1));
-            border-left: 4px solid #8b5cf6;
+            background: rgba(251, 113, 133, 0.1);
+            border-left: 4px solid #f87171;
             padding: 24px;
             margin: 24px 0;
             border-radius: 8px;
@@ -77,16 +151,6 @@
     </style>
 </head>
 <body class="about-page">
-    <!-- Floating Background Bubbles -->
-    <div class="floating-bubbles">
-        <div class="bubble bubble-1"></div>
-        <div class="bubble bubble-2"></div>
-        <div class="bubble bubble-3"></div>
-        <div class="bubble bubble-4"></div>
-        <div class="bubble bubble-5"></div>
-        <div class="bubble bubble-6"></div>
-    </div>
-
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
@@ -101,7 +165,10 @@
                     <a href="index.html#collections" class="nav-link">Collections</a>
                 </li>
                 <li class="nav-item">
-                    <a href="about.html" class="nav-link active">About</a>
+                    <a href="creators.html" class="nav-link">Creators</a>
+                </li>
+                <li class="nav-item">
+                    <a href="about.html" class="nav-link">About</a>
                 </li>
                 <li class="nav-item">
                     <a href="vote.html" class="nav-link">Vote</a>
@@ -121,34 +188,50 @@
         </div>
     </nav>
 
-    <!-- About Section -->
-    <section class="about page-section">
+    <!-- Hero Section -->
+    <section class="about-hero">
+        <div class="container">
+            <div class="about-hero-content">
+                <h1>Our <span class="highlight">Story</span></h1>
+                <p>Discover the passion and craftsmanship behind Thread Theory</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Sections -->
+    <section class="about-section">
         <div class="container">
             <div class="about-content">
-                <div class="about-text">
-                    <h1 class="section-title">Our Story</h1>
-                    <p class="about-description">
-                        At Thread Theory, fashion meets artistry, and every thread tells a story. We're passionate about knitwear and crochet — timeless crafts that transform simple threads into wearable pieces of art. Each creation is thoughtfully designed to wrap you in comfort, style, and individuality, making every outfit feel personal, unique, and unforgettable.
-                    </p>
-                    <p class="about-description">
-                        Our collections celebrate the beauty of craftsmanship, blending tradition with modern design. From cozy sweaters to delicate crochet tops, every piece is a labor of love, meant to inspire confidence and connection. We believe in slow fashion, where quality, care, and creativity matter more than trends.
-                    </p>
-                    <p class="about-description">
-                        Thread Theory is more than clothing — it's a lifestyle. It's warmth you can wear, elegance you can feel, and stories you can carry. Whether you're seeking comfort on a chilly day, a statement piece for special moments, or simply a connection to handmade artistry, Thread Theory brings your wardrobe to life with passion, precision, and a touch of magic.
-                    </p>
-                    <div class="about-stats">
-                        <div class="stat">
-                            <h3>100%</h3>
-                            <p>Handmade</p>
-                        </div>
-                        <div class="stat">
-                            <h3>Sustainable</h3>
-                            <p>Materials</p>
-                        </div>
-                        <div class="stat">
-                            <h3>Timeless</h3>
-                            <p>Design</p>
-                        </div>
+                <h2>Our Story</h2>
+                <p>
+                    At Thread Theory, fashion meets artistry, and every thread tells a story. We're passionate about knitwear and crochet — timeless crafts that transform simple threads into wearable pieces of art. Each creation is thoughtfully designed to wrap you in comfort, style, and individuality, making every outfit feel personal, unique, and unforgettable.
+                </p>
+                <p>
+                    Our collections celebrate the beauty of craftsmanship, blending tradition with modern design. From cozy sweaters to delicate crochet tops, every piece is a labor of love, meant to inspire confidence and connection. We believe in slow fashion, where quality, care, and creativity matter more than trends.
+                </p>
+                <div class="highlight-box">
+                    <p><strong>Thread Theory is more than clothing — it's a lifestyle.</strong> It's warmth you can wear, elegance you can feel, and stories you can carry. Whether you're seeking comfort on a chilly day, a statement piece for special moments, or simply a connection to handmade artistry, Thread Theory brings your wardrobe to life with passion, precision, and a touch of magic.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-section">
+        <div class="container">
+            <div class="about-content">
+                <h2>Our Values</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 30px;">
+                    <div style="text-align: center; padding: 30px; background: rgba(251, 113, 133, 0.05); border-radius: 15px;">
+                        <h3 style="color: #f87171; margin-bottom: 15px;">100% Handmade</h3>
+                        <p>Every piece is crafted with care and attention to detail by skilled artisans.</p>
+                    </div>
+                    <div style="text-align: center; padding: 30px; background: rgba(168, 85, 247, 0.05); border-radius: 15px;">
+                        <h3 style="color: #a855f7; margin-bottom: 15px;">Sustainable Materials</h3>
+                        <p>We use eco-friendly yarns and materials that are kind to both you and the planet.</p>
+                    </div>
+                    <div style="text-align: center; padding: 30px; background: rgba(251, 113, 133, 0.05); border-radius: 15px;">
+                        <h3 style="color: #f87171; margin-bottom: 15px;">Timeless Design</h3>
+                        <p>Our pieces are designed to last, transcending trends with classic elegance.</p>
                     </div>
                 </div>
             </div>
@@ -156,8 +239,7 @@
     </section>
 
     <!-- Footer -->
-        <!-- Simple Footer -->
-    <footer class="footer" style="background: var(--primary-black); color: var(--white); padding: 40px 0; text-align: center;">
+    <footer class="footer">
         <div class="container">
             <p>&copy; 2025 Thread Theory. All rights reserved.</p>
         </div>
