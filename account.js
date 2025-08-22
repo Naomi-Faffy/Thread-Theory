@@ -14,15 +14,24 @@ class AccountManager {
     }
 
     register(userData) {
-        // Check if email already exists
-        if (this.users.find(user => user.email === userData.email)) {
-            return false;
+        // Normalize inputs for uniqueness checks
+        const email = (userData.email || '').trim().toLowerCase();
+        const name = (userData.name || '').trim();
+
+        // Validate required fields
+        if (!email || !name || !userData.password) {
+            return { ok: false, reason: 'missing_fields' };
+        }
+
+        // Enforce unique email
+        if (this.users.some(u => (u.email || '').toLowerCase() === email)) {
+            return { ok: false, reason: 'email_taken' };
         }
 
         const newUser = {
             id: Date.now().toString(),
-            name: userData.name,
-            email: userData.email,
+            name: name,
+            email: email,
             password: userData.password, // In real app, this would be hashed
             type: userData.type,
             specialty: userData.specialty || '',
@@ -43,7 +52,7 @@ class AccountManager {
         this.currentUser = newUser;
         localStorage.setItem('threadTheoryCurrentUser', JSON.stringify(newUser));
         
-        return true;
+        return { ok: true, user: newUser };
     }
 
     login(email, password) {
