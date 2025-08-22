@@ -9,18 +9,223 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="collection-styles.css">
+    <style>
+        /* Enhanced collection styles */
+        .collection-header {
+            padding: 120px 0 60px;
+            background: linear-gradient(135deg, rgba(251, 207, 232, 0.1) 0%, rgba(255, 255, 255, 1) 50%, rgba(196, 181, 253, 0.1) 100%);
+            text-align: center;
+        }
+        
+        .collection-header-content {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(251, 113, 133, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .collection-title {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 300;
+            color: var(--primary-black);
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+        
+        .breadcrumb {
+            font-size: 0.9rem;
+            color: var(--charcoal);
+            opacity: 0.8;
+        }
+        
+        .breadcrumb a {
+            color: #f87171;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .breadcrumb a:hover {
+            color: #dc2626;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 25px;
+            margin-top: 40px;
+        }
+        
+        .product-item {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(251, 113, 133, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .product-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border-color: rgba(251, 113, 133, 0.3);
+        }
+        
+        .product-image {
+            position: relative;
+            aspect-ratio: 1;
+            overflow: hidden;
+        }
+        
+        .image-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(251, 207, 232, 0.1), rgba(196, 181, 253, 0.1));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--charcoal);
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .image-placeholder p {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .product-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .product-item:hover .product-overlay {
+            opacity: 1;
+        }
+        
+        .quick-view-btn, .add-to-cart-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quick-view-btn {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--primary-black);
+        }
+        
+        .add-to-cart-btn {
+            background: linear-gradient(135deg, #f87171, #a855f7);
+            color: white;
+        }
+        
+        .quick-view-btn:hover, .add-to-cart-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary-black);
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+        
+        .product-price {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #f87171;
+            margin-bottom: 10px;
+        }
+        
+        .product-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .option-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        
+        .option-label {
+            font-size: 0.8rem;
+            color: var(--charcoal);
+            font-weight: 500;
+            width: 100%;
+            margin-bottom: 4px;
+        }
+        
+        .option-item {
+            padding: 3px 8px;
+            background: rgba(251, 113, 133, 0.1);
+            border: 1px solid rgba(251, 113, 133, 0.2);
+            border-radius: 8px;
+            font-size: 0.75rem;
+            color: var(--primary-black);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .gallery-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+        
+        @media (max-width: 1000px) {
+            .gallery-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        @media (max-width: 800px) {
+            .gallery-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            .product-info {
+                padding: 15px;
+            }
+            
+            .product-name {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Floating Background Bubbles -->
-    <div class="floating-bubbles">
-        <div class="bubble bubble-1"></div>
-        <div class="bubble bubble-2"></div>
-        <div class="bubble bubble-3"></div>
-        <div class="bubble bubble-4"></div>
-        <div class="bubble bubble-5"></div>
-        <div class="bubble bubble-6"></div>
-    </div>
-
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
@@ -63,7 +268,6 @@
         <div class="container">
             <div class="collection-header-content">
                 <h1 class="collection-title">Hair Collection</h1>
-                <p class="collection-description">Beautiful hair accessories that add the perfect finishing touch. From headbands to hair ties, each piece combines function with style.</p>
                 <div class="breadcrumb">
                     <a href="index.html">Home</a> / <a href="index.html#collections">Collections</a> / <span>Hair</span>
                 </div>
@@ -75,8 +279,7 @@
     <section class="collection-gallery">
         <div class="container">
             <div class="gallery-grid">
-                                <!-- Product 1 -->
-                <div class="product-item">
+                                <div class="product-item">
                     <div class="product-image">
                         <div class="image-placeholder">
                             <p>Hair 1</p>
@@ -90,9 +293,18 @@
                     <div class="product-info">
                         <h3 class="product-name">Crochet Headband</h3>
                         <p class="product-price">.99</p>
+                        <div class="product-options">
+                            <div class="option-group">
+                                <div class="option-label">Sizes:</div>
+                                <span class='option-item'>One Size</span>
+                            </div>
+                            <div class="option-group">
+                                <div class="option-label">Colors:</div>
+                                <span class='option-item'>Cream</span><span class='option-item'>Blush</span><span class='option-item'>Sage</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <!-- Product 2 -->
                 <div class="product-item">
                     <div class="product-image">
                         <div class="image-placeholder">
@@ -107,9 +319,18 @@
                     <div class="product-info">
                         <h3 class="product-name">Silk Hair Scrunchie</h3>
                         <p class="product-price">.99</p>
+                        <div class="product-options">
+                            <div class="option-group">
+                                <div class="option-label">Sizes:</div>
+                                <span class='option-item'>One Size</span>
+                            </div>
+                            <div class="option-group">
+                                <div class="option-label">Colors:</div>
+                                <span class='option-item'>Blush</span><span class='option-item'>Sage</span><span class='option-item'>Lavender</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <!-- Product 3 -->
                 <div class="product-item">
                     <div class="product-image">
                         <div class="image-placeholder">
@@ -124,9 +345,18 @@
                     <div class="product-info">
                         <h3 class="product-name">Decorative Hair Clip</h3>
                         <p class="product-price">.99</p>
+                        <div class="product-options">
+                            <div class="option-group">
+                                <div class="option-label">Sizes:</div>
+                                <span class='option-item'>One Size</span>
+                            </div>
+                            <div class="option-group">
+                                <div class="option-label">Colors:</div>
+                                <span class='option-item'>Gold</span><span class='option-item'>Silver</span><span class='option-item'>Rose Gold</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <!-- Product 4 -->
                 <div class="product-item">
                     <div class="product-image">
                         <div class="image-placeholder">
@@ -141,9 +371,18 @@
                     <div class="product-info">
                         <h3 class="product-name">Braided Hair Tie</h3>
                         <p class="product-price">.99</p>
+                        <div class="product-options">
+                            <div class="option-group">
+                                <div class="option-label">Sizes:</div>
+                                <span class='option-item'>One Size</span>
+                            </div>
+                            <div class="option-group">
+                                <div class="option-label">Colors:</div>
+                                <span class='option-item'>Natural</span><span class='option-item'>Black</span><span class='option-item'>Brown</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <!-- Product 5 -->
                 <div class="product-item">
                     <div class="product-image">
                         <div class="image-placeholder">
@@ -158,9 +397,18 @@
                     <div class="product-info">
                         <h3 class="product-name">Flower Hair Pin</h3>
                         <p class="product-price">.99</p>
+                        <div class="product-options">
+                            <div class="option-group">
+                                <div class="option-label">Sizes:</div>
+                                <span class='option-item'>One Size</span>
+                            </div>
+                            <div class="option-group">
+                                <div class="option-label">Colors:</div>
+                                <span class='option-item'>White</span><span class='option-item'>Blush</span><span class='option-item'>Coral</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <!-- Product 6 -->
                 <div class="product-item">
                     <div class="product-image">
                         <div class="image-placeholder">
@@ -175,6 +423,16 @@
                     <div class="product-info">
                         <h3 class="product-name">Vintage Hair Comb</h3>
                         <p class="product-price">.99</p>
+                        <div class="product-options">
+                            <div class="option-group">
+                                <div class="option-label">Sizes:</div>
+                                <span class='option-item'>One Size</span>
+                            </div>
+                            <div class="option-group">
+                                <div class="option-label">Colors:</div>
+                                <span class='option-item'>Tortoiseshell</span><span class='option-item'>Black</span><span class='option-item'>Pearl</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -183,8 +441,7 @@
     </section>
 
     <!-- Footer -->
-        <!-- Simple Footer -->
-    <footer class="footer" style="background: var(--primary-black); color: var(--white); padding: 40px 0; text-align: center;">
+    <footer class="footer">
         <div class="container">
             <p>&copy; 2025 Thread Theory. All rights reserved.</p>
         </div>
