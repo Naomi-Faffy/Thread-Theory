@@ -66,22 +66,16 @@
         .vote-header-line {
             height: 1px;
             background: linear-gradient(to right, transparent, rgba(251, 113, 133, 0.3), transparent);
-            width: 100px;
-        }
-
-        .vote-icon {
-            width: 32px;
-            height: 32px;
-            color: #f87171;
+            width: 150px;
         }
 
         .vote-title {
-            font-family: var(--font-serif);
             font-size: clamp(2.5rem, 5vw, 4rem);
+            font-family: serif;
             font-weight: 300;
-            color: var(--primary-black);
-            margin-bottom: 20px;
-            letter-spacing: 1px;
+            color: #1f2937;
+            margin-bottom: 24px;
+            line-height: 1.2;
         }
 
         .vote-title .highlight {
@@ -93,203 +87,238 @@
         }
 
         .vote-subtitle {
-            font-size: 1.2rem;
-            color: var(--charcoal);
-            line-height: 1.6;
+            font-size: 1.25rem;
+            color: #6b7280;
+            margin-bottom: 32px;
             max-width: 600px;
-            margin: 0 auto 30px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
         }
 
         .vote-timer {
-            display: inline-block;
-            background: linear-gradient(135deg, #f87171, #a855f7);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 25px;
-            font-weight: 600;
-            font-size: 1rem;
-            margin-bottom: 40px;
-        }
-
-        .vote-categories {
-            display: grid;
-            gap: 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .vote-category {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(15px);
-            border-radius: 20px;
-            padding: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        .category-title {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: var(--primary-black);
-            margin-bottom: 30px;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 30px auto;
+            max-width: 400px;
             text-align: center;
+            border: 1px solid rgba(251, 113, 133, 0.2);
         }
 
-        .vote-options {
+        .timer-label {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-bottom: 10px;
+        }
+
+        .timer-display {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #8b5cf6;
+            font-family: monospace;
+        }
+
+        .collections-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 25px;
-            margin-bottom: 30px;
+            margin: 50px 0;
         }
 
-        .vote-option {
-            position: relative;
-            background: rgba(255, 255, 255, 0.6);
-            border: 1px solid rgba(251, 113, 133, 0.2);
-            border-radius: 15px;
+        .collection-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
             padding: 25px;
-            cursor: pointer;
+            border: 2px solid rgba(251, 113, 133, 0.1);
             transition: all 0.3s ease;
-            text-align: center;
-        }
-
-        .vote-option:hover {
-            border-color: rgba(251, 113, 133, 0.5);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(251, 113, 133, 0.15);
-        }
-
-        .vote-option.voted {
-            border-color: #10b981;
-            background: rgba(16, 185, 129, 0.1);
-        }
-
-        .vote-option.disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .option-name {
-            font-weight: 600;
-            color: var(--primary-black);
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-        }
-
-        .option-description {
-            color: var(--charcoal);
-            font-size: 0.9rem;
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-
-        .vote-progress {
-            width: 100%;
-            height: 8px;
-            background: rgba(0, 0, 0, 0.1);
-            border-radius: 4px;
+            cursor: pointer;
+            position: relative;
             overflow: hidden;
-            margin-bottom: 10px;
         }
 
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, #f87171, #a855f7);
-            width: 0%;
-            transition: width 0.5s ease;
-            border-radius: 4px;
+        .collection-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(251, 113, 133, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
         }
 
-        .progress-text {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            color: var(--charcoal);
+        .collection-card.selected {
+            border-color: #8b5cf6;
+            background: rgba(139, 92, 246, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.2);
         }
 
-        .vote-btn {
-            width: 100%;
-            padding: 15px 24px;
-            background: linear-gradient(135deg, #f87171, #a855f7);
+        .collection-card.selected::before {
+            content: '✓';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            background: #8b5cf6;
             color: white;
-            border: none;
-            border-radius: 25px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 20px;
-            font-size: 1rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
         }
 
-        .vote-btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(248, 113, 113, 0.3);
-        }
-
-        .vote-btn:disabled {
-            background: #9ca3af;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .voting-status {
-            text-align: center;
-            padding: 20px;
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 15px;
-            color: #059669;
+        .collection-image {
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(135deg, rgba(251, 113, 133, 0.2), rgba(139, 92, 246, 0.2));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            color: #4b5563;
             font-weight: 500;
         }
 
+        .collection-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+
+        .collection-description {
+            font-size: 0.95rem;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+
+        .vote-actions {
+            text-align: center;
+            margin: 50px 0;
+        }
+
+        .vote-counter {
+            font-size: 1.1rem;
+            color: #6b7280;
+            margin-bottom: 20px;
+        }
+
+        .vote-counter .count {
+            font-weight: 600;
+            color: #8b5cf6;
+        }
+
+        .submit-vote-btn {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .submit-vote-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+        }
+
+        .submit-vote-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
         .results-section {
-            margin-top: 40px;
+            margin-top: 60px;
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(15px);
             border-radius: 20px;
             padding: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(251, 113, 133, 0.2);
         }
 
         .results-title {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 600;
-            color: var(--primary-black);
+            color: #1f2937;
             margin-bottom: 30px;
             text-align: center;
         }
 
-        /* Responsive Design */
+        .results-grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .result-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 12px;
+            border: 1px solid rgba(251, 113, 133, 0.1);
+        }
+
+        .result-rank {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #8b5cf6;
+            margin-right: 15px;
+        }
+
+        .result-name {
+            flex: 1;
+            font-weight: 500;
+            color: #1f2937;
+        }
+
+        .result-votes {
+            font-weight: 600;
+            color: #6b7280;
+        }
+
+        .result-bar {
+            height: 4px;
+            background: rgba(139, 92, 246, 0.2);
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .result-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #8b5cf6, #ec4899);
+            border-radius: 2px;
+            transition: width 0.5s ease;
+        }
+
         @media (max-width: 768px) {
-            .vote-options {
-                grid-template-columns: 1fr;
+            .collections-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
                 gap: 20px;
             }
-
-            .vote-header-decorative {
-                gap: 15px;
-            }
-
-            .vote-header-line {
-                width: 60px;
-            }
-
-            .vote-category {
-                padding: 30px 20px;
+            
+            .vote-container {
+                padding: 100px 0 60px;
             }
         }
     </style>
 </head>
 <body class="vote-page">
     <!-- Navigation -->
-    <nav class="navbar" id="navbar">
+    <nav class="navbar">
         <div class="nav-container">
-            <div class="nav-logo">
-                <a href="index.html" class="logo-text">Thread Theory</a>
-            </div>
-            <ul class="nav-menu" id="nav-menu">
+            <a href="index.html" class="nav-logo">Thread Theory</a>
+            
+            <ul class="nav-menu">
                 <li class="nav-item">
                     <a href="index.html" class="nav-link">Home</a>
                 </li>
@@ -300,19 +329,20 @@
                     <a href="creators.html" class="nav-link">Creators</a>
                 </li>
                 <li class="nav-item">
-                    <a href="about.html" class="nav-link">About</a>
+                    <a href="about.html" class="nav-link">Our Story</a>
                 </li>
                 <li class="nav-item">
-                    <a href="vote.html" class="nav-link">Vote</a>
+                    <a href="vote.html" class="nav-link active">Vote</a>
                 </li>
                 <li class="nav-item">
-                    <a href="cart.html" class="nav-link">Cart</a>
+                    <a href="cart.html" class="nav-link">Cart (<span id="cart-count">0</span>)</a>
                 </li>
                 <li class="nav-item">
                     <a href="account.html" class="nav-link">Account</a>
                 </li>
             </ul>
-            <div class="hamburger" id="hamburger">
+            
+            <div class="hamburger">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -326,145 +356,42 @@
             <div class="vote-header">
                 <div class="vote-header-decorative">
                     <div class="vote-header-line"></div>
-                    <svg class="vote-icon" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                    </svg>
                     <div class="vote-header-line"></div>
                 </div>
 
                 <h1 class="vote-title">
-                    Vote for Your <span class="highlight">Favorites</span>
+                    Vote for Your <span class="highlight">Top 6</span>
                 </h1>
-                <p class="vote-subtitle">Help shape our collections by voting for the designs you love most</p>
-                
+                <p class="vote-subtitle">
+                    Help us discover the community's favorite collections! Select your top 6 collections from all available options.
+                </p>
+
                 <div class="vote-timer">
-                    Voting ends in 7 days
+                    <div class="timer-label">Next voting cycle resets in:</div>
+                    <div class="timer-display" id="countdown-timer">--:--:--</div>
                 </div>
             </div>
 
-            <!-- Vote Categories -->
-            <div class="vote-categories">
-                <!-- Dresses Category -->
-                <div class="vote-category">
-                    <h2 class="category-title">Best Dress Design</h2>
-                    <div class="vote-options">
-                        <div class="vote-option" data-category="dresses" data-option="bohemian">
-                            <h3 class="option-name">Bohemian Maxi Dress</h3>
-                            <p class="option-description">Flowing silhouette with intricate crochet details and earthy tones</p>
-                            <div class="vote-progress">
-                                <div class="progress-bar" style="width: 45%"></div>
-                            </div>
-                            <div class="progress-text">
-                                <span>45 votes</span>
-                                <span>45%</span>
-                            </div>
-                        </div>
-                        <div class="vote-option" data-category="dresses" data-option="elegant">
-                            <h3 class="option-name">Elegant Evening Dress</h3>
-                            <p class="option-description">Sophisticated design with delicate lace patterns and fitted silhouette</p>
-                            <div class="vote-progress">
-                                <div class="progress-bar" style="width: 35%"></div>
-                            </div>
-                            <div class="progress-text">
-                                <span>35 votes</span>
-                                <span>35%</span>
-                            </div>
-                        </div>
-                        <div class="vote-option" data-category="dresses" data-option="casual">
-                            <h3 class="option-name">Casual Summer Dress</h3>
-                            <p class="option-description">Light and breezy design perfect for everyday wear</p>
-                            <div class="vote-progress">
-                                <div class="progress-bar" style="width: 20%"></div>
-                            </div>
-                            <div class="progress-text">
-                                <span>20 votes</span>
-                                <span>20%</span>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="vote-btn" onclick="vote('dresses')">Cast Your Vote</button>
-                </div>
+            <!-- Collections Grid -->
+            <div class="collections-grid" id="collections-grid">
+                <!-- Collections will be populated by JavaScript -->
+            </div>
 
-                <!-- Tops Category -->
-                <div class="vote-category">
-                    <h2 class="category-title">Best Top Design</h2>
-                    <div class="vote-options">
-                        <div class="vote-option" data-category="tops" data-option="cropped">
-                            <h3 class="option-name">Cropped Crochet Top</h3>
-                            <p class="option-description">Trendy cropped style with geometric patterns</p>
-                            <div class="vote-progress">
-                                <div class="progress-bar" style="width: 40%"></div>
-                            </div>
-                            <div class="progress-text">
-                                <span>32 votes</span>
-                                <span>40%</span>
-                            </div>
-                        </div>
-                        <div class="vote-option" data-category="tops" data-option="flowy">
-                            <h3 class="option-name">Flowy Bohemian Blouse</h3>
-                            <p class="option-description">Loose-fitting design with bell sleeves and floral motifs</p>
-                            <div class="vote-progress">
-                                <div class="progress-bar" style="width: 38%"></div>
-                            </div>
-                            <div class="progress-text">
-                                <span>30 votes</span>
-                                <span>38%</span>
-                            </div>
-                        </div>
-                        <div class="vote-option" data-category="tops" data-option="fitted">
-                            <h3 class="option-name">Fitted Tank Top</h3>
-                            <p class="option-description">Classic fitted design with subtle texture details</p>
-                            <div class="vote-progress">
-                                <div class="progress-bar" style="width: 22%"></div>
-                            </div>
-                            <div class="progress-text">
-                                <span>18 votes</span>
-                                <span>22%</span>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="vote-btn" onclick="vote('tops')">Cast Your Vote</button>
+            <!-- Vote Actions -->
+            <div class="vote-actions">
+                <div class="vote-counter">
+                    Selected: <span class="count" id="selected-count">0</span> / 6
                 </div>
+                <button class="submit-vote-btn" id="submit-vote" disabled onclick="submitVotes()">
+                    Submit My Votes
+                </button>
+            </div>
 
-                <!-- Accessories Category -->
-                <div class="vote-category">
-                    <h2 class="category-title">Best Accessory Design</h2>
-                    <div class="vote-options">
-                        <div class="vote-option" data-category="accessories" data-option="bag">
-                            <h3 class="option-name">Artisan Tote Bag</h3>
-                            <p class="option-description">Spacious tote with intricate handle details and natural fibers</p>
-                            <div class="vote-progress">
-                                <div class="progress-bar" style="width: 50%"></div>
-                            </div>
-                            <div class="progress-text">
-                                <span>42 votes</span>
-                                <span>50%</span>
-                            </div>
-                        </div>
-                        <div class="vote-option" data-category="accessories" data-option="hat">
-                            <h3 class="option-name">Wide Brim Sun Hat</h3>
-                            <p class="option-description">Stylish sun protection with decorative band</p>
-                            <div class="vote-progress">
-                                <div class="progress-bar" style="width: 30%"></div>
-                            </div>
-                            <div class="progress-text">
-                                <span>25 votes</span>
-                                <span>30%</span>
-                            </div>
-                        </div>
-                        <div class="vote-option" data-category="accessories" data-option="scarf">
-                            <h3 class="option-name">Textured Scarf</h3>
-                            <p class="option-description">Versatile scarf with unique stitch patterns</p>
-                            <div class="vote-progress">
-                                <div class="progress-bar" style="width: 20%"></div>
-                            </div>
-                            <div class="progress-text">
-                                <span>17 votes</span>
-                                <span>20%</span>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="vote-btn" onclick="vote('accessories')">Cast Your Vote</button>
+            <!-- Results Section -->
+            <div class="results-section">
+                <h2 class="results-title">Current Top Collections</h2>
+                <div class="results-grid" id="results-grid">
+                    <!-- Results will be populated by JavaScript -->
                 </div>
             </div>
         </div>
@@ -480,108 +407,232 @@
     <script src="account.js"></script>
     <script src="script.js"></script>
     <script>
-        // Vote functionality
-        let userVotes = JSON.parse(localStorage.getItem('threadTheoryVotes')) || {};
+        // Voting system with 72-hour cycles
+        const VOTE_CYCLE_HOURS = 72;
+        const COLLECTIONS = [
+            { id: 'dresses', name: 'Dresses', description: 'Elegant and versatile dresses for every occasion' },
+            { id: 'tops', name: 'Tops', description: 'Stylish tops and blouses to complete your look' },
+            { id: 'accessories', name: 'Accessories', description: 'Beautiful accessories to enhance your style' },
+            { id: 'bottoms', name: 'Bottoms', description: 'Comfortable and fashionable pants and skirts' },
+            { id: 'bags', name: 'Bags', description: 'Handcrafted bags for every need and style' },
+            { id: 'jerseys', name: 'Jerseys', description: 'Comfortable and stylish jersey wear' },
+            { id: 'hats', name: 'Hats', description: 'Trendy hats and headwear accessories' },
+            { id: 'shorts', name: 'Shorts', description: 'Comfortable shorts for casual and active wear' },
+            { id: 'two-piece', name: 'Two-Piece Sets', description: 'Coordinated two-piece outfits' },
+            { id: 'skirts', name: 'Skirts', description: 'Feminine and versatile skirts for any style' },
+            { id: 'hair', name: 'Hair Accessories', description: 'Beautiful hair accessories and styling tools' }
+        ];
 
-        function vote(category) {
-            const categoryElement = document.querySelector(`[data-category="${category}"]`).closest('.vote-category');
-            const selectedOption = categoryElement.querySelector('.vote-option.selected');
+        let selectedCollections = [];
+        let userHasVoted = false;
+
+        // Initialize voting system
+        function initVoting() {
+            checkVotingCycle();
+            renderCollections();
+            loadResults();
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        }
+
+        // Check if current voting cycle is active
+        function checkVotingCycle() {
+            const now = Date.now();
+            const cycleData = JSON.parse(localStorage.getItem('threadTheoryVoteCycle')) || {};
             
-            if (!selectedOption) {
-                if (window.showNotification) {
-                    window.showNotification('Please select an option first', 'error');
-                } else {
-                    alert('Please select an option first');
-                }
-                return;
-            }
-
-            const option = selectedOption.dataset.option;
-            
-            // Check if user already voted in this category
-            if (userVotes[category]) {
-                if (window.showNotification) {
-                    window.showNotification('You have already voted in this category', 'error');
-                } else {
-                    alert('You have already voted in this category');
-                }
-                return;
-            }
-
-            // Record vote
-            userVotes[category] = option;
-            localStorage.setItem('threadTheoryVotes', JSON.stringify(userVotes));
-
-            // Update UI
-            selectedOption.classList.add('voted');
-            const voteBtn = categoryElement.querySelector('.vote-btn');
-            voteBtn.textContent = 'Vote Recorded';
-            voteBtn.disabled = true;
-
-            // Disable other options in this category
-            categoryElement.querySelectorAll('.vote-option').forEach(opt => {
-                if (opt !== selectedOption) {
-                    opt.classList.add('disabled');
-                }
-            });
-
-            if (window.showNotification) {
-                window.showNotification('Vote recorded successfully!', 'success');
+            // If no cycle exists or cycle has expired, start new cycle
+            if (!cycleData.startTime || (now - cycleData.startTime) >= (VOTE_CYCLE_HOURS * 60 * 60 * 1000)) {
+                // Start new cycle
+                const newCycle = {
+                    startTime: now,
+                    endTime: now + (VOTE_CYCLE_HOURS * 60 * 60 * 1000),
+                    votes: {},
+                    userVotes: {}
+                };
+                localStorage.setItem('threadTheoryVoteCycle', JSON.stringify(newCycle));
+                userHasVoted = false;
             } else {
-                alert('Vote recorded successfully!');
-            }
-
-            // Save vote to account if logged in
-            if (window.accountManager && window.accountManager.addVote) {
-                window.accountManager.addVote({
-                    category: category,
-                    option: option,
-                    date: new Date().toISOString()
-                });
+                // Check if user has already voted in current cycle
+                const userId = getUserId();
+                userHasVoted = cycleData.userVotes && cycleData.userVotes[userId];
             }
         }
 
-        // Handle option selection
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('.vote-option')) {
-                const option = e.target.closest('.vote-option');
-                const category = option.dataset.category;
-                
-                // Check if already voted
-                if (userVotes[category]) return;
-                
-                // Remove selection from other options in same category
-                const categoryElement = option.closest('.vote-category');
-                categoryElement.querySelectorAll('.vote-option').forEach(opt => {
-                    opt.classList.remove('selected');
-                });
-                
-                // Select this option
-                option.classList.add('selected');
+        // Get or create user ID
+        function getUserId() {
+            let userId = localStorage.getItem('threadTheoryUserId');
+            if (!userId) {
+                userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('threadTheoryUserId', userId);
             }
-        });
+            return userId;
+        }
 
-        // Initialize page
-        document.addEventListener('DOMContentLoaded', function() {
-            // Mark already voted categories
-            Object.keys(userVotes).forEach(category => {
-                const categoryElement = document.querySelector(`[data-category="${category}"]`).closest('.vote-category');
-                const votedOption = categoryElement.querySelector(`[data-option="${userVotes[category]}"]`);
+        // Render collections grid
+        function renderCollections() {
+            const grid = document.getElementById('collections-grid');
+            grid.innerHTML = '';
+
+            COLLECTIONS.forEach(collection => {
+                const card = document.createElement('div');
+                card.className = 'collection-card';
+                card.dataset.collectionId = collection.id;
                 
-                if (votedOption) {
-                    votedOption.classList.add('voted');
-                    const voteBtn = categoryElement.querySelector('.vote-btn');
-                    voteBtn.textContent = 'Vote Recorded';
-                    voteBtn.disabled = true;
-                    
-                    categoryElement.querySelectorAll('.vote-option').forEach(opt => {
-                        if (opt !== votedOption) {
-                            opt.classList.add('disabled');
-                        }
-                    });
-                }
+                card.innerHTML = `
+                    <div class="collection-image">${collection.name}</div>
+                    <div class="collection-name">${collection.name}</div>
+                    <div class="collection-description">${collection.description}</div>
+                `;
+
+                card.addEventListener('click', () => toggleCollection(collection.id));
+                grid.appendChild(card);
             });
-        });
+
+            // Disable voting if user already voted
+            if (userHasVoted) {
+                grid.style.pointerEvents = 'none';
+                grid.style.opacity = '0.6';
+                document.getElementById('submit-vote').textContent = 'You have already voted this cycle';
+            }
+        }
+
+        // Toggle collection selection
+        function toggleCollection(collectionId) {
+            if (userHasVoted) return;
+
+            const card = document.querySelector(`[data-collection-id="${collectionId}"]`);
+            const isSelected = selectedCollections.includes(collectionId);
+
+            if (isSelected) {
+                // Deselect
+                selectedCollections = selectedCollections.filter(id => id !== collectionId);
+                card.classList.remove('selected');
+            } else {
+                // Select (if under limit)
+                if (selectedCollections.length < 6) {
+                    selectedCollections.push(collectionId);
+                    card.classList.add('selected');
+                } else {
+                    if (window.showNotification) {
+                        window.showNotification('You can only select 6 collections', 'error');
+                    } else {
+                        alert('You can only select 6 collections');
+                    }
+                    return;
+                }
+            }
+
+            updateVoteCounter();
+        }
+
+        // Update vote counter and submit button
+        function updateVoteCounter() {
+            const countElement = document.getElementById('selected-count');
+            const submitBtn = document.getElementById('submit-vote');
+            
+            countElement.textContent = selectedCollections.length;
+            submitBtn.disabled = selectedCollections.length !== 6;
+        }
+
+        // Submit votes
+        function submitVotes() {
+            if (selectedCollections.length !== 6 || userHasVoted) return;
+
+            const cycleData = JSON.parse(localStorage.getItem('threadTheoryVoteCycle'));
+            const userId = getUserId();
+
+            // Record user's votes
+            cycleData.userVotes = cycleData.userVotes || {};
+            cycleData.userVotes[userId] = selectedCollections;
+
+            // Update vote counts
+            cycleData.votes = cycleData.votes || {};
+            selectedCollections.forEach(collectionId => {
+                cycleData.votes[collectionId] = (cycleData.votes[collectionId] || 0) + 1;
+            });
+
+            localStorage.setItem('threadTheoryVoteCycle', JSON.stringify(cycleData));
+            
+            userHasVoted = true;
+            
+            // Update UI
+            document.getElementById('collections-grid').style.pointerEvents = 'none';
+            document.getElementById('collections-grid').style.opacity = '0.6';
+            document.getElementById('submit-vote').textContent = 'Votes Submitted!';
+            document.getElementById('submit-vote').disabled = true;
+
+            if (window.showNotification) {
+                window.showNotification('Your votes have been submitted successfully!', 'success');
+            } else {
+                alert('Your votes have been submitted successfully!');
+            }
+
+            loadResults();
+        }
+
+        // Load and display results
+        function loadResults() {
+            const cycleData = JSON.parse(localStorage.getItem('threadTheoryVoteCycle'));
+            const votes = cycleData?.votes || {};
+            
+            // Sort collections by vote count
+            const sortedResults = COLLECTIONS
+                .map(collection => ({
+                    ...collection,
+                    votes: votes[collection.id] || 0
+                }))
+                .sort((a, b) => b.votes - a.votes);
+
+            const maxVotes = Math.max(...sortedResults.map(r => r.votes), 1);
+            const resultsGrid = document.getElementById('results-grid');
+            resultsGrid.innerHTML = '';
+
+            sortedResults.forEach((result, index) => {
+                const percentage = (result.votes / maxVotes) * 100;
+                
+                const resultItem = document.createElement('div');
+                resultItem.className = 'result-item';
+                resultItem.innerHTML = `
+                    <div class="result-rank">#${index + 1}</div>
+                    <div class="result-name">${result.name}</div>
+                    <div class="result-votes">${result.votes} votes</div>
+                    <div class="result-bar">
+                        <div class="result-bar-fill" style="width: ${percentage}%"></div>
+                    </div>
+                `;
+                
+                resultsGrid.appendChild(resultItem);
+            });
+        }
+
+        // Update countdown timer
+        function updateCountdown() {
+            const cycleData = JSON.parse(localStorage.getItem('threadTheoryVoteCycle'));
+            if (!cycleData) return;
+
+            const now = Date.now();
+            const timeLeft = cycleData.endTime - now;
+
+            if (timeLeft <= 0) {
+                document.getElementById('countdown-timer').textContent = 'Resetting...';
+                setTimeout(() => {
+                    checkVotingCycle();
+                    renderCollections();
+                    loadResults();
+                }, 1000);
+                return;
+            }
+
+            const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown-timer').textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initVoting);
     </script>
 </body>
 </html>

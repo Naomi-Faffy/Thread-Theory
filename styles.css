@@ -201,7 +201,7 @@ body {
 .nav-link {
     text-decoration: none;
     color: var(--black);
-    font-weight: 400;
+    font-weight: 700; /* Make menu items bold for better visibility */
     font-size: 0.95rem;
     letter-spacing: 0.5px;
     position: relative;

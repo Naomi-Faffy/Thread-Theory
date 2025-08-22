@@ -9,57 +9,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* About Page Specific Styles - Matching Creators Page */
-        .about-page {
-            min-height: 100vh;
-            background: linear-gradient(135deg, rgba(251, 207, 232, 0.1) 0%, rgba(255, 255, 255, 1) 50%, rgba(196, 181, 253, 0.1) 100%);
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        /* Background decorative elements */
-        .about-page::before {
-            content: '';
-            position: fixed;
-            top: 80px;
-            right: 40px;
-            width: 128px;
-            height: 128px;
-            background: linear-gradient(135deg, #dc2626, #9333ea);
-            border-radius: 50%;
-            filter: blur(60px);
-            z-index: 0;
-        }
-
-        .about-page::after {
-            content: '';
-            position: fixed;
-            bottom: 160px;
-            left: 80px;
-            width: 192px;
-            height: 192px;
-            background: linear-gradient(135deg, #7c3aed, #db2777);
-            border-radius: 50%;
-            filter: blur(60px);
-            z-index: 0;
-        }
-
+        /* About Page Specific Styles */
         .about-hero {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(251, 113, 133, 0.1));
             padding: 120px 0 80px;
             text-align: center;
-            position: relative;
-            z-index: 10;
-        }
-
-        .about-hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
         .about-hero h1 {
@@ -68,36 +22,27 @@
             font-weight: 300;
             color: var(--primary-black);
             margin-bottom: 20px;
-            letter-spacing: 1px;
         }
 
         .about-hero h1 .highlight {
-            background: linear-gradient(135deg, #f87171, #a855f7);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #8b5cf6;
             font-weight: 600;
+        }
+
+        .about-hero p {
+            font-size: 1.2rem;
+            color: var(--charcoal);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
         }
 
         .about-section {
             padding: 60px 0;
-            position: relative;
-            z-index: 10;
         }
 
         .about-section:nth-child(even) {
-            background: rgba(251, 207, 232, 0.05);
-        }
-
-        .about-content {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
-            padding: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            max-width: 1000px;
-            margin: 0 auto;
+            background: rgba(139, 92, 246, 0.05);
         }
 
         .about-section h2 {
@@ -115,20 +60,102 @@
             left: 0;
             width: 60px;
             height: 3px;
-            background: linear-gradient(90deg, #f87171, #a855f7);
+            background: linear-gradient(90deg, #8b5cf6, #ec4899);
             border-radius: 2px;
         }
 
+        .about-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--charcoal);
+            margin-bottom: 20px;
+        }
+
         .highlight-box {
-            background: rgba(251, 113, 133, 0.1);
-            border-left: 4px solid #f87171;
+            background: rgba(139, 92, 246, 0.1);
+            border-left: 4px solid #8b5cf6;
             padding: 24px;
             margin: 24px 0;
             border-radius: 8px;
         }
 
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .stats-item {
+            text-align: center;
+            padding: 20px;
+        }
+
         .stats-item .stat-number {
-            color: #7c3aed;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #8b5cf6;
+            display: block;
+        }
+
+        .stats-item .stat-label {
+            font-size: 1rem;
+            color: var(--charcoal);
+            margin-top: 8px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .team-member {
+            text-align: center;
+            padding: 20px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+        }
+
+        .team-member img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 3px solid #8b5cf6;
+        }
+
+        .team-member h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-black);
+            margin-bottom: 8px;
+        }
+
+        .team-member .role {
+            color: #8b5cf6;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .team-member p {
+            font-size: 0.95rem;
+            color: var(--charcoal);
+            line-height: 1.5;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(251, 113, 133, 0.1));
+            padding: 80px 0;
+            text-align: center;
         }
 
         .cta-button {
@@ -148,16 +175,30 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
         }
+
+        @media (max-width: 768px) {
+            .about-section {
+                padding: 40px 0;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
-<body class="about-page">
+<body>
     <!-- Navigation -->
-    <nav class="navbar" id="navbar">
+    <nav class="navbar">
         <div class="nav-container">
-            <div class="nav-logo">
-                <a href="index.html" class="logo-text">Thread Theory</a>
-            </div>
-            <ul class="nav-menu" id="nav-menu">
+            <a href="index.html" class="nav-logo">Thread Theory</a>
+            
+            <ul class="nav-menu">
                 <li class="nav-item">
                     <a href="index.html" class="nav-link">Home</a>
                 </li>
@@ -168,19 +209,20 @@
                     <a href="creators.html" class="nav-link">Creators</a>
                 </li>
                 <li class="nav-item">
-                    <a href="about.html" class="nav-link">About</a>
+                    <a href="about.html" class="nav-link active">Our Story</a>
                 </li>
                 <li class="nav-item">
                     <a href="vote.html" class="nav-link">Vote</a>
                 </li>
                 <li class="nav-item">
-                    <a href="cart.html" class="nav-link">Cart</a>
+                    <a href="cart.html" class="nav-link">Cart (<span id="cart-count">0</span>)</a>
                 </li>
                 <li class="nav-item">
                     <a href="account.html" class="nav-link">Account</a>
                 </li>
             </ul>
-            <div class="hamburger" id="hamburger">
+            
+            <div class="hamburger">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -191,50 +233,101 @@
     <!-- Hero Section -->
     <section class="about-hero">
         <div class="container">
-            <div class="about-hero-content">
-                <h1>Our <span class="highlight">Story</span></h1>
-                <p>Discover the passion and craftsmanship behind Thread Theory</p>
-            </div>
+            <h1>Our <span class="highlight">Story</span></h1>
+            <p>Discover the passion, craftsmanship, and community that drives Thread Theory forward</p>
         </div>
     </section>
 
-    <!-- About Sections -->
+    <!-- Our Mission -->
     <section class="about-section">
         <div class="container">
-            <div class="about-content">
-                <h2>Our Story</h2>
-                <p>
-                    At Thread Theory, fashion meets artistry, and every thread tells a story. We're passionate about knitwear and crochet — timeless crafts that transform simple threads into wearable pieces of art. Each creation is thoughtfully designed to wrap you in comfort, style, and individuality, making every outfit feel personal, unique, and unforgettable.
-                </p>
-                <p>
-                    Our collections celebrate the beauty of craftsmanship, blending tradition with modern design. From cozy sweaters to delicate crochet tops, every piece is a labor of love, meant to inspire confidence and connection. We believe in slow fashion, where quality, care, and creativity matter more than trends.
-                </p>
-                <div class="highlight-box">
-                    <p><strong>Thread Theory is more than clothing — it's a lifestyle.</strong> It's warmth you can wear, elegance you can feel, and stories you can carry. Whether you're seeking comfort on a chilly day, a statement piece for special moments, or simply a connection to handmade artistry, Thread Theory brings your wardrobe to life with passion, precision, and a touch of magic.</p>
+            <h2>Our Mission</h2>
+            <p>At Thread Theory, we believe that fashion should be personal, sustainable, and accessible. We're more than just a marketplace – we're a community of passionate creators and conscious consumers who value quality, creativity, and authentic craftsmanship.</p>
+            
+            <div class="highlight-box">
+                <p><strong>Our vision:</strong> To create a world where handmade fashion thrives, where creators are fairly compensated for their artistry, and where every piece tells a unique story.</p>
+            </div>
+            
+            <p>Founded in 2024, Thread Theory emerged from a simple observation: the fashion industry needed a platform that truly celebrated individual creativity while fostering genuine connections between makers and wearers.</p>
+        </div>
+    </section>
+
+    <!-- What Makes Us Different -->
+    <section class="about-section">
+        <div class="container">
+            <h2>What Makes Us Different</h2>
+            <p>We're not just another fashion platform. Here's what sets Thread Theory apart:</p>
+            
+            <div class="stats-grid">
+                <div class="stats-item">
+                    <span class="stat-number">500+</span>
+                    <div class="stat-label">Talented Creators</div>
+                </div>
+                <div class="stats-item">
+                    <span class="stat-number">10,000+</span>
+                    <div class="stat-label">Unique Pieces</div>
+                </div>
+                <div class="stats-item">
+                    <span class="stat-number">50+</span>
+                    <div class="stat-label">Countries Reached</div>
+                </div>
+                <div class="stats-item">
+                    <span class="stat-number">98%</span>
+                    <div class="stat-label">Customer Satisfaction</div>
+                </div>
+            </div>
+            
+            <p>Every creator on our platform is carefully curated, ensuring that you're not just buying clothes – you're investing in artistry, supporting small businesses, and becoming part of a story that values quality over quantity.</p>
+        </div>
+    </section>
+
+    <!-- Our Values -->
+    <section class="about-section">
+        <div class="container">
+            <h2>Our Values</h2>
+            <p><strong>Sustainability:</strong> We promote slow fashion and encourage creators to use eco-friendly materials and ethical production methods.</p>
+            <p><strong>Community:</strong> We foster connections between creators and customers, building relationships that go beyond transactions.</p>
+            <p><strong>Quality:</strong> Every piece on our platform meets our high standards for craftsmanship and durability.</p>
+            <p><strong>Fairness:</strong> We ensure creators receive fair compensation for their work and provide transparent pricing.</p>
+            <p><strong>Innovation:</strong> We continuously evolve our platform to better serve our community's needs.</p>
+        </div>
+    </section>
+
+    <!-- Meet Our Team -->
+    <section class="about-section">
+        <div class="container">
+            <h2>Meet Our Team</h2>
+            <p>Behind Thread Theory is a passionate team dedicated to supporting creators and revolutionizing fashion.</p>
+            
+            <div class="team-grid">
+                <div class="team-member">
+                    <div style="width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, #8b5cf6, #ec4899); margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: bold;">SA</div>
+                    <h3>Sarah Anderson</h3>
+                    <div class="role">Founder & CEO</div>
+                    <p>Former fashion designer with 15 years of industry experience, passionate about empowering independent creators.</p>
+                </div>
+                <div class="team-member">
+                    <div style="width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, #8b5cf6, #ec4899); margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: bold;">MC</div>
+                    <h3>Marcus Chen</h3>
+                    <div class="role">Head of Technology</div>
+                    <p>Tech innovator focused on creating seamless experiences that connect creators with their ideal customers.</p>
+                </div>
+                <div class="team-member">
+                    <div style="width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, #8b5cf6, #ec4899); margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: bold;">EP</div>
+                    <h3>Elena Petrov</h3>
+                    <div class="role">Community Manager</div>
+                    <p>Building bridges between creators and customers, fostering the vibrant Thread Theory community.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="about-section">
+    <!-- Call to Action -->
+    <section class="cta-section">
         <div class="container">
-            <div class="about-content">
-                <h2>Our Values</h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 30px;">
-                    <div style="text-align: center; padding: 30px; background: rgba(251, 113, 133, 0.05); border-radius: 15px;">
-                        <h3 style="color: #f87171; margin-bottom: 15px;">100% Handmade</h3>
-                        <p>Every piece is crafted with care and attention to detail by skilled artisans.</p>
-                    </div>
-                    <div style="text-align: center; padding: 30px; background: rgba(168, 85, 247, 0.05); border-radius: 15px;">
-                        <h3 style="color: #a855f7; margin-bottom: 15px;">Sustainable Materials</h3>
-                        <p>We use eco-friendly yarns and materials that are kind to both you and the planet.</p>
-                    </div>
-                    <div style="text-align: center; padding: 30px; background: rgba(251, 113, 133, 0.05); border-radius: 15px;">
-                        <h3 style="color: #f87171; margin-bottom: 15px;">Timeless Design</h3>
-                        <p>Our pieces are designed to last, transcending trends with classic elegance.</p>
-                    </div>
-                </div>
-            </div>
+            <h2>Join Our Community</h2>
+            <p>Whether you're a creator looking to share your craft or a fashion lover seeking unique pieces, Thread Theory is your home.</p>
+            <a href="creators.html" class="cta-button">Meet Our Creators</a>
         </div>
     </section>
 
