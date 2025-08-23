@@ -864,6 +864,54 @@ body {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.4), 0 0 25px rgba(0, 0, 0, 0.3);
 }
 
+/* Account Auth Layout */
+.account-container #auth-section {
+    /* Center vertically within the viewport minus header/nav space */
+    min-height: calc(100vh - 240px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.account-tabs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Make the auth wrapper wide and centered */
+.auth-forms {
+    width: 100%;
+    max-width: 960px; /* almost page width on desktop */
+    margin: 0 auto;
+    padding: 10px;
+}
+
+/* Make individual form fill available width */
+.auth-form {
+    width: 100%;
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: var(--neon-glow);
+}
+
+/* Tighten spacing for header area on account page to give more space to forms */
+.account-header {
+    margin-top: 110px; /* push below fixed navbar */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+    .account-container #auth-section { min-height: calc(100vh - 200px); }
+    .auth-form { padding: 20px; border-radius: 12px; }
+    .auth-forms { max-width: 100%; padding: 0 12px; }
+}
+
 /* Footer */
 .footer {
     background: rgba(0, 0, 0, 0.8);
