@@ -1,6 +1,7 @@
-import mongoose from "mongoose";
-import { connectToDatabase } from "../db.js";
-export default async function handler(req, res) {
+const mongoose = require("mongoose");
+const { connectToDatabase } = require("../db.js");
+
+async function handler(req, res) {
   await connectToDatabase();
   // Define schema & model
   const CustomerSchema = new mongoose.Schema({
@@ -9,6 +10,7 @@ export default async function handler(req, res) {
     Custnumber: String,
   });
   const Customer = mongoose.models.Customer || mongoose.model("Customer", CustomerSchema);
+
   if (req.method === "GET") {
     const customers = await Customer.find();
     return res.status(200).json(customers);
@@ -19,3 +21,5 @@ export default async function handler(req, res) {
   }
   res.status(405).json({ message: "Method not allowed" });
 }
+
+module.exports = handler;

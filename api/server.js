@@ -10,6 +10,10 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
+// Customers API route handler
+const customersHandler = require('./customers.js');
+app.all('/api/customers', customersHandler);
+
 // Mongo connection
 const uri = process.env.MONGODB_URI;
 if (!uri) {
