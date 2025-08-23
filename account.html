@@ -755,6 +755,17 @@
                 return res.json();
             })
             .then((created) => {
+                // Also persist to customers collection
+                fetch('http://localhost:3001/api/customers', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        Custname: formData.name,
+                        Custemail: formData.email,
+                        Custnumber: formData.phone
+                    })
+                }).catch(() => {});
+
                 if (window.accountManager) {
                     const success = window.accountManager.register(formData);
                     if (success) {
