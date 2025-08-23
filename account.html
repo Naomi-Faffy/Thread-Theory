@@ -846,32 +846,39 @@
             const pager = document.getElementById('customers-pagination');
             const searchEl = document.getElementById('customers-search');
             const pageSizeEl = document.getElementById('customers-page-size');
+            const sortEl = document.getElementById('customers-sort');
             if (!container) return;
 
             const term = (searchEl?.value || '').toLowerCase();
-            const pageSize = parseInt(pageSizeEl?.value || '10', 10);
+            const [sf, so] = (sortEl?.value || 'createdAt:desc').split(':');
 
+            // Server provides page-sized data; we locally filter for instant typing UX
             const filtered = customersData.filter(c => {
                 const name = (c.Custname || '').toLowerCase();
                 const email = (c.Custemail || '').toLowerCase();
                 return !term || name.includes(term) || email.includes(term);
             });
 
-            const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
-            if (currentCustomersPage > totalPages) currentCustomersPage = totalPages;
-            const start = (currentCustomersPage - 1) * pageSize;
-            const pageItems = filtered.slice(start, start + pageSize);
+            const arrow = (field) => sf === field ? (so === 'asc' ? '▲' : '▼') : '';
+            const header = `
+                <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px; padding: 8px 12px; color: var(--primary-black); font-weight: 600;">
+                    <div><button class="form-button" style="width:auto; padding:4px 8px;" onclick="setCustomersSort('Custname')">Name ${arrow('Custname')}</button></div>
+                    <div><button class="form-button" style="width:auto; padding:4px 8px;" onclick="setCustomersSort('Custemail')">Email ${arrow('Custemail')}</button></div>
+                    <div><button class="form-button" style="width:auto; padding:4px 8px;" onclick="setCustomersSort('Custnumber')">Phone ${arrow('Custnumber')}</button></div>
+                </div>
+            `;
 
-            if (pageItems.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: var(--charcoal); padding: 20px;">No customers found.</p>';
+            if (filtered.length === 0) {
+                container.innerHTML = header + '<p style="text-align: center; color: var(--charcoal); padding: 20px;">No customers found.</p>';
             } else {
-                container.innerHTML = pageItems.map(c => `
+                const items = filtered.map(c => `
                     <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; align-items: center; padding: 12px 16px; border: 1px solid rgba(251,113,133,0.15); border-radius: 10px; margin-bottom: 10px; background: rgba(255,255,255,0.6);">
                         <div><strong>Name:</strong> ${c.Custname || ''}</div>
                         <div><strong>Email:</strong> ${c.Custemail || ''}</div>
                         <div><strong>Phone:</strong> ${c.Custnumber || ''}</div>
                     </div>
                 `).join('');
+                container.innerHTML = header + items;
             }
 
             if (pager) {
@@ -880,12 +887,11 @@
                     <button class="form-button" style="width:auto; padding:6px 10px; ${active ? 'opacity:1' : 'opacity:0.9'}" ${disabled ? 'disabled' : ''} onclick="gotoCustomersPage(${page})">${label}</button>
                 `;
 
-                // Build a small window around the current page
+                const totalPages = customersTotalPages || 1;
+                html += btn('Prev', Math.max(1, currentCustomersPage - 1), currentCustomersPage === 1);
                 const windowSize = 5;
                 const startPage = Math.max(1, currentCustomersPage - Math.floor(windowSize / 2));
                 const endPage = Math.min(totalPages, startPage + windowSize - 1);
-
-                html += btn('Prev', Math.max(1, currentCustomersPage - 1), currentCustomersPage === 1);
                 for (let p = startPage; p <= endPage; p++) {
                     html += btn(p, p, false, p === currentCustomersPage);
                 }
@@ -898,9 +904,21 @@
             }
         }
 
+        function setCustomersSort(field) {
+            const sortEl = document.getElementById('customers-sort');
+            const [sf, so] = (sortEl?.value || 'createdAt:desc').split(':');
+            let next = 'asc';
+            if (sf === field) next = so === 'asc' ? 'desc' : 'asc';
+            sortEl.value = `${field}:${next}`;
+            currentCustomersPage = 1;
+            saveCustomersPrefs();
+            loadCustomers();
+        }
+
         function gotoCustomersPage(page) {
             currentCustomersPage = page;
-            renderCustomers();
+            saveCustomersPrefs();
+            loadCustomers();
         }
 
         function loadCustomers() {
@@ -929,21 +947,47 @@
         }
 
         // Wire search and page-size events
+        function saveCustomersPrefs() {
+            try {
+                const search = document.getElementById('customers-search')?.value || '';
+                const sort = document.getElementById('customers-sort')?.value || 'createdAt:desc';
+                const size = document.getElementById('customers-page-size')?.value || '10';
+                const prefs = { search, sort, size, page: currentCustomersPage };
+                localStorage.setItem('tt_customers_prefs', JSON.stringify(prefs));
+            } catch {}
+        }
+
+        function restoreCustomersPrefs() {
+            try {
+                const raw = localStorage.getItem('tt_customers_prefs');
+                if (!raw) return;
+                const prefs = JSON.parse(raw);
+                if (prefs.search != null) document.getElementById('customers-search').value = prefs.search;
+                if (prefs.sort) document.getElementById('customers-sort').value = prefs.sort;
+                if (prefs.size) document.getElementById('customers-page-size').value = prefs.size;
+                if (prefs.page) currentCustomersPage = prefs.page;
+            } catch {}
+        }
+
         document.addEventListener('input', function(e) {
             if (e.target && e.target.id === 'customers-search') {
                 currentCustomersPage = 1;
+                saveCustomersPrefs();
+                // Render immediately for fast UX, then fetch fresh page from server
                 renderCustomers();
             }
         });
         document.addEventListener('change', function(e) {
             if (e.target && (e.target.id === 'customers-page-size' || e.target.id === 'customers-sort')) {
                 currentCustomersPage = 1;
+                saveCustomersPrefs();
                 loadCustomers();
             }
         });
 
         // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
+            restoreCustomersPrefs();
             checkAuthState();
             loadOrders();
         });
