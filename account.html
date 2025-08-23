@@ -561,6 +561,34 @@
                                 <div class="profile-badge" id="profile-badge">Shopper</div>
                             </div>
                         </div>
+
+                        <!-- Customers List -->
+                        <div style="margin-top: 30px;">
+                            <h3 style="margin: 20px 0; color: var(--primary-black);">Customers</h3>
+                            <div style="display: flex; gap: 10px; align-items: center; justify-content: space-between; margin-bottom: 10px; flex-wrap: wrap;">
+                                <div style="display:flex; gap:8px; align-items:center; flex-wrap: wrap;">
+                                    <input id="customers-search" class="form-input" type="text" placeholder="Search by name or email" style="width: 260px;">
+                                    <select id="customers-sort" class="form-select" style="width: 160px;">
+                                        <option value="createdAt:desc" selected>Newest</option>
+                                        <option value="createdAt:asc">Oldest</option>
+                                        <option value="Custname:asc">Name A–Z</option>
+                                        <option value="Custname:desc">Name Z–A</option>
+                                        <option value="Custemail:asc">Email A–Z</option>
+                                        <option value="Custemail:desc">Email Z–A</option>
+                                    </select>
+                                    <select id="customers-page-size" class="form-select" style="width: 120px;">
+                                        <option value="5">5 / page</option>
+                                        <option value="10" selected>10 / page</option>
+                                        <option value="20">20 / page</option>
+                                    </select>
+                                </div>
+                                <button class="form-button" style="width: auto; padding: 8px 16px;" onclick="loadCustomers()">Refresh</button>
+                            </div>
+                            <div id="customers-list">
+                                <p style="text-align: center; color: var(--charcoal); padding: 20px;">Loading customers...</p>
+                            </div>
+                            <div id="customers-pagination" style="display:flex; justify-content:center; gap:8px; margin-top:12px;"></div>
+                        </div>
                     </div>
                 </div>
 
@@ -600,6 +628,9 @@
     <script>
         // Account functionality
         let currentUser = null;
+        let customersData = [];
+        let currentCustomersPage = 1;
+        let customersTotalPages = 1;
 
         function switchTab(tabName) {
             // Update tab buttons
@@ -638,6 +669,9 @@
                 document.getElementById('profile-badge').textContent = currentUser.type === 'creator' ? 'Creator' : 'Shopper';
                 document.getElementById('profile-avatar').textContent = currentUser.name.charAt(0).toUpperCase();
             }
+
+            // Load customers list when profile is shown
+            loadCustomers();
         }
 
         function loadOrders() {
@@ -772,6 +806,8 @@
                         currentUser = window.accountManager.getCurrentUser();
                         showProfileSection();
                         window.showNotification && window.showNotification('Account created successfully!', 'success');
+                        // Reload customers after registration
+                        loadCustomers();
                     }
                 }
             })
@@ -804,6 +840,107 @@
                 }
             }
         }
+
+        function renderCustomers() {
+            const container = document.getElementById('customers-list');
+            const pager = document.getElementById('customers-pagination');
+            const searchEl = document.getElementById('customers-search');
+            const pageSizeEl = document.getElementById('customers-page-size');
+            if (!container) return;
+
+            const term = (searchEl?.value || '').toLowerCase();
+            const pageSize = parseInt(pageSizeEl?.value || '10', 10);
+
+            const filtered = customersData.filter(c => {
+                const name = (c.Custname || '').toLowerCase();
+                const email = (c.Custemail || '').toLowerCase();
+                return !term || name.includes(term) || email.includes(term);
+            });
+
+            const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+            if (currentCustomersPage > totalPages) currentCustomersPage = totalPages;
+            const start = (currentCustomersPage - 1) * pageSize;
+            const pageItems = filtered.slice(start, start + pageSize);
+
+            if (pageItems.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--charcoal); padding: 20px;">No customers found.</p>';
+            } else {
+                container.innerHTML = pageItems.map(c => `
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; align-items: center; padding: 12px 16px; border: 1px solid rgba(251,113,133,0.15); border-radius: 10px; margin-bottom: 10px; background: rgba(255,255,255,0.6);">
+                        <div><strong>Name:</strong> ${c.Custname || ''}</div>
+                        <div><strong>Email:</strong> ${c.Custemail || ''}</div>
+                        <div><strong>Phone:</strong> ${c.Custnumber || ''}</div>
+                    </div>
+                `).join('');
+            }
+
+            if (pager) {
+                let html = '';
+                const btn = (label, page, disabled = false, active = false) => `
+                    <button class="form-button" style="width:auto; padding:6px 10px; ${active ? 'opacity:1' : 'opacity:0.9'}" ${disabled ? 'disabled' : ''} onclick="gotoCustomersPage(${page})">${label}</button>
+                `;
+
+                // Build a small window around the current page
+                const windowSize = 5;
+                const startPage = Math.max(1, currentCustomersPage - Math.floor(windowSize / 2));
+                const endPage = Math.min(totalPages, startPage + windowSize - 1);
+
+                html += btn('Prev', Math.max(1, currentCustomersPage - 1), currentCustomersPage === 1);
+                for (let p = startPage; p <= endPage; p++) {
+                    html += btn(p, p, false, p === currentCustomersPage);
+                }
+                if (endPage < totalPages) {
+                    html += '<span style="align-self:center; padding:6px 8px; color: var(--charcoal);">…</span>';
+                    html += btn(totalPages, totalPages);
+                }
+                html += btn('Next', Math.min(totalPages, currentCustomersPage + 1), currentCustomersPage === totalPages);
+                pager.innerHTML = html;
+            }
+        }
+
+        function gotoCustomersPage(page) {
+            currentCustomersPage = page;
+            renderCustomers();
+        }
+
+        function loadCustomers() {
+            const container = document.getElementById('customers-list');
+            if (!container) return;
+            container.innerHTML = '<p style="text-align: center; color: var(--charcoal); padding: 20px;">Loading customers...</p>';
+            const searchEl = document.getElementById('customers-search');
+            const pageSizeEl = document.getElementById('customers-page-size');
+            const term = encodeURIComponent((searchEl?.value || '').trim());
+            const size = encodeURIComponent(pageSizeEl?.value || '10');
+            const page = encodeURIComponent(String(currentCustomersPage || 1));
+            const sortEl = document.getElementById('customers-sort');
+            const [sortField, sortOrder] = (sortEl?.value || 'createdAt:desc').split(':');
+
+            fetch(`http://localhost:3001/api/customers?q=${term}&limit=${size}&page=${page}&sort=${encodeURIComponent(sortField)}&order=${encodeURIComponent(sortOrder)}`)
+                .then(res => res.json())
+                .then(payload => {
+                    const { data = [], total = 0, page: p = 1, limit: l = 10, totalPages = 1 } = payload || {};
+                    customersData = Array.isArray(data) ? data : [];
+                    currentCustomersPage = p;
+                    renderCustomers();
+                })
+                .catch(() => {
+                    container.innerHTML = '<p style="text-align: center; color: #ef4444; padding: 20px;">Failed to load customers.</p>';
+                });
+        }
+
+        // Wire search and page-size events
+        document.addEventListener('input', function(e) {
+            if (e.target && e.target.id === 'customers-search') {
+                currentCustomersPage = 1;
+                renderCustomers();
+            }
+        });
+        document.addEventListener('change', function(e) {
+            if (e.target && (e.target.id === 'customers-page-size' || e.target.id === 'customers-sort')) {
+                currentCustomersPage = 1;
+                loadCustomers();
+            }
+        });
 
         // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
