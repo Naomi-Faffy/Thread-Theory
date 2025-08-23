@@ -484,7 +484,7 @@
                 <div class="tab-content active" id="profile-tab">
                     <div id="auth-section">
                         <div class="auth-forms">
-                            <div class="auth-form">
+                            <div class="auth-form" id="login-container">
                                 <h3 class="form-title">Sign In</h3>
                                 <form id="login-form">
                                     <div class="form-group">
@@ -497,9 +497,13 @@
                                     </div>
                                     <button type="submit" class="form-button">Sign In</button>
                                 </form>
+                                <p style="font-size: 0.9rem; color: #6b7280; margin-top: 12px; text-align: center;">
+                                    Don't have an account?
+                                    <a href="#" onclick="showRegisterForm(); return false;">Create one</a>
+                                </p>
                             </div>
 
-                            <div class="auth-form">
+                            <div class="auth-form" id="register-container" style="display: none;">
                                 <h3 class="form-title">Create Account</h3>
                                 <p style="font-size: 0.9rem; color: #6b7280; margin-bottom: 20px; text-align: center;">
                                     Join Thread Theory to start shopping and voting for your favorite collections!
@@ -545,6 +549,10 @@
                                     </div>
                                     <button type="submit" class="form-button">Create Account</button>
                                 </form>
+                                <p style="font-size: 0.9rem; color: #6b7280; margin-top: 12px; text-align: center;">
+                                    Already have an account?
+                                    <a href="#" onclick="showLoginForm(); return false;">Sign in</a>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -655,6 +663,25 @@
             document.getElementById('auth-section').style.display = 'block';
             document.getElementById('profile-section').style.display = 'none';
             document.getElementById('user-name').textContent = 'Friend';
+            // default: show login only
+            showLoginForm();
+        }
+
+        function showRegisterForm() {
+            const login = document.getElementById('login-container');
+            const reg = document.getElementById('register-container');
+            if (login && reg) {
+                login.style.display = 'none';
+                reg.style.display = 'block';
+            }
+        }
+        function showLoginForm() {
+            const login = document.getElementById('login-container');
+            const reg = document.getElementById('register-container');
+            if (login && reg) {
+                login.style.display = 'block';
+                reg.style.display = 'none';
+            }
         }
 
         function showProfileSection() {
