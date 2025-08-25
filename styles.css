@@ -912,6 +912,12 @@ body {
     .auth-forms { max-width: 100%; padding: 0 12px; }
 }
 
+/* Account Auth Layout Overrides: widen and center more */
+.account-container .container { max-width: 1400px; }
+.account-tabs .tab-buttons { display: flex; justify-content: center; }
+.auth-forms { max-width: min(1140px, 92vw); }
+.auth-form { padding: clamp(28px, 3vw, 48px); }
+
 /* Footer */
 .footer {
     background: rgba(0, 0, 0, 0.8);
