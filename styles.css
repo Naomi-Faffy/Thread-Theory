@@ -46,7 +46,7 @@ body {
     font-family: var(--font-sans);
     line-height: 1.6;
     color: var(--black);
-    background-color: var(--light-gray);
+    background-color: #a79cf3; /* soft purple base to match reference */
     overflow-x: hidden;
 }
 
