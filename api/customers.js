@@ -1,66 +1,68 @@
-const mongoose = require("mongoose");
-const { connectToDatabase } = require("../db.js");
+const { executeQuery } = require("../mysql-db.js");
+const userService = require("./mysql-users.js");
 
 async function handler(req, res) {
-  await connectToDatabase();
-  // Define schema & model
-  const CustomerSchema = new mongoose.Schema({
-    Custname: String,
-    Custemail: String,
-    Custnumber: String,
-  }, { timestamps: true });
-  const Customer = mongoose.models.Customer || mongoose.model("Customer", CustomerSchema);
 
   if (req.method === "GET") {
-    const {
-      q = "",
-      page = "1",
-      limit = "10",
-      sort = "createdAt",
-      order = "desc"
-    } = req.query || {};
+    try {
+      const {
+        q = "",
+        page = "1",
+        limit = "10",
+        sort = "created_at",
+        order = "desc"
+      } = req.query || {};
 
-    const pageNum = Math.max(1, parseInt(page, 10) || 1);
-    const pageSize = Math.min(100, Math.max(1, parseInt(limit, 10) || 10));
-    const search = String(q || "").trim();
+      const result = await userService.getAllCustomers({
+        search: q,
+        page: parseInt(page, 10),
+        limit: parseInt(limit, 10),
+        sort,
+        order
+      });
 
-    // Build filter
-    const filter = search
-      ? {
-          $or: [
-            { Custname: { $regex: search, $options: "i" } },
-            { Custemail: { $regex: search, $options: "i" } },
-            { Custnumber: { $regex: search, $options: "i" } },
-          ],
-        }
-      : {};
-
-    // Ensure createdAt exists for sorting if model is new
-    if (!Customer.schema.paths.createdAt) {
-      Customer.schema.add({ createdAt: { type: Date, default: Date.now } });
+      if (result.success) {
+        return res.status(200).json({
+          data: result.data,
+          page: result.pagination.page,
+          limit: result.pagination.limit,
+          total: result.pagination.total,
+          totalPages: result.pagination.totalPages,
+        });
+      } else {
+        return res.status(500).json({ message: result.message });
+      }
+    } catch (error) {
+      console.error('Get customers error:', error);
+      return res.status(500).json({ message: 'Failed to fetch customers' });
     }
-
-    const sortField = typeof sort === "string" ? sort : "createdAt";
-    const sortDir = String(order).toLowerCase() === "asc" ? 1 : -1;
-
-    const total = await Customer.countDocuments(filter);
-    const results = await Customer.find(filter)
-      .sort({ [sortField]: sortDir })
-      .skip((pageNum - 1) * pageSize)
-      .limit(pageSize);
-
-    return res.status(200).json({
-      data: results,
-      page: pageNum,
-      limit: pageSize,
-      total,
-      totalPages: Math.max(1, Math.ceil(total / pageSize)),
-    });
   }
   if (req.method === "POST") {
-    const newCustomer = await Customer.create(req.body);
-    return res.status(201).json(newCustomer);
+    try {
+      const { Custname, Custemail, Custnumber } = req.body;
+
+      if (!Custname || !Custemail) {
+        return res.status(400).json({ message: "Customer name and email are required" });
+      }
+
+      // Insert into customers table
+      const result = await executeQuery(`
+        INSERT INTO customers (Custname, Custemail, Custnumber)
+        VALUES (?, ?, ?)
+      `, [Custname, Custemail, Custnumber || null]);
+
+      // Get the created customer
+      const newCustomer = await executeQuery(`
+        SELECT * FROM customers WHERE id = ?
+      `, [result.insertId]);
+
+      return res.status(201).json(newCustomer[0]);
+    } catch (error) {
+      console.error('Create customer error:', error);
+      return res.status(500).json({ message: 'Failed to create customer' });
+    }
   }
+
   res.status(405).json({ message: "Method not allowed" });
 }
 

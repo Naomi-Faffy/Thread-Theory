@@ -1,8 +1,9 @@
-// Simple Express API for accounts
+// Thread Theory API Server with MySQL
 require('dotenv').config();
 const express = require('express');
-const { MongoClient, ServerApiVersion } = require('mongodb');
 const cors = require('cors');
+const { initializeDatabase } = require('../mysql-db.js');
+const userService = require('./mysql-users.js');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -10,42 +11,107 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-// Customers API route handler
+// Initialize MySQL database on startup
+initializeDatabase().catch(console.error);
+
+// Customers API route handler (keeping for backward compatibility)
 const customersHandler = require('./customers.js');
 app.all('/api/customers', customersHandler);
 
-// Mongo connection
-const uri = process.env.MONGODB_URI;
-if (!uri) {
-  console.error('Missing MONGODB_URI in .env');
-}
-
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  },
-});
-
-async function connect() {
-  if (!client.topology || !client.topology.isConnected()) {
-    await client.connect();
-  }
-}
-
+// Health check endpoint
 app.get('/health', async (req, res) => {
   try {
-    await connect();
-    await client.db('admin').command({ ping: 1 });
-    res.json({ ok: true });
+    const { executeQuery } = require('../mysql-db.js');
+    await executeQuery('SELECT 1');
+    res.json({ ok: true, database: 'MySQL connected' });
   } catch (e) {
     console.error(e);
     res.status(500).json({ ok: false, error: e.message });
   }
 });
 
-// POST /api/accounts  { name, email?, phone? }
+// User Registration endpoint
+app.post('/api/register', async (req, res) => {
+  try {
+    const result = await userService.registerUser(req.body);
+
+    if (result.success) {
+      res.status(201).json(result);
+    } else {
+      res.status(400).json(result);
+    }
+  } catch (error) {
+    console.error('Registration error:', error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+});
+
+// User Login endpoint
+app.post('/api/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const result = await userService.loginUser(email, password);
+
+    if (result.success) {
+      res.json(result);
+    } else {
+      res.status(401).json(result);
+    }
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+});
+
+// User Logout endpoint
+app.post('/api/logout', async (req, res) => {
+  try {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    const result = await userService.logoutUser(token);
+    res.json(result);
+  } catch (error) {
+    console.error('Logout error:', error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+});
+
+// Get current user profile
+app.get('/api/profile', async (req, res) => {
+  try {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    const tokenResult = await userService.verifyToken(token);
+
+    if (!tokenResult.success) {
+      return res.status(401).json({ success: false, message: 'Unauthorized' });
+    }
+
+    const userResult = await userService.getUserById(tokenResult.decoded.userId);
+    res.json(userResult);
+  } catch (error) {
+    console.error('Profile error:', error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+});
+
+// Update user profile
+app.put('/api/profile', async (req, res) => {
+  try {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    const tokenResult = await userService.verifyToken(token);
+
+    if (!tokenResult.success) {
+      return res.status(401).json({ success: false, message: 'Unauthorized' });
+    }
+
+    const result = await userService.updateUser(tokenResult.decoded.userId, req.body);
+    res.json(result);
+  } catch (error) {
+    console.error('Update profile error:', error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+});
+
+// Legacy accounts endpoint (for backward compatibility)
 app.post('/api/accounts', async (req, res) => {
   const { name, email, phone } = req.body || {};
 
@@ -54,37 +120,28 @@ app.post('/api/accounts', async (req, res) => {
   }
 
   try {
-    await connect();
-    const db = client.db(process.env.DB_NAME || 'ThreadTheory');
-    const accounts = db.collection('Accounts');
-
-    // Ensure unique indexes exist (email and phone)
-    try {
-      await accounts.createIndex({ email: 1 }, { unique: true, sparse: true });
-      await accounts.createIndex({ phone: 1 }, { unique: true, sparse: true });
-    } catch (_) {}
-
-    // Check duplicates by email or phone if provided
-    const conditions = [];
-    if (email) conditions.push({ email });
-    if (phone) conditions.push({ phone });
-
-    if (conditions.length) {
-      const existing = await accounts.findOne({ $or: conditions });
-      if (existing) {
-        return res.status(409).json({ error: 'Account already exists' });
-      }
-    }
-
-    const doc = {
+    // Convert to new user registration format
+    const userData = {
       name,
-      email: email || null,
-      phone: phone || null,
-      createdAt: new Date(),
+      email,
+      phone,
+      password: 'temp_password_' + Date.now(), // Temporary password for legacy support
+      user_type: 'customer'
     };
 
-    const result = await accounts.insertOne(doc);
-    res.status(201).json({ id: result.insertedId, ...doc });
+    const result = await userService.registerUser(userData);
+
+    if (result.success) {
+      res.status(201).json({
+        id: result.user.id,
+        name: result.user.name,
+        email: result.user.email,
+        phone: result.user.phone,
+        createdAt: result.user.created_at
+      });
+    } else {
+      res.status(400).json({ error: result.message });
+    }
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: 'Failed to create account' });
@@ -93,10 +150,15 @@ app.post('/api/accounts', async (req, res) => {
 
 // Graceful shutdown
 process.on('SIGINT', async () => {
-  try { await client.close(); } catch (_) {}
+  try {
+    const { closeConnections } = require('../mysql-db.js');
+    await closeConnections();
+  } catch (_) {}
   process.exit(0);
 });
 
 app.listen(PORT, () => {
-  console.log(`API listening on port ${PORT}`);
+  console.log(`Thread Theory API listening on port ${PORT}`);
+  console.log(`Database: MySQL`);
+  console.log(`Health check: http://localhost:${PORT}/health`);
 });

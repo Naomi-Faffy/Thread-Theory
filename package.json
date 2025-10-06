@@ -3,13 +3,18 @@
   "private": true,
   "scripts": {
     "api:start": "node ./api/server.js",
-    "api:dev": "nodemon ./api/server.js"
+    "api:dev": "nodemon ./api/server.js",
+    "db:setup": "node setup-database.js",
+    "db:seed": "node seed-data.js",
+    "db:init": "npm run db:setup && npm run db:seed",
+    "db:test": "node test-mysql.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "dotenv": "^16.6.1",
     "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.8.0",
     "mongoose": "^8.17.2",
     "mysql2": "^3.15.1"

@@ -766,26 +766,48 @@
 
         document.getElementById('login-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
 
-            if (window.accountManager) {
-                const success = window.accountManager.login(email, password);
-                if (success) {
-                    currentUser = window.accountManager.getCurrentUser();
-                    showProfileSection();
-                    if (window.showNotification) {
-                        window.showNotification('Welcome back!', 'success');
-                    }
-                } else {
-                    if (window.showNotification) {
-                        window.showNotification('Invalid email or password', 'error');
-                    } else {
-                        alert('Invalid email or password');
-                    }
-                }
+            if (!email || !password) {
+                window.showNotification && window.showNotification('Please enter email and password', 'error');
+                return;
             }
+
+            // Send login request to MySQL API
+            fetch('http://localhost:3001/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            })
+            .then(async (res) => {
+                const data = await res.json();
+                if (!res.ok) {
+                    throw new Error(data.message || 'Login failed');
+                }
+                return data;
+            })
+            .then((result) => {
+                if (result.success) {
+                    // Store user data and token
+                    localStorage.setItem('threadTheoryToken', result.token);
+                    localStorage.setItem('threadTheoryCurrentUser', JSON.stringify(result.user));
+
+                    // Update current user
+                    currentUser = result.user;
+
+                    // Show success and switch to profile view
+                    showProfileSection();
+                    window.showNotification && window.showNotification(`Welcome back, ${result.user.name}!`, 'success');
+                } else {
+                    throw new Error(result.message || 'Login failed');
+                }
+            })
+            .catch((e) => {
+                console.error('Login error:', e);
+                window.showNotification && window.showNotification(e.message || 'Invalid email or password', 'error');
+            });
         });
 
         document.getElementById('register-form').addEventListener('submit', function(e) {
@@ -796,49 +818,56 @@
                 email: document.getElementById('register-email').value,
                 phone: document.getElementById('register-phone').value,
                 password: document.getElementById('register-password').value,
-                type: document.getElementById('register-type').value,
+                user_type: document.getElementById('register-type').value,
                 specialty: document.getElementById('register-specialty').value,
-                experience: document.getElementById('register-experience').value,
+                experience_years: parseInt(document.getElementById('register-experience').value) || 0,
                 bio: document.getElementById('register-bio').value
             };
 
-            // Send to backend API for persistence
-            fetch('http://localhost:3001/api/accounts', {
+            // Validate required fields
+            if (!formData.name || !formData.email || !formData.password || !formData.user_type) {
+                window.showNotification && window.showNotification('Please fill in all required fields', 'error');
+                return;
+            }
+
+            // Send to new MySQL API for registration
+            fetch('http://localhost:3001/api/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name: formData.name, email: formData.email, phone: formData.phone })
+                body: JSON.stringify(formData)
             })
             .then(async (res) => {
+                const data = await res.json();
                 if (!res.ok) {
-                    const err = await res.json().catch(() => ({ error: 'Request failed' }));
-                    throw new Error(err.error || 'Request failed');
+                    throw new Error(data.message || 'Registration failed');
                 }
-                return res.json();
+                return data;
             })
-            .then((created) => {
-                // Also persist to customers collection
-                fetch('http://localhost:3001/api/customers', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        Custname: formData.name,
-                        Custemail: formData.email,
-                        Custnumber: formData.phone
-                    })
-                }).catch(() => {});
+            .then((result) => {
+                if (result.success) {
+                    // Store user data and token
+                    if (result.token) {
+                        localStorage.setItem('threadTheoryToken', result.token);
+                    }
+                    localStorage.setItem('threadTheoryCurrentUser', JSON.stringify(result.user));
 
-                if (window.accountManager) {
-                    const success = window.accountManager.register(formData);
-                    if (success) {
-                        currentUser = window.accountManager.getCurrentUser();
-                        showProfileSection();
-                        window.showNotification && window.showNotification('Account created successfully!', 'success');
-                        // Reload customers after registration
+                    // Update current user
+                    currentUser = result.user;
+
+                    // Show success and switch to profile view
+                    showProfileSection();
+                    window.showNotification && window.showNotification('Account created successfully!', 'success');
+
+                    // Reload customers list if needed
+                    if (typeof loadCustomers === 'function') {
                         loadCustomers();
                     }
+                } else {
+                    throw new Error(result.message || 'Registration failed');
                 }
             })
             .catch((e) => {
+                console.error('Registration error:', e);
                 window.showNotification && window.showNotification(e.message || 'Failed to create account', 'error');
             });
         });
