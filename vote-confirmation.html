@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vote Confirmation - Thread Theory</title>
+    <link rel="icon" href="tt-logo.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="tt-logo.png" sizes="180x180">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .confirmation-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, rgba(251, 207, 232, 0.1) 0%, rgba(255, 255, 255, 1) 50%, rgba(196, 181, 253, 0.1) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 20px 80px;
+        }
+
+        .confirmation-container {
+            max-width: 600px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 60px 40px;
+            border: 2px solid rgba(139, 92, 246, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            animation: checkmark 0.6s ease-in-out;
+        }
+
+        .success-icon::after {
+            content: '✓';
+            color: white;
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        @keyframes checkmark {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .confirmation-title {
+            font-size: 2.5rem;
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 20px;
+        }
+
+        .confirmation-subtitle {
+            font-size: 1.2rem;
+            color: #6b7280;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .vote-summary {
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .vote-summary h3 {
+            font-size: 1.3rem;
+            color: #8b5cf6;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .selected-collections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .selected-item {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            padding: 15px 10px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #1f2937;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.8);
+            color: #6b7280;
+            border: 2px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .confirmation-container {
+                padding: 40px 30px;
+                margin: 20px;
+            }
+            
+            .confirmation-title {
+                font-size: 2rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+    </style>
+</head>
+<body class="confirmation-page">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo"><img src="tt-logo.png" alt="Thread Theory" class="logo-img" /> <span class="logo-text">Thread Theory</span></a>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">HOME</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#collections" class="nav-link">COLLECTIONS</a>
+                </li>
+                <li class="nav-item">
+                    <a href="creators.html" class="nav-link">CREATORS</a>
+                </li>
+                <li class="nav-item">
+                    <a href="about-us.html" class="nav-link">ABOUT</a>
+                </li>
+                <li class="nav-item">
+                    <a href="vote.html" class="nav-link">VOTE</a>
+                </li>
+                <li class="nav-item">
+                    <a href="cart.html" class="nav-link">CART (<span id="cart-count">0</span>)</a>
+                </li>
+                <li class="nav-item">
+                    <a href="account.html" class="nav-link">ACCOUNT</a>
+                </li>
+            </ul>
+            
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="confirmation-container">
+        <div class="success-icon"></div>
+        
+        <h1 class="confirmation-title">Thank You!</h1>
+        <p class="confirmation-subtitle">
+            Your votes have been successfully submitted. Thank you for participating in our community voting!
+        </p>
+
+        <div class="vote-summary">
+            <h3>Your Selected Collections</h3>
+            <div class="selected-collections" id="selected-collections">
+                <!-- Selected collections will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <a href="index.html" class="btn btn-primary">Explore Collections</a>
+            <a href="vote.html" class="btn btn-secondary">Back to Voting</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Thread Theory. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Display user's selected collections
+        document.addEventListener('DOMContentLoaded', function() {
+            const cycleData = JSON.parse(localStorage.getItem('threadTheoryVoteCycle'));
+            const userId = localStorage.getItem('threadTheoryUserId');
+            
+            if (cycleData && cycleData.userVotes && cycleData.userVotes[userId]) {
+                const userVotes = cycleData.userVotes[userId];
+                const collectionsContainer = document.getElementById('selected-collections');
+                
+                const COLLECTIONS = [
+                    { id: 'dresses', name: 'Dresses' },
+                    { id: 'tops', name: 'Tops' },
+                    { id: 'accessories', name: 'Accessories' },
+                    { id: 'bottoms', name: 'Bottoms' },
+                    { id: 'bags', name: 'Bags' },
+                    { id: 'jerseys', name: 'Jerseys' },
+                    { id: 'hats', name: 'Hats' },
+                    { id: 'shorts', name: 'Shorts' },
+                    { id: 'two-piece', name: 'Two-Piece Sets' },
+                    { id: 'skirts', name: 'Skirts' },
+                    { id: 'hair', name: 'Hair Accessories' },
+                    { id: 'shrugs', name: 'Shrugs' },
+                    { id: 'shoes', name: 'Shoes' },
+                    { id: 'jumpsuits', name: 'Jumpsuits' },
+                    { id: 'jewellery', name: 'Jewellery' },
+                    { id: 'men', name: 'Men' },
+                    { id: 'home', name: 'Home' }
+                ];
+                
+                userVotes.forEach(collectionId => {
+                    const collection = COLLECTIONS.find(c => c.id === collectionId);
+                    if (collection) {
+                        const item = document.createElement('div');
+                        item.className = 'selected-item';
+                        item.textContent = collection.name;
+                        collectionsContainer.appendChild(item);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

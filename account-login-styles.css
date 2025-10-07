@@ -10,12 +10,21 @@ body {
     font-family: 'Inter', sans-serif;
     min-height: 100vh;
     padding-top: 80px;
-    background: url('beach-picnic-background.jpg') center/cover no-repeat fixed;
+    background:
+        /* Beach picnic scene */
+        linear-gradient(to bottom,
+            #87CEEB 0%,     /* Sky blue */
+            #B0E0E6 30%,    /* Powder blue */
+            #F0F8FF 50%,    /* Alice blue */
+            #20B2AA 70%,    /* Light sea green */
+            #008B8B 85%,    /* Dark cyan */
+            #2F4F4F 100%    /* Dark slate gray */
+        );
     position: relative;
     overflow-x: hidden;
 }
 
-/* Beach picnic background overlay */
+/* Beach picnic background effect */
 body::before {
     content: '';
     position: fixed;
@@ -23,7 +32,30 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.1);
+    background:
+        /* Picnic blanket pattern */
+        repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 20px,
+            rgba(255, 0, 0, 0.1) 20px,
+            rgba(255, 0, 0, 0.1) 40px,
+            transparent 40px,
+            transparent 60px,
+            rgba(0, 0, 255, 0.1) 60px,
+            rgba(0, 0, 255, 0.1) 80px
+        ),
+        /* Beach texture */
+        radial-gradient(circle at 10% 90%, rgba(255, 218, 185, 0.3) 2px, transparent 2px),
+        radial-gradient(circle at 30% 95%, rgba(255, 218, 185, 0.2) 1px, transparent 1px),
+        radial-gradient(circle at 70% 88%, rgba(255, 218, 185, 0.3) 3px, transparent 3px),
+        radial-gradient(circle at 90% 92%, rgba(255, 218, 185, 0.2) 2px, transparent 2px);
+    background-size:
+        100px 100px,
+        50px 50px,
+        80px 80px,
+        60px 60px,
+        70px 70px;
     z-index: -1;
 }
 
@@ -41,46 +73,31 @@ body::before {
 }
 
 .login-circle {
-    width: 600px;
-    height: 600px;
+    width: 550px;
+    height: 550px;
     border-radius: 50%;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 248, 255, 0.95) 100%);
+    background: rgba(255, 255, 255, 0.25);
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(15px);
-    border: 4px solid rgba(255, 255, 255, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
 .login-form-container {
-    width: 400px;
+    width: 350px;
     text-align: center;
-    padding: 40px;
+    padding: 20px;
 }
 
-.form-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 30px;
-}
 
-.form-logo {
-    width: 60px;
-    height: 60px;
-    margin-bottom: 15px;
-    border-radius: 50%;
-    border: 3px solid #B8336A;
-    padding: 8px;
-    background: white;
-}
 
 .login-title {
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-weight: 700;
     color: #2c2c2c;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     letter-spacing: 2px;
 }
 
@@ -97,11 +114,12 @@ body::before {
 .form-label {
     display: block;
     font-size: 14px;
-    font-weight: 600;
-    color: #2c2c2c;
+    font-weight: 700;
+    color: #000;
     margin-bottom: 8px;
     text-transform: uppercase;
     letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
 }
 
 .form-input {
@@ -169,14 +187,15 @@ body::before {
 }
 
 .form-switch {
-    margin-top: 20px;
+    margin-top: 15px;
     text-align: center;
 }
 
 .form-switch p {
     color: #2c2c2c;
-    font-size: 14px;
+    font-size: 13px;
     margin: 0;
+    line-height: 1.4;
 }
 
 .switch-link {
@@ -195,7 +214,7 @@ body::before {
     width: 500px;
     min-height: 600px;
     border-radius: 25px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 248, 255, 0.95) 100%);
+    background: rgba(255, 255, 255, 0.25);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -226,9 +245,10 @@ body::before {
 .signup-title {
     font-size: 2rem;
     font-weight: 700;
-    color: #2c2c2c;
+    color: #000;
     margin-bottom: 30px;
     letter-spacing: 2px;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
 }
 
 .signup-form {
@@ -270,17 +290,18 @@ body::before {
 /* Responsive Design */
 @media (max-width: 768px) {
     .login-circle {
-        width: 500px;
-        height: 500px;
+        width: 450px;
+        height: 450px;
     }
 
     .login-form-container {
-        width: 350px;
-        padding: 30px;
+        width: 300px;
+        padding: 15px;
     }
 
     .login-title {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
+        margin-bottom: 20px;
     }
 
     .signup-rectangle {
@@ -297,6 +318,10 @@ body::before {
         flex-direction: column;
         gap: 20px;
     }
+
+    .form-switch p {
+        font-size: 12px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -305,18 +330,18 @@ body::before {
     }
 
     .login-circle {
-        width: 400px;
-        height: 400px;
+        width: 350px;
+        height: 350px;
     }
 
     .login-form-container {
-        width: 300px;
-        padding: 25px;
+        width: 250px;
+        padding: 10px;
     }
 
     .login-title {
-        font-size: 1.6rem;
-        margin-bottom: 25px;
+        font-size: 1.4rem;
+        margin-bottom: 15px;
     }
 
     .form-input {
@@ -344,9 +369,8 @@ body::before {
         font-size: 1.6rem;
     }
 
-    .form-logo {
-        width: 50px;
-        height: 50px;
+    .form-switch p {
+        font-size: 11px;
     }
 }
 
