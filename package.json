@@ -2,12 +2,15 @@
   "name": "threadtheory",
   "private": true,
   "scripts": {
+    "start": "npm run api:start",
     "api:start": "node ./api/server.js",
     "api:dev": "nodemon ./api/server.js",
     "db:setup": "node setup-database.js",
     "db:seed": "node seed-data.js",
     "db:init": "npm run db:setup && npm run db:seed",
-    "db:test": "node test-mysql.js"
+    "db:test": "node test-mysql.js",
+    "db:complete": "node complete-database-setup.js",
+    "setup": "npm run db:complete"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",

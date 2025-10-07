@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create About Images</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .image-generator {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        canvas {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        button {
+            background: #d4af37;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #b8941f;
+        }
+        .download-link {
+            display: inline-block;
+            margin: 10px 0;
+            padding: 8px 16px;
+            background: #007cba;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Thread Theory - About Page Image Generator</h1>
+    <p>This tool creates placeholder images for your about page. Click the buttons to generate and download the images.</p>
+
+    <div class="image-generator">
+        <h3>About Hero Image (1200x600)</h3>
+        <canvas id="heroCanvas" width="1200" height="600"></canvas>
+        <br>
+        <button onclick="generateHeroImage()">Generate Hero Image</button>
+        <a id="heroDownload" class="download-link" style="display:none;" download="about-hero.jpg">Download Hero Image</a>
+    </div>
+
+    <div class="image-generator">
+        <h3>Story Image (600x400)</h3>
+        <canvas id="storyCanvas" width="600" height="400"></canvas>
+        <br>
+        <button onclick="generateStoryImage()">Generate Story Image</button>
+        <a id="storyDownload" class="download-link" style="display:none;" download="about-story.jpg">Download Story Image</a>
+    </div>
+
+    <script>
+        function generateHeroImage() {
+            const canvas = document.getElementById('heroCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Create gradient background
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, '#f8f6f0');
+            gradient.addColorStop(0.5, '#e8e2d4');
+            gradient.addColorStop(1, '#d4af37');
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Add some decorative elements
+            ctx.fillStyle = 'rgba(212, 175, 55, 0.3)';
+            for (let i = 0; i < 20; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const radius = Math.random() * 50 + 10;
+                ctx.beginPath();
+                ctx.arc(x, y, radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            // Add text
+            ctx.fillStyle = 'rgba(26, 26, 26, 0.8)';
+            ctx.font = 'bold 48px serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Thread Theory', canvas.width / 2, canvas.height / 2 - 20);
+            
+            ctx.font = '24px sans-serif';
+            ctx.fillText('Crafting Stories Through Fashion', canvas.width / 2, canvas.height / 2 + 30);
+            
+            // Convert to download link
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const link = document.getElementById('heroDownload');
+                link.href = url;
+                link.style.display = 'inline-block';
+            }, 'image/jpeg', 0.9);
+        }
+        
+        function generateStoryImage() {
+            const canvas = document.getElementById('storyCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Create gradient background
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, '#ffffff');
+            gradient.addColorStop(0.5, '#f8f6f0');
+            gradient.addColorStop(1, '#e8e2d4');
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Add fabric-like pattern
+            ctx.strokeStyle = 'rgba(212, 175, 55, 0.2)';
+            ctx.lineWidth = 2;
+            
+            // Vertical lines
+            for (let x = 0; x < canvas.width; x += 20) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, canvas.height);
+                ctx.stroke();
+            }
+            
+            // Horizontal lines
+            for (let y = 0; y < canvas.height; y += 20) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+            
+            // Add decorative elements
+            ctx.fillStyle = 'rgba(212, 175, 55, 0.4)';
+            for (let i = 0; i < 10; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const radius = Math.random() * 30 + 5;
+                ctx.beginPath();
+                ctx.arc(x, y, radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            // Add text
+            ctx.fillStyle = 'rgba(26, 26, 26, 0.7)';
+            ctx.font = 'bold 32px serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Our Story', canvas.width / 2, canvas.height / 2 - 10);
+            
+            ctx.font = '16px sans-serif';
+            ctx.fillText('Craftsmanship • Creativity • Community', canvas.width / 2, canvas.height / 2 + 25);
+            
+            // Convert to download link
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const link = document.getElementById('storyDownload');
+                link.href = url;
+                link.style.display = 'inline-block';
+            }, 'image/jpeg', 0.9);
+        }
+        
+        // Auto-generate images on page load
+        window.onload = function() {
+            generateHeroImage();
+            generateStoryImage();
+        };
+    </script>
+</body>
+</html>
