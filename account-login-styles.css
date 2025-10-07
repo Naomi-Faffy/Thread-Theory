@@ -10,21 +10,12 @@ body {
     font-family: 'Inter', sans-serif;
     min-height: 100vh;
     padding-top: 80px;
-    background:
-        /* Beach picnic scene */
-        linear-gradient(to bottom,
-            #87CEEB 0%,     /* Sky blue */
-            #B0E0E6 30%,    /* Powder blue */
-            #F0F8FF 50%,    /* Alice blue */
-            #20B2AA 70%,    /* Light sea green */
-            #008B8B 85%,    /* Dark cyan */
-            #2F4F4F 100%    /* Dark slate gray */
-        );
+    background: url('beach-picnic-background.jpg') center/cover no-repeat fixed;
     position: relative;
     overflow-x: hidden;
 }
 
-/* Beach picnic background effect */
+/* Beach picnic background overlay */
 body::before {
     content: '';
     position: fixed;
@@ -32,30 +23,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background:
-        /* Picnic blanket pattern */
-        repeating-linear-gradient(
-            45deg,
-            transparent,
-            transparent 20px,
-            rgba(255, 0, 0, 0.1) 20px,
-            rgba(255, 0, 0, 0.1) 40px,
-            transparent 40px,
-            transparent 60px,
-            rgba(0, 0, 255, 0.1) 60px,
-            rgba(0, 0, 255, 0.1) 80px
-        ),
-        /* Beach texture */
-        radial-gradient(circle at 10% 90%, rgba(255, 218, 185, 0.3) 2px, transparent 2px),
-        radial-gradient(circle at 30% 95%, rgba(255, 218, 185, 0.2) 1px, transparent 1px),
-        radial-gradient(circle at 70% 88%, rgba(255, 218, 185, 0.3) 3px, transparent 3px),
-        radial-gradient(circle at 90% 92%, rgba(255, 218, 185, 0.2) 2px, transparent 2px);
-    background-size:
-        100px 100px,
-        50px 50px,
-        80px 80px,
-        60px 60px,
-        70px 70px;
+    background: rgba(0, 0, 0, 0.1);
     z-index: -1;
 }
 

@@ -174,7 +174,7 @@ body {
     align-items: center;
 }
 
-.nav-logo { display: flex; align-items: center; gap: 10px; }
+.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
 .nav-logo::before { content: ''; width: 36px; height: 36px; border-radius: 8px; background: url('tt-logo.png') center/cover no-repeat; display: inline-block; }
 .nav-logo:has(.logo-img)::before { content: none; }
 .logo-img { width: 36px; height: 36px; border-radius: 8px; }
