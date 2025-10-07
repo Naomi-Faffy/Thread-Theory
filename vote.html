@@ -238,6 +238,165 @@
             cursor: not-allowed;
         }
 
+        /* Results Section with Graphs */
+        .results-section {
+            margin-top: 60px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px;
+            border: 2px solid rgba(139, 92, 246, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .results-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 30px;
+            text-align: center;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .results-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .results-chart {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.1));
+            border-radius: 20px;
+            padding: 30px;
+            border: 2px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .chart-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .chart-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.2);
+        }
+
+        .chart-bar-container {
+            flex: 1;
+            margin: 0 15px;
+        }
+
+        .chart-bar {
+            height: 8px;
+            background: rgba(139, 92, 246, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .chart-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #8b5cf6, #ec4899, #f97316);
+            border-radius: 4px;
+            transition: width 0.8s ease;
+            position: relative;
+        }
+
+        .chart-bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .chart-rank {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #8b5cf6;
+            min-width: 40px;
+        }
+
+        .chart-name {
+            font-weight: 600;
+            color: #1f2937;
+            min-width: 120px;
+        }
+
+        .chart-votes {
+            font-weight: 600;
+            color: #6b7280;
+            min-width: 80px;
+            text-align: right;
+        }
+
+        .results-list {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(139, 92, 246, 0.1));
+            border-radius: 20px;
+            padding: 30px;
+            border: 2px solid rgba(236, 72, 153, 0.2);
+        }
+
+        .result-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            border: 1px solid rgba(236, 72, 153, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .result-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(236, 72, 153, 0.2);
+        }
+
+        .result-rank {
+            font-size: 1.1rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-right: 15px;
+            min-width: 30px;
+        }
+
+        .result-name {
+            flex: 1;
+            font-weight: 500;
+            color: #1f2937;
+        }
+
+        .result-votes {
+            font-weight: 600;
+            color: #6b7280;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.1));
+            padding: 5px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
 
 
         /* Responsive Design for Voting Grid */
@@ -277,6 +436,15 @@
             .collection-name {
                 font-size: 1.1rem;
             }
+
+            .results-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .results-title {
+                font-size: 1.6rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -297,10 +465,6 @@
             .collection-name {
                 font-size: 1rem;
                 margin-bottom: 6px;
-            }
-
-            .collection-description {
-                font-size: 0.8rem;
             }
         }
     </style>
@@ -380,7 +544,18 @@
                 </button>
             </div>
 
-
+            <!-- Voting Results with Graphs -->
+            <div class="results-section">
+                <h2 class="results-title">Live Voting Results</h2>
+                <div class="results-container">
+                    <div class="results-chart" id="results-chart">
+                        <!-- Chart will be populated by JavaScript -->
+                    </div>
+                    <div class="results-list" id="results-list">
+                        <!-- Results list will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -424,8 +599,10 @@
         function initVoting() {
             checkVotingCycle();
             renderCollections();
+            loadResults();
             updateCountdown();
             setInterval(updateCountdown, 1000);
+            setInterval(loadResults, 5000); // Update results every 5 seconds
         }
 
         // Check if current voting cycle is active
@@ -547,11 +724,69 @@
 
             userHasVoted = true;
 
+            // Update results immediately
+            loadResults();
+
             // Redirect to confirmation page
             window.location.href = 'vote-confirmation.html';
         }
 
 
+
+        // Load and display results with beautiful graphs
+        function loadResults() {
+            const cycleData = JSON.parse(localStorage.getItem('threadTheoryVoteCycle'));
+            const votes = cycleData?.votes || {};
+
+            // Sort collections by vote count
+            const sortedResults = COLLECTIONS
+                .map(collection => ({
+                    ...collection,
+                    votes: votes[collection.id] || 0
+                }))
+                .sort((a, b) => b.votes - a.votes);
+
+            const maxVotes = Math.max(...sortedResults.map(r => r.votes), 1);
+
+            // Render chart
+            const chartContainer = document.getElementById('results-chart');
+            chartContainer.innerHTML = '<h3 style="text-align: center; color: #8b5cf6; margin-bottom: 20px;">Vote Distribution</h3>';
+
+            sortedResults.slice(0, 10).forEach((result, index) => {
+                const percentage = (result.votes / maxVotes) * 100;
+
+                const chartItem = document.createElement('div');
+                chartItem.className = 'chart-item';
+                chartItem.innerHTML = `
+                    <div class="chart-rank">#${index + 1}</div>
+                    <div class="chart-name">${result.name}</div>
+                    <div class="chart-bar-container">
+                        <div class="chart-bar">
+                            <div class="chart-bar-fill" style="width: ${percentage}%"></div>
+                        </div>
+                    </div>
+                    <div class="chart-votes">${result.votes} votes</div>
+                `;
+
+                chartContainer.appendChild(chartItem);
+            });
+
+            // Render results list
+            const resultsContainer = document.getElementById('results-list');
+            resultsContainer.innerHTML = '<h3 style="text-align: center; color: #ec4899; margin-bottom: 20px;">Top Rankings</h3>';
+
+            sortedResults.forEach((result, index) => {
+                const resultItem = document.createElement('div');
+                resultItem.className = 'result-item';
+                resultItem.innerHTML = `
+                    <div class="result-rank">#${index + 1}</div>
+                    <div class="result-name">${result.name}</div>
+                    <div class="result-votes">${result.votes}</div>
+                `;
+
+                resultsContainer.appendChild(resultItem);
+            });
+        }
 
         // Update countdown timer
         function updateCountdown() {
@@ -575,7 +810,7 @@
             const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-            document.getElementById('countdown-timer').textContent = 
+            document.getElementById('countdown-timer').textContent =
                 `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         }
 
