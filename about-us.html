@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us - Thread Theory</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="about-styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="about-profile-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Navigation -->
@@ -17,14 +17,29 @@
                 <span class="logo-text">Thread Theory</span>
             </div>
             
-            <div class="nav-menu" id="nav-menu">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="index.html#collections" class="nav-link">Collections</a>
-                <a href="creators.html" class="nav-link">Creators</a>
-                <a href="about-us.html" class="nav-link active">About</a>
-                <a href="account.html" class="nav-link">Account</a>
-                <a href="cart.html" class="nav-link">Cart</a>
-            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">HOME</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#collections" class="nav-link">COLLECTIONS</a>
+                </li>
+                <li class="nav-item">
+                    <a href="creators.html" class="nav-link">CREATORS</a>
+                </li>
+                <li class="nav-item">
+                    <a href="about-us.html" class="nav-link active">ABOUT</a>
+                </li>
+                <li class="nav-item">
+                    <a href="vote.html" class="nav-link">VOTE</a>
+                </li>
+                <li class="nav-item">
+                    <a href="cart.html" class="nav-link">CART</a>
+                </li>
+                <li class="nav-item">
+                    <a href="account.html" class="nav-link">ACCOUNT</a>
+                </li>
+            </ul>
             
             <div class="hamburger" id="hamburger">
                 <span class="bar"></span>
@@ -34,174 +49,95 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="about-hero">
-        <div class="hero-content">
-            <div class="hero-text">
-                <h1 class="hero-title">About Thread Theory</h1>
-                <p class="hero-subtitle">Where craftsmanship meets creativity, and every thread tells a story</p>
+    <!-- Profile Card Section -->
+    <main class="profile-main">
+        <div class="profile-container">
+            <div class="profile-card">
+                <!-- Header with greeting -->
+                <div class="profile-header">
+                    <div class="greeting-bubble">
+                        <span class="greeting-text">HELLO, WE'RE</span>
+                    </div>
+                    <h1 class="profile-name">Thread Theory</h1>
+                </div>
+                
+                <!-- Main content grid -->
+                <div class="profile-content">
+                    <!-- Left side - Info cards -->
+                    <div class="profile-left">
+                        <!-- Basic info card -->
+                        <div class="info-card basic-info">
+                            <div class="info-item">
+                                <span class="info-label">Founded:</span>
+                                <span class="info-value">2024</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Industry:</span>
+                                <span class="info-value">Fashion & Design</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Location:</span>
+                                <span class="info-value">Global Platform</span>
+                            </div>
+                        </div>
+                        
+                        <!-- About card -->
+                        <div class="info-card about-card">
+                            <h3 class="card-title">ABOUT US</h3>
+                            <p class="card-text">
+                                We're a platform connecting talented fashion creators with customers who appreciate unique, handcrafted pieces. Thread Theory bridges traditional craftsmanship with contemporary style, where every thread tells a story.
+                            </p>
+                        </div>
+                        
+                        <!-- Logo display -->
+                        <div class="info-card logo-card">
+                            <div class="logo-container">
+                                <img src="thread-theory-logo.svg" alt="Thread Theory Logo" class="profile-logo">
+                            </div>
+                            <p class="logo-caption">OUR BRAND</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Right side - Image and additional info -->
+                    <div class="profile-right">
+                        <!-- Main image placeholder -->
+                        <div class="profile-image-container">
+                            <div class="profile-image">
+                                <img src="thread-theory-logo.svg" alt="Thread Theory" class="main-profile-img">
+                            </div>
+                        </div>
+                        
+                        <!-- Mission card -->
+                        <div class="info-card mission-card">
+                            <h3 class="card-title">OUR MISSION</h3>
+                            <ul class="mission-list">
+                                <li>• Connecting creators with customers</li>
+                                <li>• Promoting sustainable fashion</li>
+                                <li>• Supporting artisan craftsmanship</li>
+                                <li>• Building fashion community</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Values card -->
+                        <div class="info-card values-card">
+                            <h3 class="card-title">WHAT WE LOVE</h3>
+                            <ul class="values-list">
+                                <li>• Unique handcrafted designs</li>
+                                <li>• Supporting independent creators</li>
+                                <li>• Quality over quantity</li>
+                                <li>• Sustainable fashion practices</li>
+                                <li>• Building lasting connections</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Footer -->
+                <div class="profile-footer">
+                    <p class="follow-text">Follow us @threadtheory</p>
+                </div>
             </div>
         </div>
-        <div class="hero-image">
-            <div class="image-overlay"></div>
-        </div>
-    </section>
-
-    <!-- Main Content -->
-    <main class="about-main">
-        <!-- Our Story Section -->
-        <section class="story-section">
-            <div class="container">
-                <div class="story-content">
-                    <div class="story-text">
-                        <h2 class="section-title">Our Story</h2>
-                        <div class="story-paragraphs">
-                            <p class="story-paragraph">
-                                Thread Theory was born from a simple belief: that fashion should be personal, 
-                meaningful, and crafted with intention. In a world of fast fashion and mass production, 
-                we saw an opportunity to create something different—a platform where talented creators 
-                could share their artistry and customers could discover truly unique pieces.
-                            </p>
-                            <p class="story-paragraph">
-                                Our journey began when we realized that the most beautiful garments aren't 
-                just worn, they're experienced. Each piece in our collection carries the passion, 
-                skill, and vision of its creator, making every purchase a connection between artist and wearer.
-                            </p>
-                            <p class="story-paragraph">
-                                Today, Thread Theory stands as a bridge between traditional craftsmanship 
-                and contemporary style, where every thread is chosen with purpose and every design 
-                tells a story worth sharing.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="story-image">
-                        <div class="image-frame">
-                            <img src="images/about-story.jpg" alt="Our Story" class="story-img">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Mission & Vision Section -->
-        <section class="mission-vision-section">
-            <div class="container">
-                <div class="mv-grid">
-                    <!-- Mission -->
-                    <div class="mv-card mission-card">
-                        <div class="mv-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                                <path d="M2 17l10 5 10-5"/>
-                                <path d="M2 12l10 5 10-5"/>
-                            </svg>
-                        </div>
-                        <h3 class="mv-title">Our Mission</h3>
-                        <p class="mv-description">
-                            To empower independent creators and artisans by providing a platform where their 
-                unique talents can flourish, while connecting discerning customers with exceptional, 
-                handcrafted fashion that reflects their individual style and values.
-                        </p>
-                        <div class="mv-highlights">
-                            <span class="highlight-item">Empower Creators</span>
-                            <span class="highlight-item">Celebrate Craftsmanship</span>
-                            <span class="highlight-item">Foster Community</span>
-                        </div>
-                    </div>
-
-                    <!-- Vision -->
-                    <div class="mv-card vision-card">
-                        <div class="mv-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                                <circle cx="12" cy="12" r="3"/>
-                            </svg>
-                        </div>
-                        <h3 class="mv-title">Our Vision</h3>
-                        <p class="mv-description">
-                            To become the world's premier destination for artisanal fashion, where creativity 
-                knows no bounds and every piece tells a story. We envision a future where sustainable, 
-                handcrafted fashion is the norm, not the exception.
-                        </p>
-                        <div class="mv-highlights">
-                            <span class="highlight-item">Global Artisan Network</span>
-                            <span class="highlight-item">Sustainable Fashion</span>
-                            <span class="highlight-item">Cultural Preservation</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Values Section -->
-        <section class="values-section">
-            <div class="container">
-                <h2 class="section-title centered">What We Stand For</h2>
-                <div class="values-grid">
-                    <div class="value-item">
-                        <div class="value-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                            </svg>
-                        </div>
-                        <h4 class="value-title">Authenticity</h4>
-                        <p class="value-description">Every piece is genuine, crafted with passion and integrity by skilled artisans.</p>
-                    </div>
-                    
-                    <div class="value-item">
-                        <div class="value-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <circle cx="12" cy="12" r="10"/>
-                                <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
-                                <line x1="9" y1="9" x2="9.01" y2="9"/>
-                                <line x1="15" y1="9" x2="15.01" y2="9"/>
-                            </svg>
-                        </div>
-                        <h4 class="value-title">Quality</h4>
-                        <p class="value-description">We believe in excellence, ensuring every item meets our high standards.</p>
-                    </div>
-                    
-                    <div class="value-item">
-                        <div class="value-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
-                            </svg>
-                        </div>
-                        <h4 class="value-title">Innovation</h4>
-                        <p class="value-description">Blending traditional techniques with contemporary design and technology.</p>
-                    </div>
-                    
-                    <div class="value-item">
-                        <div class="value-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                                <path d="M2 17l10 5 10-5"/>
-                                <path d="M2 12l10 5 10-5"/>
-                            </svg>
-                        </div>
-                        <h4 class="value-title">Sustainability</h4>
-                        <p class="value-description">Committed to ethical practices and environmental responsibility.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Call to Action -->
-        <section class="cta-section">
-            <div class="container">
-                <div class="cta-content">
-                    <h2 class="cta-title">Join Our Community</h2>
-                    <p class="cta-description">
-                        Whether you're a creator looking to share your artistry or a fashion enthusiast 
-                        seeking unique pieces, Thread Theory welcomes you to be part of our story.
-                    </p>
-                    <div class="cta-buttons">
-                        <a href="creators.html" class="cta-btn primary">Meet Our Creators</a>
-                        <a href="index.html#collections" class="cta-btn secondary">Explore Collections</a>
-                    </div>
-                </div>
-            </div>
-        </section>
     </main>
 
     <!-- Footer -->
@@ -219,10 +155,10 @@
                 <div class="footer-section">
                     <h4 class="footer-title">Quick Links</h4>
                     <ul class="footer-links">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="index.html#collections">Collections</a></li>
-                        <li><a href="creators.html">Creators</a></li>
-                        <li><a href="about-us.html">About</a></li>
+                        <li><a href="index.html">HOME</a></li>
+                        <li><a href="index.html#collections">COLLECTIONS</a></li>
+                        <li><a href="creators.html">CREATORS</a></li>
+                        <li><a href="about-us.html">ABOUT</a></li>
                     </ul>
                 </div>
                 
