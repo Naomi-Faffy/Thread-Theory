@@ -1,0 +1,253 @@
+/* Account Login Page Styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    padding-top: 80px;
+    background: linear-gradient(to bottom, #87CEEB 0%, #87CEEB 50%, #228B22 50%, #228B22 100%);
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Sunflower field background effect */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        /* Sky gradient */
+        linear-gradient(to bottom, #87CEEB 0%, #98D8E8 30%, #B8E6B8 70%, #228B22 100%),
+        /* Sunflower pattern */
+        radial-gradient(circle at 20% 80%, #FFD700 8px, transparent 8px),
+        radial-gradient(circle at 60% 85%, #FFD700 6px, transparent 6px),
+        radial-gradient(circle at 35% 75%, #FFD700 7px, transparent 7px),
+        radial-gradient(circle at 80% 90%, #FFD700 5px, transparent 5px),
+        radial-gradient(circle at 15% 70%, #FFD700 6px, transparent 6px),
+        radial-gradient(circle at 70% 78%, #FFD700 8px, transparent 8px),
+        radial-gradient(circle at 45% 82%, #FFD700 7px, transparent 7px),
+        radial-gradient(circle at 90% 85%, #FFD700 6px, transparent 6px);
+    background-size: 
+        100% 100%,
+        200px 200px,
+        180px 180px,
+        220px 220px,
+        160px 160px,
+        240px 240px,
+        190px 190px,
+        170px 170px,
+        210px 210px;
+    z-index: -1;
+}
+
+.login-main {
+    min-height: calc(100vh - 160px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.login-container {
+    position: relative;
+    z-index: 1;
+}
+
+.login-circle {
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(135, 206, 235, 0.9) 0%, rgba(176, 224, 230, 0.9) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.login-form-container {
+    width: 280px;
+    text-align: center;
+}
+
+.login-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2c2c2c;
+    margin-bottom: 30px;
+    letter-spacing: 2px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    text-align: left;
+}
+
+.form-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #2c2c2c;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #B8336A;
+    border-radius: 8px;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #2c2c2c;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #2c2c2c;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 0 3px rgba(184, 51, 106, 0.2);
+}
+
+.form-input::placeholder {
+    color: #666;
+    font-style: italic;
+}
+
+.forgot-password {
+    text-align: right;
+    margin-top: -10px;
+}
+
+.forgot-link {
+    font-size: 12px;
+    color: #2c2c2c;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.forgot-link:hover {
+    color: #B8336A;
+}
+
+.login-button {
+    background: #2c2c2c;
+    color: #B8336A;
+    border: none;
+    padding: 15px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.login-button:hover {
+    background: #1a1a1a;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.lock-icon {
+    font-size: 18px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .login-circle {
+        width: 350px;
+        height: 350px;
+    }
+    
+    .login-form-container {
+        width: 250px;
+    }
+    
+    .login-title {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-main {
+        padding: 20px 15px;
+    }
+    
+    .login-circle {
+        width: 320px;
+        height: 320px;
+    }
+    
+    .login-form-container {
+        width: 220px;
+    }
+    
+    .login-title {
+        font-size: 1.6rem;
+        margin-bottom: 25px;
+    }
+    
+    .form-input {
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+    
+    .login-button {
+        padding: 12px 18px;
+        font-size: 14px;
+    }
+}
+
+/* Additional sunflower decorations */
+@media (min-width: 769px) {
+    body::after {
+        content: '🌻';
+        position: fixed;
+        font-size: 40px;
+        bottom: 20px;
+        right: 20px;
+        z-index: 0;
+        opacity: 0.7;
+        animation: sway 3s ease-in-out infinite;
+    }
+}
+
+@keyframes sway {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+}
+
+/* Navigation adjustments for this page */
+.navbar {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+}
+
+/* Footer adjustments */
+.footer {
+    background: rgba(44, 44, 44, 0.95);
+    backdrop-filter: blur(10px);
+}

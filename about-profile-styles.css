@@ -85,6 +85,7 @@ body {
     padding: 20px;
     margin-bottom: 20px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border: 3px solid #000;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -103,7 +104,8 @@ body {
 
 /* Basic Info Card */
 .basic-info {
-    background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+    background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+    border: 3px solid #000;
 }
 
 .info-item {
@@ -125,8 +127,10 @@ body {
 
 /* About Card */
 .about-card {
-    background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
     color: white;
+    border: 3px solid #000;
+    grid-column: span 2;
 }
 
 .about-card .card-title {
@@ -141,26 +145,43 @@ body {
 
 /* Logo Card */
 .logo-card {
-    background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+    background: #B8336A;
     text-align: center;
     color: white;
+    border: 3px solid #000;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
 }
 
 .logo-card .card-title {
     color: white;
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    background: rgba(0,0,0,0.7);
+    padding: 5px 15px;
+    border-radius: 10px;
+    font-size: 12px;
 }
 
 .logo-container {
-    margin: 15px 0;
+    margin: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .profile-logo {
-    width: 80px;
-    height: 80px;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
-    background: white;
-    border-radius: 10px;
-    padding: 10px;
+    background: transparent;
+    border-radius: 0;
+    padding: 20px;
 }
 
 .logo-caption {
@@ -178,27 +199,30 @@ body {
 .profile-image {
     width: 100%;
     height: 200px;
-    background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+    background: #B8336A;
     border-radius: 15px;
+    border: 3px solid #000;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    padding: 0;
 }
 
 .main-profile-img {
-    width: 120px;
-    height: 120px;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
-    background: white;
-    border-radius: 15px;
-    padding: 15px;
+    background: transparent;
+    border-radius: 0;
+    padding: 20px;
 }
 
 /* Mission Card */
 .mission-card {
-    background: linear-gradient(135deg, #55efc4 0%, #00b894 100%);
+    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
     color: white;
+    border: 3px solid #000;
 }
 
 .mission-card .card-title {
@@ -217,8 +241,9 @@ body {
 
 /* Values Card */
 .values-card {
-    background: linear-gradient(135deg, #fdcb6e 0%, #e17055 100%);
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
     color: white;
+    border: 3px solid #000;
 }
 
 .values-card .card-title {
