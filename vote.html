@@ -197,11 +197,7 @@
             margin-bottom: 8px;
         }
 
-        .collection-description {
-            font-size: 0.95rem;
-            color: #6b7280;
-            line-height: 1.5;
-        }
+
 
         .vote-actions {
             text-align: center;
@@ -280,10 +276,6 @@
 
             .collection-name {
                 font-size: 1.1rem;
-            }
-
-            .collection-description {
-                font-size: 0.85rem;
             }
         }
 
@@ -405,24 +397,25 @@
         // Voting system with 72-hour cycles
         const VOTE_CYCLE_HOURS = 72;
         const COLLECTIONS = [
-            { id: 'dresses', name: 'Dresses', description: 'Elegant and versatile dresses for every occasion' },
-            { id: 'tops', name: 'Tops', description: 'Stylish tops and blouses to complete your look' },
-            { id: 'accessories', name: 'Accessories', description: 'Beautiful accessories to enhance your style' },
-            { id: 'bottoms', name: 'Bottoms', description: 'Comfortable and fashionable pants and skirts' },
-            { id: 'bags', name: 'Bags', description: 'Handcrafted bags for every need and style' },
-            { id: 'jerseys', name: 'Jerseys', description: 'Comfortable and stylish jersey wear' },
-            { id: 'hats', name: 'Hats', description: 'Trendy hats and headwear accessories' },
-            { id: 'shorts', name: 'Shorts', description: 'Comfortable shorts for casual and active wear' },
-            { id: 'two-piece', name: 'Two-Piece Sets', description: 'Coordinated two-piece outfits' },
-            { id: 'skirts', name: 'Skirts', description: 'Feminine and versatile skirts for any style' },
-            { id: 'hair', name: 'Hair Accessories', description: 'Beautiful hair accessories and styling tools' },
-            { id: 'shrugs', name: 'Shrugs', description: 'Layer up with stylish shrugs' },
-            { id: 'shoes', name: 'Shoes', description: 'Footwear to match your style' },
-            { id: 'jumpsuits', name: 'Jumpsuits', description: 'One-and-done looks for every day' },
-            { id: 'jewellery', name: 'Jewellery', description: 'Handmade jewellery pieces' },
-            { id: 'men', name: 'Men', description: 'Styles crafted for men' },
-            { id: 'home', name: 'Home', description: 'Handcrafted pieces for your home' }
-        ].slice(0, 18); // Limit to exactly 18 collections for 9x2 grid
+            { id: 'dresses', name: 'Dresses' },
+            { id: 'tops', name: 'Tops' },
+            { id: 'accessories', name: 'Accessories' },
+            { id: 'bottoms', name: 'Bottoms' },
+            { id: 'bags', name: 'Bags' },
+            { id: 'jerseys', name: 'Jerseys' },
+            { id: 'hats', name: 'Hats' },
+            { id: 'shorts', name: 'Shorts' },
+            { id: 'two-piece', name: 'Two-Piece Sets' },
+            { id: 'skirts', name: 'Skirts' },
+            { id: 'hair', name: 'Hair Accessories' },
+            { id: 'shrugs', name: 'Shrugs' },
+            { id: 'shoes', name: 'Shoes' },
+            { id: 'jumpsuits', name: 'Jumpsuits' },
+            { id: 'jewellery', name: 'Jewellery' },
+            { id: 'men', name: 'Men' },
+            { id: 'home', name: 'Home' },
+            { id: 'customization', name: 'Customization' }
+        ]; // Exactly 18 collections for 9x2 grid
 
         let selectedCollections = [];
         let userHasVoted = false;
@@ -481,7 +474,6 @@
                 card.innerHTML = `
                     <div class="collection-image">${collection.name}</div>
                     <div class="collection-name">${collection.name}</div>
-                    <div class="collection-description">${collection.description}</div>
                 `;
 
                 card.addEventListener('click', () => toggleCollection(collection.id));
