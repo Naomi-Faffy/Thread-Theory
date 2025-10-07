@@ -49,40 +49,142 @@
         </div>
     </nav>
 
-    <!-- Login Section -->
+    <!-- Login/Signup Section -->
     <main class="login-main">
         <div class="login-container">
-            <div class="login-circle">
+            <!-- Login Form -->
+            <div class="login-circle" id="loginForm">
                 <div class="login-form-container">
-                    <h1 class="login-title">LOGIN</h1>
-                    
+                    <div class="form-header">
+                        <img src="tt-logo.png" alt="Thread Theory" class="form-logo">
+                        <h1 class="login-title">LOGIN</h1>
+                    </div>
+
                     <form class="login-form">
                         <div class="form-group">
                             <label for="username" class="form-label">Name</label>
-                            <input type="text" id="username" name="username" class="form-input" placeholder="Really Great Site">
+                            <input type="text" id="username" name="username" class="form-input" placeholder="Enter your name">
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="password" class="form-label">Password</label>
                             <input type="password" id="password" name="password" class="form-input" placeholder="••••••••••">
                         </div>
-                        
+
                         <div class="forgot-password">
                             <a href="#" class="forgot-link">Forgot Password?</a>
                         </div>
-                        
+
                         <button type="submit" class="login-button">
-                            <span class="lock-icon">🔒</span>
                             LOGIN
                         </button>
+
+                        <div class="form-switch">
+                            <p>Don't have an account? <a href="#" class="switch-link" onclick="showSignup()">Sign Up</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Signup Form -->
+            <div class="signup-rectangle" id="signupForm" style="display: none;">
+                <div class="signup-form-container">
+                    <div class="form-header">
+                        <img src="tt-logo.png" alt="Thread Theory" class="form-logo">
+                        <h1 class="signup-title">SIGN UP</h1>
+                    </div>
+
+                    <form class="signup-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName" class="form-label">First Name</label>
+                                <input type="text" id="firstName" name="firstName" class="form-input" placeholder="John">
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName" class="form-label">Last Name</label>
+                                <input type="text" id="lastName" name="lastName" class="form-input" placeholder="Doe">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" id="email" name="email" class="form-input" placeholder="john@example.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="newPassword" class="form-label">Password</label>
+                            <input type="password" id="newPassword" name="newPassword" class="form-input" placeholder="••••••••••">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" class="form-input" placeholder="••••••••••">
+                        </div>
+
+                        <button type="submit" class="signup-button">
+                            CREATE ACCOUNT
+                        </button>
+
+                        <div class="form-switch">
+                            <p>Already have an account? <a href="#" class="switch-link" onclick="showLogin()">Login</a></p>
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
     </main>
 
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="tt-logo.png" alt="Thread Theory" class="footer-logo-img">
+                        <span class="footer-logo-text">Thread Theory</span>
+                    </div>
+                    <p class="footer-description">Where every thread tells a story</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-title">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">HOME</a></li>
+                        <li><a href="index.html#collections">COLLECTIONS</a></li>
+                        <li><a href="creators.html">CREATORS</a></li>
+                        <li><a href="about-us.html">ABOUT</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-title">Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="account.html">My Account</a></li>
+                        <li><a href="cart.html">Shopping Cart</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                        <li><a href="#help">Help Center</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Thread Theory. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
 
     <script src="script.js"></script>
+    <script>
+        function showSignup() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('signupForm').style.display = 'flex';
+        }
+
+        function showLogin() {
+            document.getElementById('signupForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'flex';
+        }
+    </script></script>
 </body>
 </html>
