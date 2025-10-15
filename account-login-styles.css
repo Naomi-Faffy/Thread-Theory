@@ -10,21 +10,38 @@ body {
     font-family: 'Inter', sans-serif;
     min-height: 100vh;
     padding-top: 80px;
-    background: url('beach-picnic.jpg') center/cover no-repeat fixed;
+    background: linear-gradient(135deg, #fdf2f8 0%, #ffffff 50%, #f3e8ff 100%);
     position: relative;
     overflow-x: hidden;
 }
 
-/* Optional overlay for better form visibility */
+/* Background decorative elements */
 body::before {
     content: '';
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.1);
-    z-index: -1;
+    top: 80px;
+    left: 40px;
+    width: 128px;
+    height: 128px;
+    background: linear-gradient(135deg, #dc2626, #9333ea);
+    border-radius: 50%;
+    filter: blur(60px);
+    z-index: 0;
+    opacity: 0.6;
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    bottom: 160px;
+    right: 80px;
+    width: 192px;
+    height: 192px;
+    background: linear-gradient(135deg, #7c3aed, #db2777);
+    border-radius: 50%;
+    filter: blur(60px);
+    z-index: 0;
+    opacity: 0.6;
 }
 
 .login-main {
@@ -44,13 +61,13 @@ body::before {
     width: 550px;
     height: 550px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.9);
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(15px);
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(139, 92, 246, 0.2);
 }
 
 .login-form-container {
@@ -93,7 +110,7 @@ body::before {
 .form-input {
     width: 100%;
     padding: 12px 16px;
-    border: 2px solid #B8336A;
+    border: 2px solid rgba(139, 92, 246, 0.3);
     border-radius: 8px;
     font-size: 14px;
     background: rgba(255, 255, 255, 0.9);
@@ -103,9 +120,9 @@ body::before {
 
 .form-input:focus {
     outline: none;
-    border-color: #2c2c2c;
+    border-color: #8b5cf6;
     background: rgba(255, 255, 255, 1);
-    box-shadow: 0 0 0 3px rgba(184, 51, 106, 0.2);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
 }
 
 .form-input::placeholder {
@@ -127,12 +144,12 @@ body::before {
 }
 
 .forgot-link:hover {
-    color: #B8336A;
+    color: #8b5cf6;
 }
 
 .login-button {
-    background: #2c2c2c;
-    color: #B8336A;
+    background: linear-gradient(135deg, #8b5cf6, #ec4899);
+    color: white;
     border: none;
     padding: 15px 20px;
     border-radius: 8px;
@@ -146,12 +163,12 @@ body::before {
     justify-content: center;
     gap: 10px;
     margin-top: 10px;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
 }
 
 .login-button:hover {
-    background: #1a1a1a;
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
 }
 
 .form-switch {
@@ -167,14 +184,14 @@ body::before {
 }
 
 .switch-link {
-    color: #B8336A;
+    color: #8b5cf6;
     text-decoration: none;
     font-weight: 600;
     transition: color 0.3s ease;
 }
 
 .switch-link:hover {
-    color: #2c2c2c;
+    color: #ec4899;
 }
 
 /* Signup Form Styles */
@@ -182,24 +199,24 @@ body::before {
     width: 500px;
     min-height: 600px;
     border-radius: 25px;
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.9);
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(15px);
-    border: 4px solid #000;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(139, 92, 246, 0.2);
     position: relative;
 }
 
 .signup-rectangle::before {
     content: '';
     position: absolute;
-    top: -4px;
-    left: -4px;
-    right: -4px;
-    bottom: -4px;
-    background: linear-gradient(45deg, #B8336A, #2c2c2c, #B8336A, #2c2c2c);
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, #8b5cf6, #ec4899, #f59e0b);
     border-radius: 25px;
     z-index: -1;
 }

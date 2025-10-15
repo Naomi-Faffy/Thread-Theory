@@ -52,6 +52,9 @@ class AccountManager {
         this.currentUser = newUser;
         localStorage.setItem('threadTheoryCurrentUser', JSON.stringify(newUser));
         
+        // Redirect to collections page after successful registration
+        window.location.href = 'index.html#collections';
+        
         return { ok: true, user: newUser };
     }
 
@@ -60,6 +63,8 @@ class AccountManager {
         if (user) {
             this.currentUser = user;
             localStorage.setItem('threadTheoryCurrentUser', JSON.stringify(user));
+            // Redirect to collections page after successful login
+            window.location.href = 'index.html#collections';
             return true;
         }
         return false;

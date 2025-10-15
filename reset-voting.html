@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Voting - Thread Theory</title>
+</head>
+<body>
+    <h1>Resetting voting cycle...</h1>
+    <script>
+        // Clear voting localStorage
+        localStorage.removeItem('threadTheoryVoteCycle');
+        localStorage.removeItem('threadTheoryUserId');
+        alert('Voting cycle has been reset! You can now vote again.');
+        window.location.href = 'vote.html';
+    </script>
+</body>
+</html>
