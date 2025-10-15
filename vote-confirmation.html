@@ -15,9 +15,16 @@
             min-height: 100vh;
             background: linear-gradient(135deg, rgba(251, 207, 232, 0.1) 0%, rgba(255, 255, 255, 1) 50%, rgba(196, 181, 253, 0.1) 100%);
             display: flex;
+            flex-direction: column;
+            padding-top: 80px;
+        }
+        
+        .confirmation-page-content {
+            flex: 1;
+            display: flex;
             align-items: center;
             justify-content: center;
-            padding: 120px 20px 80px;
+            padding: 40px 20px;
         }
 
         .confirmation-container {
@@ -183,9 +190,6 @@
                     <a href="creators.html" class="nav-link">CREATORS</a>
                 </li>
                 <li class="nav-item">
-                    <a href="about-us.html" class="nav-link">ABOUT</a>
-                </li>
-                <li class="nav-item">
                     <a href="vote.html" class="nav-link">VOTE</a>
                 </li>
                 <li class="nav-item">
@@ -204,24 +208,26 @@
         </div>
     </nav>
 
-    <div class="confirmation-container">
-        <div class="success-icon"></div>
-        
-        <h1 class="confirmation-title">Thank You!</h1>
-        <p class="confirmation-subtitle">
-            Your votes have been successfully submitted. Thank you for participating in our community voting!
-        </p>
+    <div class="confirmation-page-content">
+        <div class="confirmation-container">
+            <div class="success-icon"></div>
+            
+            <h1 class="confirmation-title">Thank You!</h1>
+            <p class="confirmation-subtitle">
+                Your votes have been successfully submitted. You can vote again in 48 hours!
+            </p>
 
-        <div class="vote-summary">
-            <h3>Your Selected Collections</h3>
-            <div class="selected-collections" id="selected-collections">
-                <!-- Selected collections will be populated by JavaScript -->
+            <div class="vote-summary">
+                <h3>Your Selected Collections</h3>
+                <div class="selected-collections" id="selected-collections">
+                    <!-- Selected collections will be populated by JavaScript -->
+                </div>
             </div>
-        </div>
 
-        <div class="action-buttons">
-            <a href="index.html" class="btn btn-primary">Explore Collections</a>
-            <a href="vote.html" class="btn btn-secondary">Back to Voting</a>
+            <div class="action-buttons">
+                <a href="index.html" class="btn btn-primary">Explore Collections</a>
+                <a href="vote.html" class="btn btn-secondary">Back to Voting</a>
+            </div>
         </div>
     </div>
 
