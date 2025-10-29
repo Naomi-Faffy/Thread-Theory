@@ -175,6 +175,7 @@
 
 
     <script src="script.js"></script>
+    <script src="account.js"></script>
     <script>
         function showSignup() {
             document.getElementById('loginForm').style.display = 'none';
@@ -185,6 +186,58 @@
             document.getElementById('signupForm').style.display = 'none';
             document.getElementById('loginForm').style.display = 'flex';
         }
-    </script></script>
+
+        // Handle login form submission
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.querySelector('.login-form');
+            const signupForm = document.querySelector('.signup-form');
+
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const username = document.getElementById('username').value;
+                    const password = document.getElementById('password').value;
+
+                    if (window.accountManager) {
+                        const success = window.accountManager.login(username, password);
+                        if (!success) {
+                            showNotification('Invalid username or password', 'error');
+                        }
+                    }
+                });
+            }
+
+            if (signupForm) {
+                signupForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const firstName = document.getElementById('firstName').value;
+                    const lastName = document.getElementById('lastName').value;
+                    const email = document.getElementById('email').value;
+                    const password = document.getElementById('newPassword').value;
+                    const confirmPassword = document.getElementById('confirmPassword').value;
+
+                    if (password !== confirmPassword) {
+                        showNotification('Passwords do not match', 'error');
+                        return;
+                    }
+
+                    if (window.accountManager) {
+                        const result = window.accountManager.register({
+                            name: `${firstName} ${lastName}`,
+                            email: email,
+                            password: password,
+                            type: 'customer'
+                        });
+
+                        if (!result.ok) {
+                            showNotification(result.reason === 'email_taken' ? 'Email already registered' : 'Registration failed', 'error');
+                        } else {
+                            showNotification('Account created successfully!', 'success');
+                        }
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
