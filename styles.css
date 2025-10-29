@@ -211,6 +211,7 @@ body {
     letter-spacing: 0.5px;
     position: relative;
     transition: var(--smooth-transition);
+    text-transform: uppercase;
 }
 
 .nav-link:hover {
