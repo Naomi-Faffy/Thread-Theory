@@ -52,8 +52,8 @@ class AccountManager {
         this.currentUser = newUser;
         localStorage.setItem('threadTheoryCurrentUser', JSON.stringify(newUser));
         
-        // Redirect to collections page after successful registration
-        window.location.href = 'index.html#collections';
+        // Redirect to about page after successful registration
+        window.location.href = 'about.html';
         
         return { ok: true, user: newUser };
     }

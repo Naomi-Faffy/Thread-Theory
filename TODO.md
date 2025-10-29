@@ -1,37 +1,23 @@
-# Thread Theory Platform Fixes - TODO List
+# TODO List - UI/UX Fixes Implementation
 
-## Cart Counter Fixes
-- [ ] Fix cart counter display on all pages (currently showing CART(0))
-- [ ] Ensure cart counter visibility on creators page
-- [ ] Update script.js to properly handle cart counter updates
+## Current Tasks
+- [ ] Fix cart counter styling inconsistency on creators.html
+- [ ] Update navigation bar to uppercase on collection pages (jerseys.html, etc.)
+- [ ] Change signup redirect to cart.html in account.js
+- [ ] Remove "ABOUT" from all navigation bars and about-us.html links
+- [ ] Remove fading lines under collection names on index.html
+- [ ] Modify voting timer logic to start only after successful vote in vote.html
+- [ ] Add colorful background splashes to cart.html like creators page
+- [ ] Update login form styling to rounded rectangle matching signup colors in account.html
 
-## Voting Timer Fixes
-- [ ] Update voting timer to properly show 48 hours instead of 72
-- [ ] Implement restart functionality for voting cycles
-- [ ] Clear old localStorage data if necessary
+## Completed Tasks
+- [x] Initial analysis and planning
+- [x] User confirmation received
 
-## Theme Consistency
-- [ ] Apply creators page background and styling to account.html
-- [ ] Apply creators page background and styling to account-login-styles.css
-- [ ] Ensure consistent theme across login/account pages
-
-## Navigation Updates
-- [ ] Remove "About" link from all navigation menus
-- [ ] Fix navigation title capitalization (e.g., "Home" to "HOME")
-- [ ] Update nav menus in all relevant HTML files
-
-## Collection Layout Updates
-- [ ] Update collection layouts to neat boxes without image titles
-- [ ] Modify jerseys.html and other collection pages
-- [ ] Ensure clean product grid layouts
-
-## Product Size Options
-- [x] Add 2XL size option to all products across collection pages
-- [x] Update size options in jerseys.html and other collection files
-
-## Testing and Validation
-- [ ] Test all changes for responsiveness
-- [ ] Test cart functionality across pages
-- [ ] Test voting system timer and restart
-- [ ] Verify theme consistency
-- [ ] Check navigation functionality
+## Next Steps
+- Begin implementation with cart counter fix on creators.html
+- Test each change incrementally
+- Verify all navigation consistency
+- Confirm redirects work correctly
+- Check voting timer behavior
+- Validate visual styling improvements
