@@ -63,8 +63,8 @@ class AccountManager {
         if (user) {
             this.currentUser = user;
             localStorage.setItem('threadTheoryCurrentUser', JSON.stringify(user));
-            // Redirect to collections page after successful login
-            window.location.href = 'index.html#collections';
+            // Redirect to cart page after successful login
+            window.location.href = 'cart.html';
             return true;
         }
         return false;
