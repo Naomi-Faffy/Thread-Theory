@@ -26,8 +26,8 @@
 - [ ] Ensure clean product grid layouts
 
 ## Product Size Options
-- [ ] Add 2XL size option to all products across collection pages
-- [ ] Update size options in jerseys.html and other collection files
+- [x] Add 2XL size option to all products across collection pages
+- [x] Update size options in jerseys.html and other collection files
 
 ## Testing and Validation
 - [ ] Test all changes for responsiveness
