@@ -7,6 +7,46 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="account-login-styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Additional styles for account page */
+        body {
+            background: linear-gradient(135deg, #fdf2f8 0%, #ffffff 50%, #f3e8ff 100%);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Floating background elements */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 80px;
+            left: 40px;
+            width: 128px;
+            height: 128px;
+            background: linear-gradient(135deg, #dc2626, #9333ea);
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: 80px;
+            right: 80px;
+            width: 192px;
+            height: 192px;
+            background: linear-gradient(135deg, #7c3aed, #db2777);
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: 0;
+        }
+
+        .login-main {
+            position: relative;
+            z-index: 10;
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -27,9 +67,7 @@
                 <li class="nav-item">
                     <a href="creators.html" class="nav-link">CREATORS</a>
                 </li>
-                <li class="nav-item">
-                    <a href="about-us.html" class="nav-link">ABOUT</a>
-                </li>
+
                 <li class="nav-item">
                     <a href="vote.html" class="nav-link">VOTE</a>
                 </li>

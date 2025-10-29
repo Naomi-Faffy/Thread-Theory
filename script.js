@@ -7,16 +7,16 @@ const navLinks = document.querySelectorAll('.nav-link');
 // Update cart counter
 function updateCartCounter() {
     let cart = [];
-    
+
     // Check if user is logged in and get their cart
     if (window.accountManager && window.accountManager.getCurrentUser()) {
         cart = window.accountManager.getCart();
     } else {
         cart = JSON.parse(localStorage.getItem('threadTheoryCart')) || [];
     }
-    
+
     const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
-    
+
     // Find cart link and add counter
     const cartLink = document.querySelector('a[href="cart.html"]');
     if (cartLink) {
@@ -25,30 +25,29 @@ function updateCartCounter() {
         if (existingCounter) {
             existingCounter.remove();
         }
-        
-        // Add new counter if there are items
-        if (cartCount > 0) {
-            const counter = document.createElement('span');
-            counter.className = 'cart-counter';
-            counter.textContent = cartCount;
-            counter.style.cssText = `
-                position: absolute;
-                top: -8px;
-                right: -8px;
-                background: #8b5cf6;
-                color: white;
-                border-radius: 50%;
-                width: 20px;
-                height: 20px;
-                font-size: 12px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-weight: bold;
-            `;
-            cartLink.style.position = 'relative';
-            cartLink.appendChild(counter);
-        }
+
+        // Always show counter, even if 0
+        const counter = document.createElement('span');
+        counter.className = 'cart-counter';
+        counter.textContent = cartCount;
+        counter.style.cssText = `
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #8b5cf6;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            z-index: 10;
+        `;
+        cartLink.style.position = 'relative';
+        cartLink.appendChild(counter);
     }
 }
 
