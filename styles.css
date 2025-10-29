@@ -613,15 +613,7 @@ body {
 }
 
 .collection-title::after {
-    content: '';
-    position: absolute;
-    bottom: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 40px;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--primary-black), transparent);
-    transition: var(--smooth-transition);
+    content: none;
 }
 
 .collection-item:hover {
@@ -631,11 +623,6 @@ body {
 .collection-item:hover .collection-title {
     color: var(--charcoal);
     letter-spacing: 3px;
-}
-
-.collection-item:hover .collection-title::after {
-    width: 60px;
-    background: linear-gradient(90deg, transparent, var(--charcoal), transparent);
 }
 
 /* Ensure collection items have proper spacing */
