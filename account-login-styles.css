@@ -57,10 +57,10 @@ body::after {
     z-index: 1;
 }
 
-.login-circle {
-    width: 550px;
-    height: 550px;
-    border-radius: 50%;
+.signup-rectangle {
+    width: 500px;
+    min-height: 600px;
+    border-radius: 25px;
     background: rgba(255, 255, 255, 0.9);
     display: flex;
     align-items: center;
@@ -68,6 +68,19 @@ body::after {
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(20px);
     border: 2px solid rgba(139, 92, 246, 0.2);
+    position: relative;
+}
+
+.signup-rectangle::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, #8b5cf6, #ec4899, #f59e0b);
+    border-radius: 25px;
+    z-index: -1;
 }
 
 .login-form-container {
@@ -274,7 +287,7 @@ body::after {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .login-circle {
+    .signup-rectangle {
         width: 450px;
         height: 450px;
     }
@@ -314,7 +327,7 @@ body::after {
         padding: 20px 15px;
     }
 
-    .login-circle {
+    .signup-rectangle {
         width: 350px;
         height: 350px;
     }
