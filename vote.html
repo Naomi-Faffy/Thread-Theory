@@ -411,8 +411,8 @@
                 </p>
 
                 <div class="vote-timer">
-                    <div class="timer-label">Next voting cycle resets in:</div>
-                    <div class="timer-display" id="countdown-timer">--:--:--</div>
+                    <div class="timer-label">Voting cooldown remaining:</div>
+                    <div class="timer-display" id="countdown-timer">00:00:00</div>
                 </div>
             </div>
 
@@ -451,8 +451,8 @@
     <script src="account.js"></script>
     <script src="script.js"></script>
     <script>
-        // Voting system with 24-hour cycles
-        const VOTE_CYCLE_HOURS = 24;
+        // Voting system with 24-hour individual user cooldown
+        const VOTE_COOLDOWN_HOURS = 24;
         const COLLECTIONS = [
             { id: 'dresses', name: 'Dresses' },
             { id: 'tops', name: 'Tops' },
@@ -475,41 +475,34 @@
         ]; // Exactly 18 collections for 9x2 grid
 
         let selectedCollections = [];
-        let userHasVoted = false;
+        let userVoteCooldown = null;
 
         // Initialize voting system
         function initVoting() {
-            checkVotingCycle();
+            checkUserVoteCooldown();
             renderCollections();
             startCountdown();
-            // Show results only if user has already voted
-            if (userHasVoted) {
-                loadResults();
-                document.getElementById('results-section').style.display = 'block';
-                setInterval(loadResults, 5000);
-            }
+            // Always show results
+            loadResults();
+            document.getElementById('results-section').style.display = 'block';
+            setInterval(loadResults, 5000);
         }
 
-        // Check if current voting cycle is active
-        function checkVotingCycle() {
-            const now = Date.now();
-            const cycleData = JSON.parse(localStorage.getItem('threadTheoryVoteCycle')) || {};
-            
-            // If no cycle exists or cycle has expired, start new cycle
-            if (!cycleData.startTime || (now - cycleData.startTime) >= (VOTE_CYCLE_HOURS * 60 * 60 * 1000)) {
-                // Start new cycle
-                const newCycle = {
-                    startTime: now,
-                    endTime: now + (VOTE_CYCLE_HOURS * 60 * 60 * 1000),
-                    votes: {},
-                    userVotes: {}
-                };
-                localStorage.setItem('threadTheoryVoteCycle', JSON.stringify(newCycle));
-                userHasVoted = false;
-            } else {
-                // Check if user has already voted in current cycle
-                const userId = getUserId();
-                userHasVoted = cycleData.userVotes && cycleData.userVotes[userId];
+        // Check if user is in voting cooldown
+        function checkUserVoteCooldown() {
+            const userId = getUserId();
+            const userVoteData = JSON.parse(localStorage.getItem(`threadTheoryUserVotes_${userId}`)) || {};
+
+            if (userVoteData.lastVoteTime) {
+                const now = Date.now();
+                const timeSinceVote = now - userVoteData.lastVoteTime;
+                const cooldownMs = VOTE_COOLDOWN_HOURS * 60 * 60 * 1000;
+
+                if (timeSinceVote < cooldownMs) {
+                    userVoteCooldown = userVoteData.lastVoteTime + cooldownMs;
+                } else {
+                    userVoteCooldown = null;
+                }
             }
         }
 
@@ -532,7 +525,7 @@
                 const card = document.createElement('div');
                 card.className = 'collection-card';
                 card.dataset.collectionId = collection.id;
-                
+
                 card.innerHTML = `
                     <div class="collection-name">${collection.name}</div>
                 `;
@@ -541,17 +534,17 @@
                 grid.appendChild(card);
             });
 
-            // Disable voting if user already voted
-            if (userHasVoted) {
+            // Disable voting if user is in cooldown
+            if (userVoteCooldown) {
                 grid.style.pointerEvents = 'none';
                 grid.style.opacity = '0.6';
-                document.getElementById('submit-vote').textContent = 'You have already voted this cycle';
+                document.getElementById('submit-vote').textContent = 'Voting cooldown active';
             }
         }
 
         // Toggle collection selection
         function toggleCollection(collectionId) {
-            if (userHasVoted) return;
+            if (userVoteCooldown) return;
 
             const card = document.querySelector(`[data-collection-id="${collectionId}"]`);
             const isSelected = selectedCollections.includes(collectionId);
@@ -589,24 +582,31 @@
 
         // Submit votes
         function submitVotes() {
-            if (selectedCollections.length !== 6 || userHasVoted) return;
+            if (selectedCollections.length !== 6 || userVoteCooldown) return;
 
-            const cycleData = JSON.parse(localStorage.getItem('threadTheoryVoteCycle'));
             const userId = getUserId();
+            const now = Date.now();
 
-            // Record user's votes
-            cycleData.userVotes = cycleData.userVotes || {};
-            cycleData.userVotes[userId] = selectedCollections;
+            // Get existing global votes
+            const globalVotes = JSON.parse(localStorage.getItem('threadTheoryGlobalVotes')) || {};
 
-            // Update vote counts
-            cycleData.votes = cycleData.votes || {};
+            // Update global vote counts
             selectedCollections.forEach(collectionId => {
-                cycleData.votes[collectionId] = (cycleData.votes[collectionId] || 0) + 1;
+                globalVotes[collectionId] = (globalVotes[collectionId] || 0) + 1;
             });
 
-            localStorage.setItem('threadTheoryVoteCycle', JSON.stringify(cycleData));
+            // Save global votes
+            localStorage.setItem('threadTheoryGlobalVotes', JSON.stringify(globalVotes));
 
-            userHasVoted = true;
+            // Save user's individual vote data
+            const userVoteData = {
+                lastVoteTime: now,
+                votes: selectedCollections
+            };
+            localStorage.setItem(`threadTheoryUserVotes_${userId}`, JSON.stringify(userVoteData));
+
+            // Set cooldown
+            userVoteCooldown = now + (VOTE_COOLDOWN_HOURS * 60 * 60 * 1000);
 
             // Update results immediately
             loadResults();
@@ -619,14 +619,13 @@
 
         // Load and display results
         function loadResults() {
-            const cycleData = JSON.parse(localStorage.getItem('threadTheoryVoteCycle'));
-            const votes = cycleData?.votes || {};
+            const globalVotes = JSON.parse(localStorage.getItem('threadTheoryGlobalVotes')) || {};
 
             // Sort collections by vote count
             const sortedResults = COLLECTIONS
                 .map(collection => ({
                     ...collection,
-                    votes: votes[collection.id] || 0
+                    votes: globalVotes[collection.id] || 0
                 }))
                 .sort((a, b) => b.votes - a.votes);
 
@@ -649,19 +648,18 @@
 
         // Update countdown timer
         function updateCountdown() {
-            const cycleData = JSON.parse(localStorage.getItem('threadTheoryVoteCycle'));
-            if (!cycleData) return;
+            if (!userVoteCooldown) {
+                document.getElementById('countdown-timer').textContent = '00:00:00';
+                return;
+            }
 
             const now = Date.now();
-            const timeLeft = cycleData.endTime - now;
+            const timeLeft = userVoteCooldown - now;
 
             if (timeLeft <= 0) {
-                document.getElementById('countdown-timer').textContent = 'Resetting...';
-                setTimeout(() => {
-                    checkVotingCycle();
-                    renderCollections();
-                    loadResults();
-                }, 1000);
+                document.getElementById('countdown-timer').textContent = '00:00:00';
+                userVoteCooldown = null;
+                renderCollections(); // Re-enable voting
                 return;
             }
 
