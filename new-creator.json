@@ -1,0 +1,11 @@
+{
+  "name": "Test Creator",
+  "email": "test.creator@example.com",
+  "password": "password123",
+  "user_type": "creator",
+  "specialty": "Test Specialty",
+  "experience_years": 5,
+  "bio": "Test bio for creator",
+  "phone": "+1234567890",
+  "address": "Test Address"
+}
