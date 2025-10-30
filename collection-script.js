@@ -203,6 +203,22 @@ function closeSizeColorModal() {
 }
 
 function confirmAddToCart(name, price, image) {
+    // Check if user is logged in
+    if (!window.accountManager || !window.accountManager.getCurrentUser()) {
+        // Require login for adding to cart
+        if (window.showNotification) {
+            window.showNotification('Please create an account or log in to add items to your cart.', 'error');
+        } else {
+            alert('Please create an account or log in to add items to your cart.');
+        }
+        closeSizeColorModal();
+        // Redirect to account page
+        setTimeout(() => {
+            window.location.href = 'account.html';
+        }, 2000);
+        return;
+    }
+
     const confirmBtn = document.getElementById('add-to-cart-confirm');
     const selectedSize = confirmBtn.dataset.size;
     const selectedColor = confirmBtn.dataset.color;
@@ -217,15 +233,8 @@ function confirmAddToCart(name, price, image) {
         color: selectedColor
     };
 
-    // Check if user is logged in
-    if (window.accountManager && window.accountManager.getCurrentUser()) {
-        // Use API for logged-in users
-        addToCartAPI(item);
-    } else {
-        // Use localStorage for guest users
-        addToCartLocal(item);
-    }
-
+    // Use API for logged-in users
+    addToCartAPI(item);
     closeSizeColorModal();
 }
 
@@ -293,6 +302,11 @@ function addToCartLocal(item) {
 
     // Save cart
     localStorage.setItem('threadTheoryCart', JSON.stringify(cart));
+
+    // If user is logged in, also update their account manager cart
+    if (window.accountManager && window.accountManager.getCurrentUser()) {
+        window.accountManager.updateCart(cart);
+    }
 
     // Update cart counter if available
     if (window.updateCartCounter) {

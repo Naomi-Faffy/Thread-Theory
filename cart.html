@@ -483,8 +483,12 @@
                     }
                 } catch (error) {
                     console.error('Failed to load cart from API:', error);
-                    // Fallback to account manager
+                    // Fallback to account manager cart first
                     cart = window.accountManager.getCart();
+                    // If account manager cart is empty, check localStorage as final fallback
+                    if (cart.length === 0) {
+                        cart = JSON.parse(localStorage.getItem('threadTheoryCart')) || [];
+                    }
                 }
             } else {
                 cart = JSON.parse(localStorage.getItem('threadTheoryCart')) || [];

@@ -352,6 +352,10 @@ git push
 
                         showNotification('Profile created successfully!', 'success');
                         setTimeout(() => {
+                            // Refresh the creators page to show the new creator immediately
+                            if (window.opener && window.opener.refreshCreators) {
+                                window.opener.refreshCreators();
+                            }
                             window.location.href = 'creators.html';
                         }, 2000);
                     } else {

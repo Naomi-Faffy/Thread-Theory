@@ -88,6 +88,9 @@ class AccountManager {
             this.currentUser = user;
             localStorage.setItem('threadTheoryCurrentUser', JSON.stringify(user));
 
+            // Sync cart from localStorage to account manager
+            this.syncCartOnLogin();
+
             // Show profile navigation for creators
             if (user.type === 'creator') {
                 const profileNav = document.getElementById('profile-nav');
@@ -134,6 +137,20 @@ class AccountManager {
             this.updateUserData();
         } else {
             localStorage.setItem('threadTheoryCart', JSON.stringify(cart));
+        }
+    }
+
+    // Sync localStorage cart with account manager cart when user logs in
+    syncCartOnLogin() {
+        if (this.currentUser) {
+            const localCart = JSON.parse(localStorage.getItem('threadTheoryCart')) || [];
+            if (localCart.length > 0 && (!this.currentUser.cart || this.currentUser.cart.length === 0)) {
+                // Merge local cart into account cart
+                this.currentUser.cart = localCart;
+                this.updateUserData();
+                // Clear localStorage after syncing
+                localStorage.removeItem('threadTheoryCart');
+            }
         }
     }
 
