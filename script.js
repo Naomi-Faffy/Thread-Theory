@@ -254,14 +254,14 @@ function showNotification(message, type = 'info') {
 }
 
 // Collection button handling
-document.addEventListener('DOMContentLoaded', function() {
+function initializeCollectionButtons() {
     const collectionButtons = document.querySelectorAll('.collection-btn');
     collectionButtons.forEach(button => {
         button.addEventListener('click', function(e) {
             e.preventDefault();
             const collectionItem = this.closest('.collection-item');
-            const collectionTitle = collectionItem.querySelector('.collection-title').textContent;
-            
+            const collectionTitle = collectionItem.querySelector('.collection-title').textContent.trim();
+
             // Map collection names to their respective pages (case-insensitive)
             const collectionPages = {
                 'jerseys': 'jerseys.html',
@@ -283,7 +283,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 'home': 'home.html',
                 'customization': 'customization.html'
             };
-            
+
             const targetPage = collectionPages[collectionTitle.toLowerCase()];
             if (targetPage) {
                 window.location.href = targetPage;
@@ -296,7 +296,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-});
+}
+
+// Initialize collection buttons immediately if DOM is ready, otherwise wait
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeCollectionButtons);
+} else {
+    initializeCollectionButtons();
+}
 
 // Intersection Observer for scroll animations
 const observerOptions = {
@@ -355,40 +362,7 @@ collectionItems.forEach(item => {
     });
 });
 
-// Add click handlers for collection buttons
-const collectionButtons = document.querySelectorAll('.collection-btn');
-collectionButtons.forEach(button => {
-    button.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const collectionName = button.closest('.collection-item').querySelector('.collection-title').textContent;
-        
-        // Map collection names to their respective pages
-        const collectionPages = {
-            'Jerseys': 'jerseys.html',
-            'Shrugs': 'shrugs.html',
-            'Skirts': 'skirts.html',
-            'Dresses': 'dresses.html',
-            'Tops': 'tops.html',
-            'Shorts': 'shorts.html',
-            'Bags': 'bags.html',
-            'Jumpsuits': 'jumpsuits.html',
-            'Two Piece': 'two-piece.html',
-            'Bottoms': 'bottoms.html',
-            'Hats': 'hats.html',
-            'Accessories': 'accessories.html',
-            'Shoes': 'shoes.html',
-            'Hair': 'hair.html',
-            'Jewellery': 'jewellery.html'
-        };
-        
-        const pageName = collectionPages[collectionName];
-        if (pageName) {
-            window.location.href = pageName;
-        } else {
-            showNotification(`${collectionName} collection page coming soon!`, 'info');
-        }
-    });
-});
+
 
 // Floating bubbles interaction
 document.addEventListener('mousemove', (e) => {
