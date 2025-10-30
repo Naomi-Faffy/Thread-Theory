@@ -459,13 +459,30 @@
     <script src="script.js"></script>
     <script>
         // Cart functionality
-        function loadCart() {
+        async function loadCart() {
             const cartContent = document.getElementById('cart-content');
             let cart = [];
-            
-            // Get cart from localStorage or account system
+
+            // Get cart from API if user is logged in, otherwise from localStorage
             if (window.accountManager && window.accountManager.getCurrentUser()) {
-                cart = window.accountManager.getCart();
+                try {
+                    const token = localStorage.getItem('threadTheoryToken');
+                    if (token) {
+                        const response = await fetch('/api/cart', {
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            }
+                        });
+                        const result = await response.json();
+                        if (result.success) {
+                            cart = result.cart;
+                        }
+                    }
+                } catch (error) {
+                    console.error('Failed to load cart from API:', error);
+                    // Fallback to account manager
+                    cart = window.accountManager.getCart();
+                }
             } else {
                 cart = JSON.parse(localStorage.getItem('threadTheoryCart')) || [];
             }
@@ -548,27 +565,49 @@
             `;
         }
 
-        function updateQuantity(itemId, newQuantity) {
+        async function updateQuantity(itemId, newQuantity) {
             newQuantity = parseInt(newQuantity);
             if (newQuantity < 1) return;
 
-            let cart = [];
+            // Check if user is logged in
             if (window.accountManager && window.accountManager.getCurrentUser()) {
-                cart = window.accountManager.getCart();
+                try {
+                    const token = localStorage.getItem('threadTheoryToken');
+                    if (token) {
+                        const response = await fetch(`/api/cart/${itemId}`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            },
+                            body: JSON.stringify({ quantity: newQuantity })
+                        });
+                        const result = await response.json();
+                        if (result.success) {
+                            loadCart();
+                            if (window.updateCartCounter) {
+                                window.updateCartCounter();
+                            }
+                        } else {
+                            throw new Error(result.message);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Failed to update cart via API:', error);
+                    // Fallback to local update
+                    updateQuantityLocal(itemId, newQuantity);
+                }
             } else {
-                cart = JSON.parse(localStorage.getItem('threadTheoryCart')) || [];
+                updateQuantityLocal(itemId, newQuantity);
             }
+        }
 
+        function updateQuantityLocal(itemId, newQuantity) {
+            let cart = JSON.parse(localStorage.getItem('threadTheoryCart')) || [];
             const itemIndex = cart.findIndex(item => item.id === itemId);
             if (itemIndex > -1) {
                 cart[itemIndex].quantity = newQuantity;
-                
-                if (window.accountManager && window.accountManager.getCurrentUser()) {
-                    window.accountManager.updateCart(cart);
-                } else {
-                    localStorage.setItem('threadTheoryCart', JSON.stringify(cart));
-                }
-                
+                localStorage.setItem('threadTheoryCart', JSON.stringify(cart));
                 loadCart();
                 if (window.updateCartCounter) {
                     window.updateCartCounter();
@@ -576,27 +615,49 @@
             }
         }
 
-        function removeFromCart(itemId) {
-            let cart = [];
+        async function removeFromCart(itemId) {
+            // Check if user is logged in
             if (window.accountManager && window.accountManager.getCurrentUser()) {
-                cart = window.accountManager.getCart();
+                try {
+                    const token = localStorage.getItem('threadTheoryToken');
+                    if (token) {
+                        const response = await fetch(`/api/cart/${itemId}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            }
+                        });
+                        const result = await response.json();
+                        if (result.success) {
+                            loadCart();
+                            if (window.updateCartCounter) {
+                                window.updateCartCounter();
+                            }
+                            if (window.showNotification) {
+                                window.showNotification('Item removed from cart', 'success');
+                            }
+                        } else {
+                            throw new Error(result.message);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Failed to remove item via API:', error);
+                    // Fallback to local removal
+                    removeFromCartLocal(itemId);
+                }
             } else {
-                cart = JSON.parse(localStorage.getItem('threadTheoryCart')) || [];
+                removeFromCartLocal(itemId);
             }
+        }
 
+        function removeFromCartLocal(itemId) {
+            let cart = JSON.parse(localStorage.getItem('threadTheoryCart')) || [];
             cart = cart.filter(item => item.id !== itemId);
-            
-            if (window.accountManager && window.accountManager.getCurrentUser()) {
-                window.accountManager.updateCart(cart);
-            } else {
-                localStorage.setItem('threadTheoryCart', JSON.stringify(cart));
-            }
-            
+            localStorage.setItem('threadTheoryCart', JSON.stringify(cart));
             loadCart();
             if (window.updateCartCounter) {
                 window.updateCartCounter();
             }
-            
             if (window.showNotification) {
                 window.showNotification('Item removed from cart', 'success');
             }

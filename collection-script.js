@@ -206,7 +206,7 @@ function confirmAddToCart(name, price, image) {
     const confirmBtn = document.getElementById('add-to-cart-confirm');
     const selectedSize = confirmBtn.dataset.size;
     const selectedColor = confirmBtn.dataset.color;
-    
+
     const item = {
         id: Date.now().toString(),
         name: name,
@@ -217,22 +217,74 @@ function confirmAddToCart(name, price, image) {
         color: selectedColor
     };
 
-    let cart = [];
-    
-    // Get cart from account manager or localStorage
+    // Check if user is logged in
     if (window.accountManager && window.accountManager.getCurrentUser()) {
-        cart = window.accountManager.getCart();
+        // Use API for logged-in users
+        addToCartAPI(item);
     } else {
-        cart = JSON.parse(localStorage.getItem('threadTheoryCart')) || [];
+        // Use localStorage for guest users
+        addToCartLocal(item);
     }
 
+    closeSizeColorModal();
+}
+
+async function addToCartAPI(item) {
+    try {
+        const token = localStorage.getItem('threadTheoryToken');
+        if (!token) {
+            throw new Error('No authentication token found');
+        }
+
+        const response = await fetch('/api/cart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                product_id: item.id,
+                product_name: item.name,
+                product_image: item.image,
+                quantity: item.quantity,
+                price: item.price,
+                size: item.size,
+                color: item.color
+            })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            // Update local cart counter
+            if (window.updateCartCounter) {
+                window.updateCartCounter();
+            }
+
+            // Show success notification
+            if (window.showNotification) {
+                window.showNotification(`${item.name} (${item.size}, ${item.color}) added to cart!`, 'success');
+            }
+        } else {
+            throw new Error(result.message);
+        }
+    } catch (error) {
+        console.error('Add to cart API error:', error);
+        // Fallback to localStorage
+        addToCartLocal(item);
+    }
+}
+
+function addToCartLocal(item) {
+    let cart = JSON.parse(localStorage.getItem('threadTheoryCart')) || [];
+
     // Check if item already exists with same size and color
-    const existingItem = cart.find(cartItem => 
-        cartItem.name === name && 
-        cartItem.size === selectedSize && 
-        cartItem.color === selectedColor
+    const existingItem = cart.find(cartItem =>
+        cartItem.name === item.name &&
+        cartItem.size === item.size &&
+        cartItem.color === item.color
     );
-    
+
     if (existingItem) {
         existingItem.quantity += 1;
     } else {
@@ -240,11 +292,7 @@ function confirmAddToCart(name, price, image) {
     }
 
     // Save cart
-    if (window.accountManager && window.accountManager.getCurrentUser()) {
-        window.accountManager.updateCart(cart);
-    } else {
-        localStorage.setItem('threadTheoryCart', JSON.stringify(cart));
-    }
+    localStorage.setItem('threadTheoryCart', JSON.stringify(cart));
 
     // Update cart counter if available
     if (window.updateCartCounter) {
@@ -253,12 +301,10 @@ function confirmAddToCart(name, price, image) {
 
     // Show notification
     if (window.showNotification) {
-        window.showNotification(`${name} (${selectedSize}, ${selectedColor}) added to cart!`, 'success');
+        window.showNotification(`${item.name} (${item.size}, ${item.color}) added to cart!`, 'success');
     } else {
-        alert(`${name} (${selectedSize}, ${selectedColor}) added to cart!`);
+        alert(`${item.name} (${item.size}, ${item.color}) added to cart!`);
     }
-    
-    closeSizeColorModal();
 }
 
 // Update add to cart buttons to use the new function

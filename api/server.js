@@ -170,6 +170,145 @@ app.get('/api/creators', async (req, res) => {
   }
 });
 
+// Cart API endpoints
+app.get('/api/cart', async (req, res) => {
+  try {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    const tokenResult = await userService.verifyToken(token);
+
+    if (!tokenResult.success) {
+      return res.status(401).json({ success: false, message: 'Unauthorized' });
+    }
+
+    const { executeQuery } = require('../mysql-db.js');
+    const cartItems = await executeQuery(`
+      SELECT c.*, u.name as creator_name
+      FROM cart c
+      LEFT JOIN users u ON c.creator_id = u.id
+      WHERE c.user_id = ?
+      ORDER BY c.created_at DESC
+    `, [tokenResult.decoded.userId]);
+
+    res.json({ success: true, cart: cartItems });
+  } catch (error) {
+    console.error('Get cart error:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch cart' });
+  }
+});
+
+app.post('/api/cart', async (req, res) => {
+  try {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    const tokenResult = await userService.verifyToken(token);
+
+    if (!tokenResult.success) {
+      return res.status(401).json({ success: false, message: 'Unauthorized' });
+    }
+
+    const { product_id, product_name, product_image, quantity, price, size, color, creator_id } = req.body;
+
+    if (!product_id || !product_name || !quantity || !price) {
+      return res.status(400).json({ success: false, message: 'Product ID, name, quantity, and price are required' });
+    }
+
+    const { executeQuery } = require('../mysql-db.js');
+
+    // Check if item already exists in cart
+    const existingItems = await executeQuery(`
+      SELECT id, quantity FROM cart
+      WHERE user_id = ? AND product_id = ? AND size = ? AND color = ?
+    `, [tokenResult.decoded.userId, product_id, size || null, color || null]);
+
+    if (existingItems.length > 0) {
+      // Update quantity
+      await executeQuery(`
+        UPDATE cart SET quantity = quantity + ?, updated_at = NOW()
+        WHERE id = ?
+      `, [quantity, existingItems[0].id]);
+    } else {
+      // Insert new item
+      await executeQuery(`
+        INSERT INTO cart (user_id, product_id, product_name, product_image, quantity, price, size, color, creator_id, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
+      `, [
+        tokenResult.decoded.userId,
+        product_id,
+        product_name,
+        product_image || null,
+        quantity,
+        price,
+        size || null,
+        color || null,
+        creator_id || null
+      ]);
+    }
+
+    res.json({ success: true, message: 'Item added to cart successfully' });
+  } catch (error) {
+    console.error('Add to cart error:', error);
+    res.status(500).json({ success: false, message: 'Failed to add item to cart' });
+  }
+});
+
+app.put('/api/cart/:itemId', async (req, res) => {
+  try {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    const tokenResult = await userService.verifyToken(token);
+
+    if (!tokenResult.success) {
+      return res.status(401).json({ success: false, message: 'Unauthorized' });
+    }
+
+    const { itemId } = req.params;
+    const { quantity } = req.body;
+
+    if (!quantity || quantity < 1) {
+      return res.status(400).json({ success: false, message: 'Valid quantity is required' });
+    }
+
+    const { executeQuery } = require('../mysql-db.js');
+    const result = await executeQuery(`
+      UPDATE cart SET quantity = ?, updated_at = NOW()
+      WHERE id = ? AND user_id = ?
+    `, [quantity, itemId, tokenResult.decoded.userId]);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ success: false, message: 'Cart item not found' });
+    }
+
+    res.json({ success: true, message: 'Cart item updated successfully' });
+  } catch (error) {
+    console.error('Update cart error:', error);
+    res.status(500).json({ success: false, message: 'Failed to update cart item' });
+  }
+});
+
+app.delete('/api/cart/:itemId', async (req, res) => {
+  try {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    const tokenResult = await userService.verifyToken(token);
+
+    if (!tokenResult.success) {
+      return res.status(401).json({ success: false, message: 'Unauthorized' });
+    }
+
+    const { itemId } = req.params;
+    const { executeQuery } = require('../mysql-db.js');
+    const result = await executeQuery(`
+      DELETE FROM cart WHERE id = ? AND user_id = ?
+    `, [itemId, tokenResult.decoded.userId]);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ success: false, message: 'Cart item not found' });
+    }
+
+    res.json({ success: true, message: 'Item removed from cart successfully' });
+  } catch (error) {
+    console.error('Remove from cart error:', error);
+    res.status(500).json({ success: false, message: 'Failed to remove item from cart' });
+  }
+});
+
 // Legacy accounts endpoint (for backward compatibility)
 app.post('/api/accounts', async (req, res) => {
   const { name, email, phone } = req.body || {};
