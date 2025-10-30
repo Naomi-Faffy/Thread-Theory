@@ -1,6 +1,6 @@
 // Collection page functionality
 function addToCart(name, price, image, productElement) {
-pp    // Get available sizes and colors from the product element
+    // Get available sizes and colors from the product element
     const sizeElements = productElement.querySelectorAll('.option-group:first-child .option-item');
     const colorElements = productElement.querySelectorAll('.option-group:last-child .option-item');
     
