@@ -1,6 +1,6 @@
 // Collection page functionality
 function addToCart(name, price, image, productElement) {
-    // Get available sizes and colors from the product element
+pp    // Get available sizes and colors from the product element
     const sizeElements = productElement.querySelectorAll('.option-group:first-child .option-item');
     const colorElements = productElement.querySelectorAll('.option-group:last-child .option-item');
     
@@ -203,22 +203,8 @@ function closeSizeColorModal() {
 }
 
 function confirmAddToCart(name, price, image) {
-    // Check if user is logged in
-    if (!window.accountManager || !window.accountManager.getCurrentUser()) {
-        // Require login for adding to cart
-        if (window.showNotification) {
-            window.showNotification('Please create an account or log in to add items to your cart.', 'error');
-        } else {
-            alert('Please create an account or log in to add items to your cart.');
-        }
-        closeSizeColorModal();
-        // Redirect to account page
-        setTimeout(() => {
-            window.location.href = 'account.html';
-        }, 2000);
-        return;
-    }
 
+    // Note: This allows guest cart functionality for all users
     const confirmBtn = document.getElementById('add-to-cart-confirm');
     const selectedSize = confirmBtn.dataset.size;
     const selectedColor = confirmBtn.dataset.color;

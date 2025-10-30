@@ -1,4 +1,4 @@
-// DOM Elements
+y// DOM Elements
 const navbar = document.getElementById('navbar');
 const hamburger = document.getElementById('hamburger');
 const navMenu = document.getElementById('nav-menu');
@@ -119,7 +119,7 @@ window.showNotification = showNotification;
 // Update cart counter on page load
 document.addEventListener('DOMContentLoaded', updateCartCounter);
 
-// Show profile navigation for logged-in creators
+// Show profile navigation for logged-in creators and logout option for all logged-in users
 document.addEventListener('DOMContentLoaded', function() {
     if (window.accountManager && window.accountManager.getCurrentUser()) {
         const currentUser = window.accountManager.getCurrentUser();
@@ -128,6 +128,12 @@ document.addEventListener('DOMContentLoaded', function() {
             if (profileNav) {
                 profileNav.style.display = 'block';
             }
+        }
+
+        // Show logout option for all logged-in users
+        const logoutNav = document.getElementById('logout-nav');
+        if (logoutNav) {
+            logoutNav.style.display = 'block';
         }
     }
 });
@@ -505,3 +511,14 @@ const createScrollToTopButton = () => {
 
 // Initialize scroll-to-top button
 document.addEventListener('DOMContentLoaded', createScrollToTopButton);
+
+// Logout function
+function logoutUser() {
+    if (window.accountManager) {
+        window.accountManager.logout();
+        showNotification('Logged out successfully!', 'success');
+        setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 1000);
+    }
+}
