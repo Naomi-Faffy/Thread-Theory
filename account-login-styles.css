@@ -37,21 +37,8 @@ body {
     justify-content: center;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(20px);
-    border: 3px solid;
-    border-image: linear-gradient(135deg, #8b5cf6, #ec4899, #f59e0b) 1;
+    border: 2px solid rgba(255, 255, 255, 0.2);
     position: relative;
-}
-
-.signup-rectangle::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(135deg, #8b5cf6, #ec4899, #f59e0b);
-    border-radius: 25px;
-    z-index: -1;
 }
 
 .login-form-container {
@@ -192,21 +179,8 @@ body {
     justify-content: center;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(20px);
-    border: 3px solid;
-    border-image: linear-gradient(135deg, #8b5cf6, #ec4899, #f59e0b) 1;
+    border: 2px solid rgba(255, 255, 255, 0.2);
     position: relative;
-}
-
-.signup-rectangle::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(135deg, #8b5cf6, #ec4899, #f59e0b);
-    border-radius: 25px;
-    z-index: -1;
 }
 
 .signup-form-container {
