@@ -51,9 +51,9 @@ class AccountManager {
         // Auto login
         this.currentUser = newUser;
         localStorage.setItem('threadTheoryCurrentUser', JSON.stringify(newUser));
-        
-        // Redirect to about page after successful registration
-        window.location.href = 'about.html';
+
+        // Redirect to cart page after successful registration
+        window.location.href = 'cart.html';
         
         return { ok: true, user: newUser };
     }
@@ -63,8 +63,8 @@ class AccountManager {
         if (user) {
             this.currentUser = user;
             localStorage.setItem('threadTheoryCurrentUser', JSON.stringify(user));
-            // Redirect to about page after successful login
-            window.location.href = 'about.html';
+            // Redirect to cart page after successful login
+            window.location.href = 'cart.html';
             return true;
         }
         return false;
