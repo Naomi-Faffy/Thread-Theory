@@ -173,6 +173,30 @@ CREATE TABLE IF NOT EXISTS order_items (
 );
 
 -- =====================================================
+-- CREATORS TABLE - Creator profiles for the platform
+-- =====================================================
+CREATE TABLE IF NOT EXISTS creators (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    specialty VARCHAR(255) NOT NULL,
+    experience INT DEFAULT 0,
+    bio TEXT,
+    phone VARCHAR(20),
+    contact_preference ENUM('whatsapp', 'phone', 'email') DEFAULT 'whatsapp',
+    address TEXT,
+    is_available BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    -- Indexes
+    INDEX idx_email (email),
+    INDEX idx_specialty (specialty),
+    INDEX idx_is_available (is_available),
+    INDEX idx_created_at (created_at)
+);
+
+-- =====================================================
 -- CREATOR PROFILES TABLE - Extended creator information
 -- =====================================================
 CREATE TABLE IF NOT EXISTS creator_profiles (
@@ -188,13 +212,13 @@ CREATE TABLE IF NOT EXISTS creator_profiles (
     commission_rate DECIMAL(5, 2),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    
+
     -- Foreign key relationship
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    
+
     -- Unique constraint
     UNIQUE KEY unique_user_profile (user_id),
-    
+
     -- Indexes
     INDEX idx_availability_status (availability_status),
     INDEX idx_hourly_rate (hourly_rate)

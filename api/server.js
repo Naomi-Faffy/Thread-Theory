@@ -111,6 +111,65 @@ app.put('/api/profile', async (req, res) => {
   }
 });
 
+// Creators API endpoints
+app.post('/api/creators', async (req, res) => {
+  try {
+    const creatorData = req.body;
+
+    // Validate required fields
+    if (!creatorData.name || !creatorData.email || !creatorData.specialty) {
+      return res.status(400).json({ success: false, message: 'Name, email, and specialty are required' });
+    }
+
+    // Insert creator into database
+    const { executeQuery } = require('../mysql-db.js');
+    const query = `
+      INSERT INTO creators (name, email, specialty, experience, bio, phone, contact_preference, address, is_available, created_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+      ON DUPLICATE KEY UPDATE
+        specialty = VALUES(specialty),
+        experience = VALUES(experience),
+        bio = VALUES(bio),
+        phone = VALUES(phone),
+        contact_preference = VALUES(contact_preference),
+        address = VALUES(address),
+        is_available = VALUES(is_available)
+    `;
+
+    const values = [
+      creatorData.name,
+      creatorData.email,
+      creatorData.specialty,
+      creatorData.experience || 0,
+      creatorData.bio || '',
+      creatorData.phone || '',
+      creatorData.contact_preference || 'whatsapp',
+      creatorData.address || '',
+      creatorData.is_available ? 1 : 0
+    ];
+
+    await executeQuery(query, values);
+
+    res.status(201).json({ success: true, message: 'Creator profile saved successfully' });
+  } catch (error) {
+    console.error('Save creator error:', error);
+    res.status(500).json({ success: false, message: 'Failed to save creator profile' });
+  }
+});
+
+// Get all creators
+app.get('/api/creators', async (req, res) => {
+  try {
+    const { executeQuery } = require('../mysql-db.js');
+    const creators = await executeQuery('SELECT * FROM creators WHERE is_available = 1 ORDER BY created_at DESC');
+
+    res.json({ success: true, creators });
+  } catch (error) {
+    console.error('Get creators error:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch creators' });
+  }
+});
+
 // Legacy accounts endpoint (for backward compatibility)
 app.post('/api/accounts', async (req, res) => {
   const { name, email, phone } = req.body || {};

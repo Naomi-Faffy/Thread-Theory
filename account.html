@@ -139,6 +139,14 @@
                             <input type="password" id="confirmPassword" name="confirmPassword" class="form-input" placeholder="••••••••••">
                         </div>
 
+                        <div class="form-group">
+                            <label for="userType" class="form-label">Account Type</label>
+                            <select id="userType" name="userType" class="form-input">
+                                <option value="customer">Customer</option>
+                                <option value="creator">Creator</option>
+                            </select>
+                        </div>
+
                         <button type="submit" class="signup-button">
                             CREATE ACCOUNT
                         </button>
@@ -207,19 +215,23 @@
                         return;
                     }
 
-                    if (window.accountManager) {
-                        const result = window.accountManager.register({
-                            name: `${firstName} ${lastName}`,
-                            email: email,
-                            password: password,
-                            type: 'customer'
-                        });
+                    const userType = document.getElementById('userType').value;
 
-                        if (!result.ok) {
-                            showNotification(result.reason === 'email_taken' ? 'Email already registered' : 'Registration failed', 'error');
-                        } else {
-                            showNotification('Account created successfully!', 'success');
-                        }
+                    if (window.accountManager) {
+                        (async () => {
+                            const result = await window.accountManager.register({
+                                name: `${firstName} ${lastName}`,
+                                email: email,
+                                password: password,
+                                type: userType
+                            });
+
+                            if (!result.ok) {
+                                showNotification(result.reason === 'email_taken' ? 'Email already registered' : 'Registration failed', 'error');
+                            } else {
+                                showNotification('Account created successfully!', 'success');
+                            }
+                        })();
                     }
                 });
             }

@@ -13,7 +13,7 @@ class AccountManager {
         }
     }
 
-    register(userData) {
+    async register(userData) {
         // Normalize inputs for uniqueness checks
         const email = (userData.email || '').trim().toLowerCase();
         const name = (userData.name || '').trim();
@@ -47,13 +47,28 @@ class AccountManager {
 
         this.users.push(newUser);
         localStorage.setItem('threadTheoryUsers', JSON.stringify(this.users));
-        
+
+        // Save to database if available
+        if (typeof saveUserToDatabase === 'function') {
+            try {
+                await saveUserToDatabase(newUser);
+            } catch (error) {
+                console.error('Failed to save user to database:', error);
+            }
+        }
+
         // Auto login
         this.currentUser = newUser;
         localStorage.setItem('threadTheoryCurrentUser', JSON.stringify(newUser));
 
-        // Redirect to cart page after successful registration
-        window.location.href = 'cart.html';
+        // Redirect based on user type
+        if (newUser.type === 'creator') {
+            // Redirect to creator profile setup page
+            window.location.href = 'creator-profile.html';
+        } else {
+            // Redirect to cart page for customers
+            window.location.href = 'cart.html';
+        }
         
         return { ok: true, user: newUser };
     }
@@ -63,8 +78,13 @@ class AccountManager {
         if (user) {
             this.currentUser = user;
             localStorage.setItem('threadTheoryCurrentUser', JSON.stringify(user));
-            // Redirect to cart page after successful login
-            window.location.href = 'cart.html';
+
+            // Redirect based on user type
+            if (user.type === 'creator') {
+                window.location.href = 'creators.html';
+            } else {
+                window.location.href = 'cart.html';
+            }
             return true;
         }
         return false;
