@@ -10,35 +10,21 @@
     <style>
         /* Additional styles for account page */
         body {
-            background: linear-gradient(135deg, #fdf2f8 0%, #ffffff 50%, #f3e8ff 100%);
+            background: url('https://i0.wp.com/coastalcrochet.com/wp-content/uploads/2021/01/img_0451.jpg?fit=840%2C840&ssl=1') no-repeat center center fixed;
+            background-size: cover;
             position: relative;
             overflow-x: hidden;
         }
 
-        /* Floating background elements */
+        /* Overlay for better readability */
         body::before {
             content: '';
             position: fixed;
-            top: 80px;
-            left: 40px;
-            width: 128px;
-            height: 128px;
-            background: linear-gradient(135deg, #dc2626, #9333ea);
-            border-radius: 50%;
-            filter: blur(60px);
-            z-index: 0;
-        }
-
-        body::after {
-            content: '';
-            position: fixed;
-            bottom: 80px;
-            right: 80px;
-            width: 192px;
-            height: 192px;
-            background: linear-gradient(135deg, #7c3aed, #db2777);
-            border-radius: 50%;
-            filter: blur(60px);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
             z-index: 0;
         }
 

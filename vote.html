@@ -379,7 +379,7 @@
                     <a href="vote.html" class="nav-link active">VOTE</a>
                 </li>
                 <li class="nav-item">
-                    <a href="cart.html" class="nav-link">CART <span id="cart-count">(0)</span></a>
+                    <a href="cart.html" class="nav-link">CART</a>
                 </li>
                 <li class="nav-item">
                     <a href="account.html" class="nav-link">ACCOUNT</a>
@@ -452,7 +452,7 @@
     <script src="script.js"></script>
     <script>
         // Voting system with 24-hour cycles
-        const VOTE_CYCLE_HOURS = 24;
+        const VOTE_CYCLE_HOURS = 24; // Changed from 48 to 24 hours
         const COLLECTIONS = [
             { id: 'dresses', name: 'Dresses' },
             { id: 'tops', name: 'Tops' },
@@ -481,9 +481,7 @@
         function initVoting() {
             checkVotingCycle();
             renderCollections();
-            updateCountdown();
-            setInterval(updateCountdown, 1000);
-            
+            startCountdown();
             // Show results only if user has already voted
             if (userHasVoted) {
                 loadResults();
@@ -674,6 +672,29 @@
             document.getElementById('countdown-timer').textContent =
                 `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         }
+
+        // Ensure timer continues running even when page is not active
+        let countdownInterval;
+        function startCountdown() {
+            if (countdownInterval) clearInterval(countdownInterval);
+            countdownInterval = setInterval(updateCountdown, 1000);
+        }
+
+        function stopCountdown() {
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+            }
+        }
+
+        // Handle page visibility changes to ensure timer continues
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                stopCountdown();
+            } else {
+                startCountdown();
+            }
+        });
 
         // Initialize when page loads
         document.addEventListener('DOMContentLoaded', initVoting);
