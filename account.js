@@ -1,4 +1,4 @@
-// Account Manager - Handles user authentication and data management
+//adde Account Manager - Handles user authentication and data management
 class AccountManager {
     constructor() {
         this.currentUser = null;
@@ -48,13 +48,43 @@ class AccountManager {
         this.users.push(newUser);
         localStorage.setItem('threadTheoryUsers', JSON.stringify(this.users));
 
-        // Save to database if available
-        if (typeof saveUserToDatabase === 'function') {
-            try {
-                await saveUserToDatabase(newUser);
-            } catch (error) {
-                console.error('Failed to save user to database:', error);
+        // Save to database
+        try {
+            const response = await fetch('/api/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: newUser.name,
+                    email: newUser.email,
+                    password: newUser.password,
+                    user_type: newUser.type,
+                    specialty: newUser.specialty,
+                    experience_years: newUser.experience,
+                    bio: newUser.bio,
+                    phone: newUser.phone,
+                    address: newUser.address
+                })
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                // Update local user with database ID
+                newUser.id = result.user.id;
+                // Remove duplicate push since we already pushed above
+                const userIndex = this.users.findIndex(u => u.id === Date.now().toString());
+                if (userIndex > -1) {
+                    this.users[userIndex] = newUser;
+                }
+                localStorage.setItem('threadTheoryUsers', JSON.stringify(this.users));
+            } else {
+                console.error('Failed to save user to database:', result.message);
+                // Still keep user in local storage
             }
+        } catch (error) {
+            console.error('Failed to save user to database:', error);
+            // Still keep user in local storage
         }
 
         // Auto login
@@ -67,6 +97,10 @@ class AccountManager {
             const profileNav = document.getElementById('profile-nav');
             if (profileNav) {
                 profileNav.style.display = 'block';
+            }
+            // Refresh creators page if we're on it
+            if (window.location.pathname.includes('creators.html') && window.refreshCreators) {
+                window.refreshCreators();
             }
             // Redirect to creator profile setup page
             setTimeout(() => {
