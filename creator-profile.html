@@ -1,3 +1,6 @@
+git add .
+git commit -m "Update portfolio"
+git push
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -175,7 +178,7 @@
     <div class="profile-container">
         <div class="container">
             <div class="profile-form-container">
-                <h1 style="text-align: center; margin-bottom: 30px;">Complete Your Creator Profile</h1>
+                <h1 style="text-align: center; margin-bottom: 30px;" id="profileTitle">Complete Your Creator Profile</h1>
                 <form class="profile-form" id="creatorProfileForm">
                     <div class="form-section">
                         <h3 class="section-title">Profile Picture</h3>
@@ -264,6 +267,15 @@
                     <button type="submit" class="profile-submit-btn" id="submitProfile">
                         Complete Profile Setup
                     </button>
+
+                    <div class="profile-actions" id="profileActions" style="display: none; margin-top: 20px; text-align: center;">
+                        <button type="button" class="profile-submit-btn" id="editProfileBtn" style="background: linear-gradient(135deg, #6b7280, #9ca3af); margin-right: 10px;">
+                            Edit Profile
+                        </button>
+                        <button type="button" class="profile-submit-btn" id="viewProfileBtn" style="background: linear-gradient(135deg, #10b981, #34d399);">
+                            View Public Profile
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -361,6 +373,10 @@
 
                 if (response.ok) {
                     console.log('Creator saved to database successfully');
+                    // Show profile actions after successful save
+                    document.getElementById('profileActions').style.display = 'block';
+                    document.getElementById('profileTitle').textContent = 'Your Creator Profile';
+                    document.getElementById('submitProfile').style.display = 'none';
                 } else {
                     console.error('Failed to save creator to database');
                 }
@@ -368,6 +384,82 @@
                 console.error('Error saving creator to database:', error);
             }
         }
+
+        // Check if user already has a profile
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.accountManager && window.accountManager.getCurrentUser()) {
+                const currentUser = window.accountManager.getCurrentUser();
+                if (currentUser.specialty && currentUser.bio) {
+                    // User has existing profile, show edit mode
+                    document.getElementById('profileTitle').textContent = 'Edit Your Creator Profile';
+                    document.getElementById('submitProfile').textContent = 'Update Profile';
+                    document.getElementById('profileActions').style.display = 'block';
+
+                    // Pre-fill form with existing data
+                    populateFormWithExistingData(currentUser);
+                }
+            }
+        });
+
+        function populateFormWithExistingData(userData) {
+            // Pre-fill experience
+            if (userData.experience) {
+                document.getElementById('experience').value = userData.experience;
+            }
+
+            // Pre-fill bio
+            if (userData.bio) {
+                document.getElementById('bio').value = userData.bio;
+            }
+
+            // Pre-fill phone
+            if (userData.phone) {
+                document.getElementById('phone').value = userData.phone;
+            }
+
+            // Pre-fill contact preference
+            if (userData.contact_preference) {
+                document.getElementById('contactPreference').value = userData.contact_preference;
+            }
+
+            // Pre-fill address
+            if (userData.address) {
+                document.getElementById('address').value = userData.address;
+            }
+
+            // Pre-fill specialties
+            if (userData.specialty) {
+                const specialties = userData.specialty.split(', ').map(s => s.trim());
+                const checkboxes = document.querySelectorAll('input[name="specialties"]');
+                checkboxes.forEach(checkbox => {
+                    if (specialties.includes(checkbox.value)) {
+                        checkbox.checked = true;
+                    }
+                });
+            }
+        }
+
+        // Handle edit profile button
+        document.addEventListener('DOMContentLoaded', function() {
+            const editProfileBtn = document.getElementById('editProfileBtn');
+            const viewProfileBtn = document.getElementById('viewProfileBtn');
+
+            if (editProfileBtn) {
+                editProfileBtn.addEventListener('click', function() {
+                    document.getElementById('profileTitle').textContent = 'Edit Your Creator Profile';
+                    document.getElementById('submitProfile').style.display = 'block';
+                    document.getElementById('submitProfile').textContent = 'Update Profile';
+                    document.getElementById('profileActions').style.display = 'none';
+                });
+            }
+
+            if (viewProfileBtn) {
+                viewProfileBtn.addEventListener('click', function() {
+                    // Redirect to creator's public profile page (to be implemented)
+                    window.location.href = 'creators.html';
+                });
+            }
+        });
     </script>
 </body>
 </html>
