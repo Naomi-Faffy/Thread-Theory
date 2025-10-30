@@ -38,8 +38,8 @@ async function initializeDatabase() {
     const conn = await pool.getConnection();
 
     // Create database if it doesn't exist
-    await conn.execute(`CREATE DATABASE IF NOT EXISTS ${dbConfig.database}`);
-    await conn.execute(`USE ${dbConfig.database}`);
+    await conn.query(`CREATE DATABASE IF NOT EXISTS ${dbConfig.database}`);
+    await conn.query(`USE ${dbConfig.database}`);
 
     console.log('Creating tables...');
 
@@ -180,6 +180,28 @@ async function initializeDatabase() {
       )
     `);
 
+    // Create creators table
+    await conn.execute(`
+      CREATE TABLE IF NOT EXISTS creators (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        email VARCHAR(255) UNIQUE NOT NULL,
+        specialty VARCHAR(255) NOT NULL,
+        experience INT DEFAULT 0,
+        bio TEXT,
+        phone VARCHAR(20),
+        contact_preference ENUM('whatsapp', 'phone', 'email') DEFAULT 'whatsapp',
+        address TEXT,
+        is_available BOOLEAN DEFAULT TRUE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        INDEX idx_email (email),
+        INDEX idx_specialty (specialty),
+        INDEX idx_is_available (is_available),
+        INDEX idx_created_at (created_at)
+      )
+    `);
+
     // Create creator_profiles table
     await conn.execute(`
       CREATE TABLE IF NOT EXISTS creator_profiles (
@@ -221,11 +243,27 @@ async function initializeDatabase() {
       )
     `);
 
-    // Create performance indexes
-    await conn.execute(`CREATE INDEX IF NOT EXISTS idx_users_type_active ON users(user_type, is_active)`);
-    await conn.execute(`CREATE INDEX IF NOT EXISTS idx_orders_user_status ON orders(user_id, status)`);
-    await conn.execute(`CREATE INDEX IF NOT EXISTS idx_cart_user_product ON cart(user_id, product_id)`);
-    await conn.execute(`CREATE INDEX IF NOT EXISTS idx_votes_collection_type ON votes(collection_id, vote_type)`);
+    // Create performance indexes (ignore if they already exist)
+    try {
+      await conn.query(`CREATE INDEX idx_users_type_active ON users(user_type, is_active)`);
+    } catch (error) {
+      if (error.code !== 'ER_DUP_KEYNAME') throw error;
+    }
+    try {
+      await conn.query(`CREATE INDEX idx_orders_user_status ON orders(user_id, status)`);
+    } catch (error) {
+      if (error.code !== 'ER_DUP_KEYNAME') throw error;
+    }
+    try {
+      await conn.query(`CREATE INDEX idx_cart_user_product ON cart(user_id, product_id)`);
+    } catch (error) {
+      if (error.code !== 'ER_DUP_KEYNAME') throw error;
+    }
+    try {
+      await conn.query(`CREATE INDEX idx_votes_collection_type ON votes(collection_id, vote_type)`);
+    } catch (error) {
+      if (error.code !== 'ER_DUP_KEYNAME') throw error;
+    }
 
     conn.release();
     console.log('✅ Database tables created successfully');
