@@ -41,6 +41,31 @@ body {
     position: relative;
 }
 
+.login-rectangle {
+    width: 550px;
+    min-height: 550px;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(20px);
+    position: relative;
+}
+
+.login-rectangle::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, #8b5cf6, #ec4899, #f59e0b);
+    border-radius: 25px;
+    z-index: -1;
+}
+
 .login-form-container {
     width: 350px;
     text-align: center;

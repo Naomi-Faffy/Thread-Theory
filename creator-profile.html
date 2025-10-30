@@ -203,22 +203,24 @@
                             <div class="form-group">
                                 <label class="form-label">Specialties (Select up to 8)</label>
                                 <div class="specialty-checkboxes">
-                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="crochet"> Crochet</label>
-                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="knitting"> Knitting</label>
-                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="weaving"> Weaving</label>
-                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="embroidery"> Embroidery</label>
-                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="sewing"> Sewing</label>
-                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="macrame"> Macrame</label>
-                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="beading"> Beading</label>
-                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="tatting"> Tatting</label>
-                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="lace-making"> Lace Making</label>
-                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="rug-making"> Rug Making</label>
-                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="basket-weaving"> Basket Weaving</label>
-                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="needlepoint"> Needlepoint</label>
-                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="cross-stitch"> Cross Stitch</label>
-                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="quilting"> Quilting</label>
-                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="tapestry"> Tapestry</label>
-                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="other"> Other</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="Dresses"> Dresses</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="Tops"> Tops</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="Bottoms"> Bottoms</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="Accessories"> Accessories</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="Men"> Men's Wear</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="Home"> Home Decor</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="Bags"> Bags</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="Hats"> Hats</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="Jerseys"> Jerseys</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="Shorts"> Shorts</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="Skirts"> Skirts</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="Shrugs"> Shrugs</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="Jumpsuits"> Jumpsuits</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="Two-piece"> Two-piece</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="Shoes"> Shoes</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="Hair"> Hair</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="Jewellery"> Jewellery</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="Customization"> Customization</label>
                                 </div>
                             </div>
                         </div>
@@ -318,7 +320,7 @@
                     }
 
                     const formData = {
-                        specialties: selectedSpecialties,
+                        specialty: selectedSpecialties.join(', '),
                         experience: parseInt(document.getElementById('experience').value),
                         bio: document.getElementById('bio').value,
                         phone: document.getElementById('phone').value,
