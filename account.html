@@ -60,6 +60,9 @@
                 <li class="nav-item">
                     <a href="cart.html" class="nav-link">CART</a>
                 </li>
+                <li class="nav-item" id="profile-nav" style="display: none;">
+                    <a href="creator-profile.html" class="nav-link">PROFILE</a>
+                </li>
                 <li class="nav-item">
                     <a href="account.html" class="nav-link active">ACCOUNT</a>
                 </li>
@@ -140,11 +143,17 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="userType" class="form-label">Account Type</label>
-                            <select id="userType" name="userType" class="form-input">
-                                <option value="customer">Customer</option>
-                                <option value="creator">Creator</option>
-                            </select>
+                            <label class="form-label">Account Type</label>
+                            <div class="radio-group">
+                                <label class="radio-option">
+                                    <input type="radio" name="userType" value="customer" checked>
+                                    <span class="radio-label">Customer</span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="userType" value="creator">
+                                    <span class="radio-label">Creator</span>
+                                </label>
+                            </div>
                         </div>
 
                         <button type="submit" class="signup-button">
@@ -215,7 +224,7 @@
                         return;
                     }
 
-                    const userType = document.getElementById('userType').value;
+                    const userType = document.querySelector('input[name="userType"]:checked').value;
 
                     if (window.accountManager) {
                         (async () => {

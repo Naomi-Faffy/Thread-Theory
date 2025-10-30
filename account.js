@@ -61,13 +61,22 @@ class AccountManager {
         this.currentUser = newUser;
         localStorage.setItem('threadTheoryCurrentUser', JSON.stringify(newUser));
 
-        // Redirect based on user type
+        // Show profile navigation for creators and redirect
         if (newUser.type === 'creator') {
+            // Show profile navigation
+            const profileNav = document.getElementById('profile-nav');
+            if (profileNav) {
+                profileNav.style.display = 'block';
+            }
             // Redirect to creator profile setup page
-            window.location.href = 'creator-profile.html';
+            setTimeout(() => {
+                window.location.href = 'creator-profile.html';
+            }, 1500);
         } else {
             // Redirect to cart page for customers
-            window.location.href = 'cart.html';
+            setTimeout(() => {
+                window.location.href = 'cart.html';
+            }, 1500);
         }
         
         return { ok: true, user: newUser };
@@ -78,6 +87,14 @@ class AccountManager {
         if (user) {
             this.currentUser = user;
             localStorage.setItem('threadTheoryCurrentUser', JSON.stringify(user));
+
+            // Show profile navigation for creators
+            if (user.type === 'creator') {
+                const profileNav = document.getElementById('profile-nav');
+                if (profileNav) {
+                    profileNav.style.display = 'block';
+                }
+            }
 
             // Redirect based on user type
             if (user.type === 'creator') {

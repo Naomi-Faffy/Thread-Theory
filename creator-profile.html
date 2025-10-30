@@ -96,6 +96,42 @@
             min-height: 100px;
         }
 
+        .specialty-checkboxes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: #374151;
+        }
+
+        .checkbox-option input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #8b5cf6;
+        }
+
+        .image-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid rgba(139, 92, 246, 0.2);
+        }
+
         .profile-submit-btn {
             background: linear-gradient(135deg, #8b5cf6, #ec4899);
             color: white;
@@ -142,21 +178,17 @@
                 <h1 style="text-align: center; margin-bottom: 30px;">Complete Your Creator Profile</h1>
                 <form class="profile-form" id="creatorProfileForm">
                     <div class="form-section">
+                        <h3 class="section-title">Profile Picture</h3>
+                        <div class="form-group">
+                            <label for="profilePicture" class="form-label">Upload Profile Picture/Logo</label>
+                            <input type="file" id="profilePicture" name="profilePicture" class="form-input" accept="image/*">
+                            <small style="color: #6b7280; margin-top: 5px;">Supported formats: JPG, PNG, GIF. Max size: 5MB</small>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
                         <h3 class="section-title">Basic Information</h3>
                         <div class="form-row">
-                            <div class="form-group">
-                                <label for="specialty" class="form-label">Specialty</label>
-                                <select id="specialty" name="specialty" class="form-select" required>
-                                    <option value="">Select your specialty</option>
-                                    <option value="crochet">Crochet</option>
-                                    <option value="knitting">Knitting</option>
-                                    <option value="weaving">Weaving</option>
-                                    <option value="embroidery">Embroidery</option>
-                                    <option value="sewing">Sewing</option>
-                                    <option value="macrame">Macrame</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
                             <div class="form-group">
                                 <label for="experience" class="form-label">Years of Experience</label>
                                 <select id="experience" name="experience" class="form-select" required>
@@ -167,6 +199,27 @@
                                     <option value="4">4 years</option>
                                     <option value="5">5+ years</option>
                                 </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Specialties (Select up to 8)</label>
+                                <div class="specialty-checkboxes">
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="crochet"> Crochet</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="knitting"> Knitting</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="weaving"> Weaving</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="embroidery"> Embroidery</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="sewing"> Sewing</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="macrame"> Macrame</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="beading"> Beading</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="tatting"> Tatting</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="lace-making"> Lace Making</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="rug-making"> Rug Making</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="basket-weaving"> Basket Weaving</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="needlepoint"> Needlepoint</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="cross-stitch"> Cross Stitch</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="quilting"> Quilting</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="tapestry"> Tapestry</label>
+                                    <label class="checkbox-option"><input type="checkbox" name="specialties" value="other"> Other</label>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -187,7 +240,6 @@
                                 <select id="contactPreference" name="contactPreference" class="form-select" required>
                                     <option value="whatsapp">WhatsApp</option>
                                     <option value="phone">Phone Call</option>
-                                    <option value="email">Email</option>
                                 </select>
                             </div>
                         </div>
@@ -198,13 +250,12 @@
                     </div>
 
                     <div class="form-section">
-                        <h3 class="section-title">Availability</h3>
+                        <h3 class="section-title">Portfolio Images</h3>
                         <div class="form-group">
-                            <label for="availability" class="form-label">Current Availability</label>
-                            <select id="availability" name="availability" class="form-select" required>
-                                <option value="true">Available for new orders</option>
-                                <option value="false">Currently unavailable</option>
-                            </select>
+                            <label for="portfolioImages" class="form-label">Upload Portfolio Images (Up to 12)</label>
+                            <input type="file" id="portfolioImages" name="portfolioImages" class="form-input" accept="image/*" multiple>
+                            <small style="color: #6b7280; margin-top: 5px;">Select multiple images. Supported formats: JPG, PNG, GIF. Max 12 images, 5MB each</small>
+                            <div id="imagePreview" class="image-preview"></div>
                         </div>
                     </div>
 
@@ -221,19 +272,60 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const profileForm = document.getElementById('creatorProfileForm');
+            const portfolioInput = document.getElementById('portfolioImages');
+            const imagePreview = document.getElementById('imagePreview');
+
+            // Handle portfolio image preview
+            if (portfolioInput && imagePreview) {
+                portfolioInput.addEventListener('change', function(e) {
+                    imagePreview.innerHTML = '';
+                    const files = Array.from(e.target.files);
+
+                    if (files.length > 12) {
+                        showNotification('Please select a maximum of 12 images.', 'error');
+                        portfolioInput.value = '';
+                        return;
+                    }
+
+                    files.forEach(file => {
+                        if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                            showNotification('Each image must be less than 5MB.', 'error');
+                            portfolioInput.value = '';
+                            imagePreview.innerHTML = '';
+                            return;
+                        }
+
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            imagePreview.appendChild(img);
+                        };
+                        reader.readAsDataURL(file);
+                    });
+                });
+            }
 
             if (profileForm) {
                 profileForm.addEventListener('submit', function(e) {
                     e.preventDefault();
 
+                    // Get selected specialties (up to 8)
+                    const selectedSpecialties = Array.from(document.querySelectorAll('input[name="specialties"]:checked')).map(cb => cb.value);
+                    if (selectedSpecialties.length > 8) {
+                        showNotification('Please select a maximum of 8 specialties.', 'error');
+                        return;
+                    }
+
                     const formData = {
-                        specialty: document.getElementById('specialty').value,
+                        specialties: selectedSpecialties,
                         experience: parseInt(document.getElementById('experience').value),
                         bio: document.getElementById('bio').value,
                         phone: document.getElementById('phone').value,
                         contact_preference: document.getElementById('contactPreference').value,
                         address: document.getElementById('address').value,
-                        is_available: document.getElementById('availability').value === 'true'
+                        profile_picture: document.getElementById('profilePicture').files[0],
+                        portfolio_images: Array.from(document.getElementById('portfolioImages').files)
                     };
 
                     if (window.accountManager && window.accountManager.getCurrentUser()) {
