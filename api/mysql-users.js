@@ -49,7 +49,34 @@ class UserService {
       ]);
       
       const userId = result.insertId;
-      
+
+      // If it's a creator, also add to creators table
+      if (user_type === 'creator') {
+        await executeQuery(`
+          INSERT INTO creators (name, email, specialty, experience, bio, phone, contact_preference, address, is_available, created_at)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+          ON DUPLICATE KEY UPDATE
+            specialty = VALUES(specialty),
+            experience = VALUES(experience),
+            bio = VALUES(bio),
+            phone = VALUES(phone),
+            contact_preference = VALUES(contact_preference),
+            address = VALUES(address),
+            is_available = VALUES(is_available),
+            updated_at = NOW()
+        `, [
+          name.trim(),
+          email.toLowerCase().trim(),
+          specialty || null,
+          experience_years || 0,
+          bio || null,
+          phone || null,
+          'whatsapp', // default contact preference
+          address || null,
+          1 // is_available
+        ]);
+      }
+
       // If it's a customer, also add to customers table for backward compatibility
       if (user_type === 'customer') {
         await executeQuery(`
