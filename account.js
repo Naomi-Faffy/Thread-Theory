@@ -73,9 +73,9 @@ class AccountManager {
                 window.location.href = 'creator-profile.html';
             }, 1500);
         } else {
-            // Redirect to cart page for customers
+            // Redirect to collections page for customers
             setTimeout(() => {
-                window.location.href = 'cart.html';
+                window.location.href = 'index.html#collections';
             }, 1500);
         }
         
@@ -98,7 +98,12 @@ class AccountManager {
 
             // Redirect based on user type
             if (user.type === 'creator') {
-                window.location.href = 'creator-profile.html';
+                // Check if creator has completed profile
+                if (user.specialty && user.bio) {
+                    window.location.href = 'creators.html'; // Go to creators page to view profile
+                } else {
+                    window.location.href = 'creator-profile.html'; // Go to profile setup
+                }
             } else {
                 window.location.href = 'index.html#collections';
             }

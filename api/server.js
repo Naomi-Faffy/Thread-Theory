@@ -157,6 +157,86 @@ app.post('/api/creators', async (req, res) => {
   }
 });
 
+// Get creator by email
+app.get('/api/creators/:email', async (req, res) => {
+  try {
+    const { email } = req.params;
+    const { executeQuery } = require('../mysql-db.js');
+    const creators = await executeQuery('SELECT * FROM creators WHERE email = ? AND is_available = 1', [email]);
+
+    if (creators.length === 0) {
+      return res.status(404).json({ success: false, message: 'Creator not found' });
+    }
+
+    res.json({ success: true, creator: creators[0] });
+  } catch (error) {
+    console.error('Get creator error:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch creator' });
+  }
+});
+
+// Update creator profile
+app.put('/api/creators/:email', async (req, res) => {
+  try {
+    const { email } = req.params;
+    const updateData = req.body;
+
+    const { executeQuery } = require('../mysql-db.js');
+
+    // Build dynamic update query
+    const fields = [];
+    const values = [];
+
+    if (updateData.specialty !== undefined) {
+      fields.push('specialty = ?');
+      values.push(updateData.specialty);
+    }
+    if (updateData.experience !== undefined) {
+      fields.push('experience = ?');
+      values.push(updateData.experience);
+    }
+    if (updateData.bio !== undefined) {
+      fields.push('bio = ?');
+      values.push(updateData.bio);
+    }
+    if (updateData.phone !== undefined) {
+      fields.push('phone = ?');
+      values.push(updateData.phone);
+    }
+    if (updateData.contact_preference !== undefined) {
+      fields.push('contact_preference = ?');
+      values.push(updateData.contact_preference);
+    }
+    if (updateData.address !== undefined) {
+      fields.push('address = ?');
+      values.push(updateData.address);
+    }
+    if (updateData.is_available !== undefined) {
+      fields.push('is_available = ?');
+      values.push(updateData.is_available ? 1 : 0);
+    }
+
+    if (fields.length === 0) {
+      return res.status(400).json({ success: false, message: 'No fields to update' });
+    }
+
+    fields.push('updated_at = NOW()');
+    values.push(email);
+
+    const query = `UPDATE creators SET ${fields.join(', ')} WHERE email = ?`;
+    const result = await executeQuery(query, values);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ success: false, message: 'Creator not found' });
+    }
+
+    res.json({ success: true, message: 'Creator profile updated successfully' });
+  } catch (error) {
+    console.error('Update creator error:', error);
+    res.status(500).json({ success: false, message: 'Failed to update creator profile' });
+  }
+});
+
 // Get all creators
 app.get('/api/creators', async (req, res) => {
   try {
