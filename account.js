@@ -98,9 +98,9 @@ class AccountManager {
 
             // Redirect based on user type
             if (user.type === 'creator') {
-                window.location.href = 'creators.html';
+                window.location.href = 'creator-profile.html';
             } else {
-                window.location.href = 'cart.html';
+                window.location.href = 'index.html#collections';
             }
             return true;
         }
