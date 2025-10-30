@@ -119,6 +119,19 @@ window.showNotification = showNotification;
 // Update cart counter on page load
 document.addEventListener('DOMContentLoaded', updateCartCounter);
 
+// Show profile navigation for logged-in creators
+document.addEventListener('DOMContentLoaded', function() {
+    if (window.accountManager && window.accountManager.getCurrentUser()) {
+        const currentUser = window.accountManager.getCurrentUser();
+        if (currentUser.type === 'creator') {
+            const profileNav = document.getElementById('profile-nav');
+            if (profileNav) {
+                profileNav.style.display = 'block';
+            }
+        }
+    }
+});
+
 // Navbar scroll effect
 window.addEventListener('scroll', () => {
     if (window.scrollY > 100) {
