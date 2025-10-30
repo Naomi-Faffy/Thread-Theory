@@ -554,7 +554,7 @@
                 <div class="cart-summary">
                     <h3 class="summary-title">Order Summary</h3>
                     <div class="summary-line">
-                        <span>Subtotal (${cart.length} items)</span>
+                        <span>Subtotal (${cart.reduce((total, item) => total + item.quantity, 0)} items)</span>
                         <span>$${subtotal.toFixed(2)}</span>
                     </div>
                     <div class="summary-line">
