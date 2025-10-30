@@ -1,4 +1,4 @@
-y// DOM Elements
+// DOM Elements
 const navbar = document.getElementById('navbar');
 const hamburger = document.getElementById('hamburger');
 const navMenu = document.getElementById('nav-menu');
@@ -116,8 +116,15 @@ function showNotification(message, type = 'info') {
 // Make showNotification globally available
 window.showNotification = showNotification;
 
-// Update cart counter on page load
-document.addEventListener('DOMContentLoaded', updateCartCounter);
+// Clear cart data on page load (temporary fix)
+document.addEventListener('DOMContentLoaded', function() {
+    localStorage.removeItem('threadTheoryCart');
+    // Clear account manager cart if available
+    if (window.accountManager) {
+        window.accountManager.clearCart();
+    }
+    updateCartCounter();
+});
 
 // Show profile navigation for logged-in creators and logout option for all logged-in users
 document.addEventListener('DOMContentLoaded', function() {
