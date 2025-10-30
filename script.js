@@ -260,9 +260,9 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', function(e) {
             e.preventDefault();
             const collectionItem = this.closest('.collection-item');
-            const collectionTitle = collectionItem.querySelector('.collection-title').textContent.toLowerCase();
+            const collectionTitle = collectionItem.querySelector('.collection-title').textContent;
             
-            // Map collection names to their respective pages
+            // Map collection names to their respective pages (case-insensitive)
             const collectionPages = {
                 'jerseys': 'jerseys.html',
                 'shrugs': 'shrugs.html',
@@ -284,9 +284,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 'customization': 'customization.html'
             };
             
-            const targetPage = collectionPages[collectionTitle];
+            const targetPage = collectionPages[collectionTitle.toLowerCase()];
             if (targetPage) {
                 window.location.href = targetPage;
+            } else {
+                if (window.showNotification) {
+                    window.showNotification(`${collectionTitle} collection page coming soon!`, 'info');
+                } else {
+                    alert(`${collectionTitle} collection page coming soon!`);
+                }
             }
         });
     });
