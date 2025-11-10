@@ -1,0 +1,202 @@
+/* Responsive Utilities for Thread Theory */
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+    /* Increase touch targets on touch devices */
+    .nav-link,
+    .cta-button,
+    .collection-btn,
+    .filter-btn,
+    button,
+    a {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    /* Disable hover effects on touch devices */
+    .collection-item:hover::before,
+    .nav-link:hover::after,
+    .cta-button:hover::before {
+        animation: none;
+    }
+    
+    /* Simplify transitions on touch devices */
+    * {
+        transition-duration: 0.2s !important;
+    }
+}
+
+/* Landscape orientation optimizations */
+@media (max-width: 768px) and (orientation: landscape) {
+    .hero {
+        height: auto;
+        min-height: 100vh;
+        padding: 80px 0 40px;
+    }
+    
+    .hero-content-box {
+        margin: 20px;
+    }
+    
+    .nav-menu {
+        padding-top: 80px;
+    }
+}
+
+/* Print styles */
+@media print {
+    .navbar,
+    .hamburger,
+    .floating-bubbles,
+    .scroll-to-top,
+    .cta-button,
+    .collection-btn,
+    .newsletter,
+    .footer {
+        display: none !important;
+    }
+    
+    .hero {
+        page-break-after: always;
+    }
+    
+    body {
+        background: white;
+    }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    
+    .bubble,
+    .floating-bubbles {
+        display: none;
+    }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    .nav-link,
+    .cta-button,
+    .collection-btn {
+        border: 2px solid currentColor;
+    }
+    
+    .hero-overlay {
+        background: rgba(255, 255, 255, 0.5);
+    }
+}
+
+/* Dark mode support (if needed in future) */
+@media (prefers-color-scheme: dark) {
+    /* Placeholder for dark mode styles */
+}
+
+/* Container queries support (progressive enhancement) */
+@supports (container-type: inline-size) {
+    .collection-item {
+        container-type: inline-size;
+    }
+}
+
+/* Utility classes for responsive visibility */
+.hide-mobile {
+    display: block;
+}
+
+.show-mobile {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .hide-mobile {
+        display: none !important;
+    }
+    
+    .show-mobile {
+        display: block !important;
+    }
+}
+
+/* Responsive spacing utilities */
+.spacing-mobile-sm {
+    padding: 10px;
+}
+
+.spacing-mobile-md {
+    padding: 20px;
+}
+
+.spacing-mobile-lg {
+    padding: 30px;
+}
+
+@media (min-width: 769px) {
+    .spacing-mobile-sm {
+        padding: 20px;
+    }
+    
+    .spacing-mobile-md {
+        padding: 40px;
+    }
+    
+    .spacing-mobile-lg {
+        padding: 60px;
+    }
+}
+
+/* Safe area insets for notched devices */
+@supports (padding: max(0px)) {
+    .navbar,
+    .nav-menu,
+    .footer {
+        padding-left: max(20px, env(safe-area-inset-left));
+        padding-right: max(20px, env(safe-area-inset-right));
+    }
+    
+    .nav-menu {
+        padding-bottom: max(40px, env(safe-area-inset-bottom));
+    }
+}
+
+/* Image optimization */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Prevent text overflow */
+.collection-title,
+.product-name,
+.creator-name {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+}
+
+/* Smooth scrolling with reduced motion check */
+@media (prefers-reduced-motion: no-preference) {
+    html {
+        scroll-behavior: smooth;
+    }
+}
+
+/* Focus visible for keyboard navigation */
+:focus-visible {
+    outline: 2px solid var(--primary-black);
+    outline-offset: 2px;
+}
+
+/* Remove focus outline for mouse users */
+:focus:not(:focus-visible) {
+    outline: none;
+}

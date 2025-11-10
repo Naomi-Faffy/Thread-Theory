@@ -2,13 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="theme-color" content="#000000">
     <title>Men Collection - Thread Theory</title>
     <link rel="icon" href="tt-logo.png" sizes="32x32">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="responsive-utilities.css">
     <link rel="stylesheet" href="collection-styles.css">
     <style>
         /* Enhanced collection styles */
@@ -247,10 +249,10 @@
                     <a href="vote.html" class="nav-link">Vote</a>
                 </li>
                 <li class="nav-item">
-                    <a href="cart.html" class="nav-link">Cart</a>
+                    <a href="cart.html" class="nav-link">CART <span id="cart-count">(0)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a href="account.html" class="nav-link">Account</a>
+                    <a href="account.html" class="nav-link">ACCOUNT</a>
                 </li>
             </ul>
             <div class="hamburger" id="hamburger">
@@ -280,8 +282,7 @@
                                 <div class="product-item">
                     <div class="product-image">
                         <div class="image-placeholder">
-                            <p>Men 1</p>
-                            <span class="placeholder-text">Your image will go here</span>
+                            
                         </div>
                         <div class="product-overlay">
                             <button class="quick-view-btn">Quick View</button>
@@ -294,7 +295,7 @@
                         <div class="product-options">
                             <div class="option-group">
                                 <div class="option-label">Sizes:</div>
-                                <span class='option-item'>S</span><span class='option-item'>M</span><span class='option-item'>L</span><span class='option-item'>XL</span><span class='option-item'>XXL</span>
+                                <span class='option-item'>XS</span><span class='option-item'>S</span><span class='option-item'>M</span><span class='option-item'>L</span><span class='option-item'>XL</span><span class='option-item'>2XL</span>
                             </div>
                             <div class="option-group">
                                 <div class="option-label">Colors:</div>
@@ -306,8 +307,7 @@
                 <div class="product-item">
                     <div class="product-image">
                         <div class="image-placeholder">
-                            <p>Men 2</p>
-                            <span class="placeholder-text">Your image will go here</span>
+                            
                         </div>
                         <div class="product-overlay">
                             <button class="quick-view-btn">Quick View</button>
@@ -332,8 +332,7 @@
                 <div class="product-item">
                     <div class="product-image">
                         <div class="image-placeholder">
-                            <p>Men 3</p>
-                            <span class="placeholder-text">Your image will go here</span>
+                            
                         </div>
                         <div class="product-overlay">
                             <button class="quick-view-btn">Quick View</button>
@@ -346,7 +345,7 @@
                         <div class="product-options">
                             <div class="option-group">
                                 <div class="option-label">Sizes:</div>
-                                <span class='option-item'>S</span><span class='option-item'>M</span><span class='option-item'>L</span><span class='option-item'>XL</span><span class='option-item'>XXL</span>
+                                <span class='option-item'>XS</span><span class='option-item'>S</span><span class='option-item'>M</span><span class='option-item'>L</span><span class='option-item'>XL</span><span class='option-item'>2XL</span>
                             </div>
                             <div class="option-group">
                                 <div class="option-label">Colors:</div>
@@ -358,8 +357,7 @@
                 <div class="product-item">
                     <div class="product-image">
                         <div class="image-placeholder">
-                            <p>Men 4</p>
-                            <span class="placeholder-text">Your image will go here</span>
+                            
                         </div>
                         <div class="product-overlay">
                             <button class="quick-view-btn">Quick View</button>
@@ -384,8 +382,7 @@
                 <div class="product-item">
                     <div class="product-image">
                         <div class="image-placeholder">
-                            <p>Men 5</p>
-                            <span class="placeholder-text">Your image will go here</span>
+                            
                         </div>
                         <div class="product-overlay">
                             <button class="quick-view-btn">Quick View</button>
@@ -398,7 +395,7 @@
                         <div class="product-options">
                             <div class="option-group">
                                 <div class="option-label">Sizes:</div>
-                                <span class='option-item'>S</span><span class='option-item'>M</span><span class='option-item'>L</span><span class='option-item'>XL</span><span class='option-item'>XXL</span>
+                                <span class='option-item'>XS</span><span class='option-item'>S</span><span class='option-item'>M</span><span class='option-item'>L</span><span class='option-item'>XL</span><span class='option-item'>2XL</span>
                             </div>
                             <div class="option-group">
                                 <div class="option-label">Colors:</div>
@@ -410,8 +407,7 @@
                 <div class="product-item">
                     <div class="product-image">
                         <div class="image-placeholder">
-                            <p>Men 6</p>
-                            <span class="placeholder-text">Your image will go here</span>
+                            
                         </div>
                         <div class="product-overlay">
                             <button class="quick-view-btn">Quick View</button>
@@ -424,7 +420,7 @@
                         <div class="product-options">
                             <div class="option-group">
                                 <div class="option-label">Sizes:</div>
-                                <span class='option-item'>S</span><span class='option-item'>M</span><span class='option-item'>L</span><span class='option-item'>XL</span><span class='option-item'>XXL</span>
+                                <span class='option-item'>XS</span><span class='option-item'>S</span><span class='option-item'>M</span><span class='option-item'>L</span><span class='option-item'>XL</span><span class='option-item'>2XL</span>
                             </div>
                             <div class="option-group">
                                 <div class="option-label">Colors:</div>
