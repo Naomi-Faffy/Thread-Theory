@@ -162,20 +162,20 @@ body:not(.account-page):has(.hero) {
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     z-index: 1000;
     transition: var(--smooth-transition);
     padding: 15px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .navbar.scrolled {
-    background: rgba(255, 255, 255, 0.8);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .nav-container {
@@ -187,10 +187,31 @@ body:not(.account-page):has(.hero) {
     align-items: center;
 }
 
-.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-.nav-logo::before { content: ''; width: 36px; height: 36px; border-radius: 8px; background: url('tt-logo.png') center/cover no-repeat; display: inline-block; }
-.nav-logo:has(.logo-img)::before { content: none; }
-.logo-img { width: 36px; height: 36px; border-radius: 8px; }
+.nav-logo { 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    text-decoration: none; 
+}
+
+.nav-logo::before { 
+    content: ''; 
+    width: 36px; 
+    height: 36px; 
+    border-radius: 8px; 
+    background: url('tt-logo.png') center/cover no-repeat; 
+    display: inline-block; 
+}
+
+.nav-logo:has(.logo-img)::before { 
+    content: none; 
+}
+
+.logo-img { 
+    width: 36px; 
+    height: 36px; 
+    border-radius: 8px; 
+}
 
 .logo-text {
     font-family: var(--font-serif);
@@ -212,6 +233,14 @@ body:not(.account-page):has(.hero) {
     display: flex;
     list-style: none;
     gap: 40px;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    margin: 0;
+    padding: 0;
 }
 
 .nav-link {
@@ -223,6 +252,7 @@ body:not(.account-page):has(.hero) {
     position: relative;
     transition: var(--smooth-transition);
     text-transform: uppercase;
+    display: inline-block;
 }
 
 .nav-link:hover {
