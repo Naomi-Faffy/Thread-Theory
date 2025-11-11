@@ -1,15 +1,20 @@
 /* Glassmorphism Theme - Clean Gradient Background with Glass Effects */
 
 /* Apply subtle gradient background to all pages except account page */
-body:not(:has(.hero[style*="background"])) {
+body:not(.account-page):not(:has(.hero[style*="background"])) {
     background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%) !important;
     background-attachment: fixed !important;
 }
 
-/* Override for collection pages */
-body {
+/* Override for collection pages but NOT account page */
+body:not(.account-page) {
     background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%);
     background-attachment: fixed;
+}
+
+/* Account page keeps its own background image - don't override */
+body.account-page {
+    /* Let inline styles in account.html handle the background */
 }
 
 /* Glassmorphism for all collection header content */

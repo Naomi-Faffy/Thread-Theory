@@ -46,13 +46,17 @@ body {
     font-family: var(--font-sans);
     line-height: 1.6;
     color: var(--black);
-    background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%);
-    background-attachment: fixed;
     overflow-x: hidden;
 }
 
+/* Default background for most pages */
+body:not(.account-page) {
+    background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%);
+    background-attachment: fixed;
+}
+
 /* Override background for pages with hero images */
-body:has(.hero) {
+body:not(.account-page):has(.hero) {
     background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%);
     background-attachment: fixed;
 }
