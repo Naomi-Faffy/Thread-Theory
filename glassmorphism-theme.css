@@ -1,0 +1,181 @@
+/* Glassmorphism Theme - Dark Purple & Black Gradient Background */
+
+/* Apply dark gradient background to all pages except those with hero background images */
+body:not(:has(.hero[style*="background"])) {
+    background: linear-gradient(135deg, #1a0033 0%, #000000 50%, #1a0033 100%) !important;
+    background-attachment: fixed !important;
+}
+
+/* Override for collection pages */
+body {
+    background: linear-gradient(135deg, #1a0033 0%, #000000 50%, #1a0033 100%);
+    background-attachment: fixed;
+}
+
+/* Glassmorphism for all collection header content */
+.collection-header {
+    background: transparent !important;
+}
+
+.collection-header-content {
+    background: rgba(26, 0, 51, 0.4) !important;
+    backdrop-filter: blur(30px) !important;
+    -webkit-backdrop-filter: blur(30px) !important;
+    border: 2px solid rgba(139, 92, 246, 0.3) !important;
+    box-shadow: 0 8px 32px rgba(139, 92, 246, 0.2), inset 0 0 60px rgba(139, 92, 246, 0.05) !important;
+}
+
+/* Glassmorphism for product items on collection pages */
+.product-item {
+    background: rgba(26, 0, 51, 0.4) !important;
+    backdrop-filter: blur(25px) !important;
+    -webkit-backdrop-filter: blur(25px) !important;
+    border: 2px solid rgba(139, 92, 246, 0.3) !important;
+    box-shadow: 0 8px 32px rgba(139, 92, 246, 0.15), inset 0 0 60px rgba(139, 92, 246, 0.05) !important;
+}
+
+.product-item:hover {
+    background: rgba(26, 0, 51, 0.6) !important;
+    border-color: rgba(139, 92, 246, 0.5) !important;
+    box-shadow: 0 12px 40px rgba(139, 92, 246, 0.3), inset 0 0 80px rgba(139, 92, 246, 0.1) !important;
+}
+
+/* Text colors for glassmorphism theme */
+.collection-title,
+.product-name {
+    color: #ffffff !important;
+    text-shadow: 0 0 20px rgba(139, 92, 246, 0.6) !important;
+}
+
+.collection-description,
+.breadcrumb {
+    color: #e5e7eb !important;
+}
+
+.breadcrumb a {
+    color: #ffffff !important;
+}
+
+.breadcrumb a:hover {
+    color: #c4b5fd !important;
+    text-shadow: 0 0 10px rgba(139, 92, 246, 0.6) !important;
+}
+
+.product-price {
+    color: #c4b5fd !important;
+}
+
+/* Image placeholders */
+.image-placeholder {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(196, 181, 253, 0.2), rgba(139, 92, 246, 0.3)) !important;
+    color: #e5e7eb !important;
+}
+
+/* Gallery background */
+.collection-gallery {
+    background: transparent !important;
+}
+
+/* Back button glassmorphism */
+.back-to-collections {
+    background: transparent !important;
+}
+
+.back-btn {
+    background: rgba(26, 0, 51, 0.4) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 2px solid rgba(139, 92, 246, 0.3) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 20px rgba(139, 92, 246, 0.2) !important;
+}
+
+.back-btn:hover {
+    background: rgba(26, 0, 51, 0.6) !important;
+    border-color: rgba(139, 92, 246, 0.5) !important;
+    box-shadow: 0 8px 30px rgba(139, 92, 246, 0.3) !important;
+}
+
+/* Vote page and other pages glassmorphism */
+.page-section,
+.vote-container,
+.creators-container,
+.profile-container {
+    background: transparent !important;
+}
+
+/* Cards and containers */
+.vote-card,
+.creator-card,
+.profile-card,
+.form-container {
+    background: rgba(26, 0, 51, 0.4) !important;
+    backdrop-filter: blur(25px) !important;
+    -webkit-backdrop-filter: blur(25px) !important;
+    border: 2px solid rgba(139, 92, 246, 0.3) !important;
+    box-shadow: 0 8px 32px rgba(139, 92, 246, 0.2), inset 0 0 60px rgba(139, 92, 246, 0.05) !important;
+}
+
+.vote-card:hover,
+.creator-card:hover,
+.profile-card:hover {
+    background: rgba(26, 0, 51, 0.6) !important;
+    border-color: rgba(139, 92, 246, 0.5) !important;
+    box-shadow: 0 12px 40px rgba(139, 92, 246, 0.3), inset 0 0 80px rgba(139, 92, 246, 0.1) !important;
+}
+
+/* Text colors for cards */
+.vote-card h3,
+.creator-card h3,
+.profile-card h3,
+.form-container h2,
+.page-section h2 {
+    color: #ffffff !important;
+    text-shadow: 0 0 15px rgba(139, 92, 246, 0.5) !important;
+}
+
+.vote-card p,
+.creator-card p,
+.profile-card p,
+.form-container p {
+    color: #e5e7eb !important;
+}
+
+/* Account page glassmorphism */
+.auth-form {
+    background: rgba(26, 0, 51, 0.4) !important;
+    backdrop-filter: blur(25px) !important;
+    -webkit-backdrop-filter: blur(25px) !important;
+    border: 2px solid rgba(139, 92, 246, 0.3) !important;
+    box-shadow: 0 8px 32px rgba(139, 92, 246, 0.2), inset 0 0 60px rgba(139, 92, 246, 0.05) !important;
+}
+
+.auth-form h2,
+.auth-form label {
+    color: #ffffff !important;
+}
+
+.auth-form input,
+.auth-form select,
+.auth-form textarea {
+    background: rgba(0, 0, 0, 0.3) !important;
+    border: 1px solid rgba(139, 92, 246, 0.3) !important;
+    color: #ffffff !important;
+}
+
+.auth-form input::placeholder,
+.auth-form textarea::placeholder {
+    color: #9ca3af !important;
+}
+
+/* Tab buttons */
+.tab-button {
+    background: rgba(26, 0, 51, 0.3) !important;
+    border: 1px solid rgba(139, 92, 246, 0.3) !important;
+    color: #ffffff !important;
+}
+
+.tab-button.active {
+    background: rgba(139, 92, 246, 0.4) !important;
+    border-color: rgba(139, 92, 246, 0.5) !important;
+}

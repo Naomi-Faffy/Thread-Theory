@@ -116,13 +116,8 @@ function showNotification(message, type = 'info') {
 // Make showNotification globally available
 window.showNotification = showNotification;
 
-// Clear cart data on page load (temporary fix)
+// Update cart counter on page load
 document.addEventListener('DOMContentLoaded', function() {
-    localStorage.removeItem('threadTheoryCart');
-    // Clear account manager cart if available
-    if (window.accountManager) {
-        window.accountManager.clearCart();
-    }
     updateCartCounter();
 });
 
