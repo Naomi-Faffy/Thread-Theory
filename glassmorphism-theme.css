@@ -1,15 +1,13 @@
-/* Glassmorphism Theme - Dark Purple & Black Gradient Background */
+/* Glassmorphism Theme - Clean White Background */
 
-/* Apply dark gradient background to all pages except those with hero background images */
+/* Apply clean white background to all pages except account page */
 body:not(:has(.hero[style*="background"])) {
-    background: linear-gradient(135deg, #1a0033 0%, #000000 50%, #1a0033 100%) !important;
-    background-attachment: fixed !important;
+    background: #ffffff !important;
 }
 
 /* Override for collection pages */
 body {
-    background: linear-gradient(135deg, #1a0033 0%, #000000 50%, #1a0033 100%);
-    background-attachment: fixed;
+    background: #ffffff;
 }
 
 /* Glassmorphism for all collection header content */
@@ -18,57 +16,55 @@ body {
 }
 
 .collection-header-content {
-    background: rgba(26, 0, 51, 0.4) !important;
+    background: rgba(255, 255, 255, 0.95) !important;
     backdrop-filter: blur(30px) !important;
     -webkit-backdrop-filter: blur(30px) !important;
-    border: 2px solid rgba(139, 92, 246, 0.3) !important;
-    box-shadow: 0 8px 32px rgba(139, 92, 246, 0.2), inset 0 0 60px rgba(139, 92, 246, 0.05) !important;
+    border: 2px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
 }
 
 /* Glassmorphism for product items on collection pages */
 .product-item {
-    background: rgba(26, 0, 51, 0.4) !important;
+    background: rgba(255, 255, 255, 0.95) !important;
     backdrop-filter: blur(25px) !important;
     -webkit-backdrop-filter: blur(25px) !important;
-    border: 2px solid rgba(139, 92, 246, 0.3) !important;
-    box-shadow: 0 8px 32px rgba(139, 92, 246, 0.15), inset 0 0 60px rgba(139, 92, 246, 0.05) !important;
+    border: 2px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08) !important;
 }
 
 .product-item:hover {
-    background: rgba(26, 0, 51, 0.6) !important;
-    border-color: rgba(139, 92, 246, 0.5) !important;
-    box-shadow: 0 12px 40px rgba(139, 92, 246, 0.3), inset 0 0 80px rgba(139, 92, 246, 0.1) !important;
+    background: rgba(255, 255, 255, 1) !important;
+    border-color: rgba(0, 0, 0, 0.2) !important;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15) !important;
 }
 
 /* Text colors for glassmorphism theme */
 .collection-title,
 .product-name {
-    color: #ffffff !important;
-    text-shadow: 0 0 20px rgba(139, 92, 246, 0.6) !important;
+    color: #000000 !important;
 }
 
 .collection-description,
 .breadcrumb {
-    color: #e5e7eb !important;
+    color: #333333 !important;
 }
 
 .breadcrumb a {
-    color: #ffffff !important;
+    color: #000000 !important;
 }
 
 .breadcrumb a:hover {
-    color: #c4b5fd !important;
-    text-shadow: 0 0 10px rgba(139, 92, 246, 0.6) !important;
+    color: #666666 !important;
 }
 
 .product-price {
-    color: #c4b5fd !important;
+    color: #000000 !important;
 }
 
 /* Image placeholders */
 .image-placeholder {
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(196, 181, 253, 0.2), rgba(139, 92, 246, 0.3)) !important;
-    color: #e5e7eb !important;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.02)) !important;
+    color: #666666 !important;
 }
 
 /* Gallery background */
@@ -82,18 +78,18 @@ body {
 }
 
 .back-btn {
-    background: rgba(26, 0, 51, 0.4) !important;
+    background: rgba(255, 255, 255, 0.95) !important;
     backdrop-filter: blur(20px) !important;
     -webkit-backdrop-filter: blur(20px) !important;
-    border: 2px solid rgba(139, 92, 246, 0.3) !important;
-    color: #ffffff !important;
-    box-shadow: 0 4px 20px rgba(139, 92, 246, 0.2) !important;
+    border: 2px solid rgba(0, 0, 0, 0.1) !important;
+    color: #000000 !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
 }
 
 .back-btn:hover {
-    background: rgba(26, 0, 51, 0.6) !important;
-    border-color: rgba(139, 92, 246, 0.5) !important;
-    box-shadow: 0 8px 30px rgba(139, 92, 246, 0.3) !important;
+    background: rgba(255, 255, 255, 1) !important;
+    border-color: rgba(0, 0, 0, 0.2) !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15) !important;
 }
 
 /* Vote page and other pages glassmorphism */
@@ -109,19 +105,19 @@ body {
 .creator-card,
 .profile-card,
 .form-container {
-    background: rgba(26, 0, 51, 0.4) !important;
+    background: rgba(255, 255, 255, 0.95) !important;
     backdrop-filter: blur(25px) !important;
     -webkit-backdrop-filter: blur(25px) !important;
-    border: 2px solid rgba(139, 92, 246, 0.3) !important;
-    box-shadow: 0 8px 32px rgba(139, 92, 246, 0.2), inset 0 0 60px rgba(139, 92, 246, 0.05) !important;
+    border: 2px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
 }
 
 .vote-card:hover,
 .creator-card:hover,
 .profile-card:hover {
-    background: rgba(26, 0, 51, 0.6) !important;
-    border-color: rgba(139, 92, 246, 0.5) !important;
-    box-shadow: 0 12px 40px rgba(139, 92, 246, 0.3), inset 0 0 80px rgba(139, 92, 246, 0.1) !important;
+    background: rgba(255, 255, 255, 1) !important;
+    border-color: rgba(0, 0, 0, 0.2) !important;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15) !important;
 }
 
 /* Text colors for cards */
@@ -130,52 +126,51 @@ body {
 .profile-card h3,
 .form-container h2,
 .page-section h2 {
-    color: #ffffff !important;
-    text-shadow: 0 0 15px rgba(139, 92, 246, 0.5) !important;
+    color: #000000 !important;
 }
 
 .vote-card p,
 .creator-card p,
 .profile-card p,
 .form-container p {
-    color: #e5e7eb !important;
+    color: #333333 !important;
 }
 
-/* Account page glassmorphism */
+/* Account page glassmorphism - keep existing styles for account page */
 .auth-form {
-    background: rgba(26, 0, 51, 0.4) !important;
+    background: rgba(255, 255, 255, 0.95) !important;
     backdrop-filter: blur(25px) !important;
     -webkit-backdrop-filter: blur(25px) !important;
-    border: 2px solid rgba(139, 92, 246, 0.3) !important;
-    box-shadow: 0 8px 32px rgba(139, 92, 246, 0.2), inset 0 0 60px rgba(139, 92, 246, 0.05) !important;
+    border: 2px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
 }
 
 .auth-form h2,
 .auth-form label {
-    color: #ffffff !important;
+    color: #000000 !important;
 }
 
 .auth-form input,
 .auth-form select,
 .auth-form textarea {
-    background: rgba(0, 0, 0, 0.3) !important;
-    border: 1px solid rgba(139, 92, 246, 0.3) !important;
-    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid rgba(0, 0, 0, 0.2) !important;
+    color: #000000 !important;
 }
 
 .auth-form input::placeholder,
 .auth-form textarea::placeholder {
-    color: #9ca3af !important;
+    color: #666666 !important;
 }
 
 /* Tab buttons */
 .tab-button {
-    background: rgba(26, 0, 51, 0.3) !important;
-    border: 1px solid rgba(139, 92, 246, 0.3) !important;
-    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.8) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: #000000 !important;
 }
 
 .tab-button.active {
-    background: rgba(139, 92, 246, 0.4) !important;
-    border-color: rgba(139, 92, 246, 0.5) !important;
+    background: rgba(255, 255, 255, 1) !important;
+    border-color: rgba(0, 0, 0, 0.2) !important;
 }
